@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Plus, X, Search, Download } from "lucide-react";
+import { Calendar, Plus, X, Search, Download, Copy, TrendingUp } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
@@ -24,6 +24,8 @@ const MealPlanner = () => {
   const [weekStart, setWeekStart] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCuisine, setSelectedCuisine] = useState("All");
+  const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
+  const [targetWeekStart, setTargetWeekStart] = useState<Date | null>(null);
 
   useEffect(() => {
     fetchMealPlans();
@@ -101,6 +103,57 @@ const MealPlanner = () => {
     openAddDialog(date, mealType);
   };
 
+  const duplicateWeek = async () => {
+    if (!targetWeekStart) {
+      toast.error("Please select a target week");
+      return;
+    }
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+
+    const targetWeekEnd = addDays(targetWeekStart, 6);
+
+    // Delete existing meals in target week
+    await supabase
+      .from("meal_plans")
+      .delete()
+      .eq("user_id", session.user.id)
+      .gte("date", format(targetWeekStart, "yyyy-MM-dd"))
+      .lte("date", format(targetWeekEnd, "yyyy-MM-dd"));
+
+    // Copy meals from current week to target week
+    const dayDifference = Math.floor((targetWeekStart.getTime() - weekStart.getTime()) / (1000 * 60 * 60 * 24));
+    
+    const newMealPlans = mealPlans.map((meal) => {
+      const originalDate = new Date(meal.date + "T00:00:00");
+      const newDate = addDays(originalDate, dayDifference);
+      return {
+        user_id: session.user.id,
+        date: format(newDate, "yyyy-MM-dd"),
+        meal_type: meal.meal_type,
+        recipe_id: meal.recipe_id,
+        recipe_data: meal.recipe_data as any
+      };
+    });
+
+    if (newMealPlans.length > 0) {
+      const { error } = await supabase
+        .from("meal_plans")
+        .insert(newMealPlans);
+
+      if (error) {
+        toast.error("Failed to duplicate meal plan");
+      } else {
+        toast.success("Meal plan duplicated successfully");
+        setDuplicateDialogOpen(false);
+        setTargetWeekStart(null);
+      }
+    } else {
+      toast.error("No meals to duplicate");
+    }
+  };
+
   const exportToPDF = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -156,6 +209,19 @@ const MealPlanner = () => {
     return matchesSearch && matchesCuisine;
   });
 
+  const weeklyNutrition = mealPlans.reduce(
+    (acc, meal) => {
+      const nutrition = meal.recipe_data.nutrition;
+      return {
+        calories: acc.calories + (nutrition?.calories || 0),
+        protein: acc.protein + (nutrition?.protein || 0),
+        carbs: acc.carbs + (nutrition?.carbs || 0),
+        fat: acc.fat + (nutrition?.fat || 0),
+      };
+    },
+    { calories: 0, protein: 0, carbs: 0, fat: 0 }
+  );
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
@@ -177,14 +243,16 @@ const MealPlanner = () => {
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={exportToPDF}>
-                <Download className="w-4 h-4 mr-2" />
-                Export to PDF
+                <Download className="w-4 h-4" />
+              </Button>
+              <Button variant="outline" onClick={() => setDuplicateDialogOpen(true)}>
+                <Copy className="w-4 h-4" />
               </Button>
               <Button variant="outline" onClick={() => setWeekStart(addDays(weekStart, -7))}>
-                Previous Week
+                Previous
               </Button>
               <Button variant="outline" onClick={() => setWeekStart(addDays(weekStart, 7))}>
-                Next Week
+                Next
               </Button>
             </div>
           </div>
@@ -192,6 +260,37 @@ const MealPlanner = () => {
             Week of {format(weekStart, "MMM d, yyyy")}
           </p>
         </div>
+
+        {mealPlans.length > 0 && (
+          <Card className="mb-6 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <CardTitle className="text-lg">Weekly Nutrition Summary</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-primary">{weeklyNutrition.calories}</p>
+                  <p className="text-sm text-muted-foreground">Total Calories</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-primary">{weeklyNutrition.protein}g</p>
+                  <p className="text-sm text-muted-foreground">Protein</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-primary">{weeklyNutrition.carbs}g</p>
+                  <p className="text-sm text-muted-foreground">Carbs</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-primary">{weeklyNutrition.fat}g</p>
+                  <p className="text-sm text-muted-foreground">Fat</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
           {weekDays.map((day) => (
@@ -299,6 +398,47 @@ const MealPlanner = () => {
               ))}
             </div>
           </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={duplicateDialogOpen} onOpenChange={setDuplicateDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Duplicate Meal Plan</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Copy the current week's meal plan to another week. This will replace any existing meals in the target week.
+            </p>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Select target week:</label>
+              <div className="grid grid-cols-2 gap-2">
+                {[-2, -1, 1, 2, 3, 4].map((offset) => {
+                  const targetWeek = addDays(weekStart, offset * 7);
+                  const isCurrentWeek = offset === 0;
+                  return (
+                    <Button
+                      key={offset}
+                      variant={targetWeekStart && format(targetWeekStart, "yyyy-MM-dd") === format(targetWeek, "yyyy-MM-dd") ? "default" : "outline"}
+                      disabled={isCurrentWeek}
+                      onClick={() => setTargetWeekStart(targetWeek)}
+                      className="justify-start"
+                    >
+                      {offset < 0 ? `${Math.abs(offset)} week${Math.abs(offset) > 1 ? 's' : ''} ago` : `In ${offset} week${offset > 1 ? 's' : ''}`}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setDuplicateDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={duplicateWeek} disabled={!targetWeekStart}>
+                Duplicate Week
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>
