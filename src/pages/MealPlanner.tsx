@@ -5,13 +5,16 @@ import { recipes } from "@/data/recipes";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Calendar, Plus, X, Search } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Plus, X, Search, Download } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { format, startOfWeek, addDays } from "date-fns";
+import jsPDF from "jspdf";
 
 const mealTypes = ["Breakfast", "Lunch", "Dinner"];
+const cuisineCategories = ["All", "Italian", "Asian", "Mexican", "Indian"];
 
 const MealPlanner = () => {
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
@@ -20,6 +23,7 @@ const MealPlanner = () => {
   const [selectedSlot, setSelectedSlot] = useState<{ date: string; mealType: string } | null>(null);
   const [weekStart, setWeekStart] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCuisine, setSelectedCuisine] = useState("All");
 
   useEffect(() => {
     fetchMealPlans();
@@ -93,6 +97,50 @@ const MealPlanner = () => {
     }
   };
 
+  const openEditDialog = (date: Date, mealType: string) => {
+    openAddDialog(date, mealType);
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    
+    doc.setFontSize(20);
+    doc.text("Weekly Meal Plan", pageWidth / 2, 20, { align: "center" });
+    
+    doc.setFontSize(12);
+    doc.text(`Week of ${format(weekStart, "MMM d, yyyy")}`, pageWidth / 2, 30, { align: "center" });
+    
+    let yPosition = 45;
+    
+    weekDays.forEach((day, index) => {
+      if (yPosition > 250) {
+        doc.addPage();
+        yPosition = 20;
+      }
+      
+      doc.setFontSize(14);
+      doc.setFont(undefined, "bold");
+      doc.text(`${format(day, "EEEE, MMM d")}`, 15, yPosition);
+      yPosition += 8;
+      
+      mealTypes.forEach((mealType) => {
+        const meal = getMealForSlot(day, mealType);
+        doc.setFontSize(11);
+        doc.setFont(undefined, "normal");
+        doc.text(`${mealType}:`, 20, yPosition);
+        doc.setFont(undefined, "italic");
+        doc.text(meal ? meal.recipe_data.name : "Not planned", 50, yPosition);
+        yPosition += 6;
+      });
+      
+      yPosition += 5;
+    });
+    
+    doc.save(`meal-plan-${format(weekStart, "yyyy-MM-dd")}.pdf`);
+    toast.success("Meal plan exported to PDF");
+  };
+
   const getMealForSlot = (date: Date, mealType: string) => {
     return mealPlans.find(
       (mp) => mp.date === format(date, "yyyy-MM-dd") && mp.meal_type === mealType
@@ -101,10 +149,12 @@ const MealPlanner = () => {
 
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCuisine = selectedCuisine === "All" || recipe.cuisine === selectedCuisine;
+    return matchesSearch && matchesCuisine;
+  });
 
   if (loading) {
     return (
@@ -126,6 +176,10 @@ const MealPlanner = () => {
               <h1 className="text-4xl font-bold">Meal Planner</h1>
             </div>
             <div className="flex gap-2">
+              <Button variant="outline" onClick={exportToPDF}>
+                <Download className="w-4 h-4 mr-2" />
+                Export to PDF
+              </Button>
               <Button variant="outline" onClick={() => setWeekStart(addDays(weekStart, -7))}>
                 Previous Week
               </Button>
@@ -162,7 +216,10 @@ const MealPlanner = () => {
                       </div>
                       {meal ? (
                         <>
-                          <div className="text-xs font-medium line-clamp-2">
+                          <div 
+                            className="text-xs font-medium line-clamp-2 cursor-pointer hover:text-primary transition-colors"
+                            onClick={() => openEditDialog(day, mealType)}
+                          >
                             {meal.recipe_data.name}
                           </div>
                           <Button
@@ -198,16 +255,30 @@ const MealPlanner = () => {
           <DialogHeader>
             <DialogTitle>Choose a recipe</DialogTitle>
           </DialogHeader>
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search recipes by name or cuisine..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
-            />
+          <div className="space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Search recipes by name or cuisine..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {cuisineCategories.map((cuisine) => (
+                <Badge
+                  key={cuisine}
+                  variant={selectedCuisine === cuisine ? "default" : "outline"}
+                  className="cursor-pointer"
+                  onClick={() => setSelectedCuisine(cuisine)}
+                >
+                  {cuisine}
+                </Badge>
+              ))}
+            </div>
           </div>
-          <ScrollArea className="max-h-[60vh]">
+          <ScrollArea className="max-h-[50vh]">
             <div className="grid grid-cols-2 gap-4 p-4">
               {filteredRecipes.map((recipe) => (
                 <Card
