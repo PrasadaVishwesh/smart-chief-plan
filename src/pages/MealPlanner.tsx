@@ -4,7 +4,8 @@ import { MealPlan, Recipe } from "@/types/recipe";
 import { recipes } from "@/data/recipes";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Plus, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Calendar, Plus, X, Search } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
@@ -18,6 +19,7 @@ const MealPlanner = () => {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<{ date: string; mealType: string } | null>(null);
   const [weekStart, setWeekStart] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchMealPlans();
@@ -98,6 +100,11 @@ const MealPlanner = () => {
   };
 
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+
+  const filteredRecipes = recipes.filter((recipe) =>
+    recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -191,9 +198,18 @@ const MealPlanner = () => {
           <DialogHeader>
             <DialogTitle>Choose a recipe</DialogTitle>
           </DialogHeader>
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder="Search recipes by name or cuisine..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
           <ScrollArea className="max-h-[60vh]">
             <div className="grid grid-cols-2 gap-4 p-4">
-              {recipes.map((recipe) => (
+              {filteredRecipes.map((recipe) => (
                 <Card
                   key={recipe.id}
                   className="cursor-pointer hover:shadow-lg transition-shadow"

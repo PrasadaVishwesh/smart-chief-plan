@@ -7,7 +7,6 @@ import Layout from "./components/Layout";
 import Recipes from "./pages/Recipes";
 import MealPlanner from "./pages/MealPlanner";
 import Favorites from "./pages/Favorites";
-import ShoppingList from "./pages/ShoppingList";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -24,7 +23,6 @@ const App = () => (
           <Route path="/" element={<Layout><Recipes /></Layout>} />
           <Route path="/meal-planner" element={<Layout><MealPlanner /></Layout>} />
           <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
-          <Route path="/shopping-list" element={<Layout><ShoppingList /></Layout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
