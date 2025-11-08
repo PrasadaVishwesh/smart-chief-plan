@@ -62,6 +62,7 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
       const { error } = await supabase
         .from("favorites")
         .insert({
+          user_id: session.user.id,
           recipe_id: recipe.id,
           recipe_data: recipe as any
         });

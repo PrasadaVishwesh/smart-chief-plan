@@ -59,6 +59,7 @@ const MealPlanner = () => {
     const { error } = await supabase
       .from("meal_plans")
       .upsert({
+        user_id: session.user.id,
         date: selectedSlot.date,
         meal_type: selectedSlot.mealType,
         recipe_id: recipe.id,
