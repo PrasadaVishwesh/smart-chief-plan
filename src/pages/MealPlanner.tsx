@@ -5,8 +5,9 @@ import { recipes } from "@/data/recipes";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Plus, X, Search, Download, Copy, TrendingUp } from "lucide-react";
+import { Calendar, Plus, X, Search, Download, Copy, TrendingUp, Edit } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
@@ -26,6 +27,9 @@ const MealPlanner = () => {
   const [selectedCuisine, setSelectedCuisine] = useState("All");
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
   const [targetWeekStart, setTargetWeekStart] = useState<Date | null>(null);
+  const [notesDialogOpen, setNotesDialogOpen] = useState(false);
+  const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan | null>(null);
+  const [notes, setNotes] = useState("");
 
   useEffect(() => {
     fetchMealPlans();
@@ -101,6 +105,29 @@ const MealPlanner = () => {
 
   const openEditDialog = (date: Date, mealType: string) => {
     openAddDialog(date, mealType);
+  };
+
+  const openNotesDialog = (mealPlan: MealPlan) => {
+    setSelectedMealPlan(mealPlan);
+    setNotes(mealPlan.notes || "");
+    setNotesDialogOpen(true);
+  };
+
+  const saveNotes = async () => {
+    if (!selectedMealPlan) return;
+
+    const { error } = await supabase
+      .from("meal_plans")
+      .update({ notes })
+      .eq("id", selectedMealPlan.id);
+
+    if (error) {
+      toast.error("Failed to save notes");
+    } else {
+      toast.success("Notes saved");
+      setNotesDialogOpen(false);
+      fetchMealPlans();
+    }
   };
 
   const duplicateWeek = async () => {
@@ -321,14 +348,32 @@ const MealPlanner = () => {
                           >
                             {meal.recipe_data.name}
                           </div>
-                          <Button
-                            size="icon"
-                            variant="destructive"
-                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => removeMealPlan(meal.id)}
-                          >
-                            <X className="w-3 h-3" />
-                          </Button>
+                          {meal.notes && (
+                            <p className="text-xs text-muted-foreground line-clamp-1 mt-1">
+                              {meal.notes}
+                            </p>
+                          )}
+                          <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                              size="icon"
+                              variant="secondary"
+                              className="h-6 w-6"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openNotesDialog(meal);
+                              }}
+                            >
+                              <Edit className="w-3 h-3" />
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="destructive"
+                              className="h-6 w-6"
+                              onClick={() => removeMealPlan(meal.id)}
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </div>
                         </>
                       ) : (
                         <Button
