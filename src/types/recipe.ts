@@ -25,6 +25,7 @@ export interface MealPlan {
   meal_type: string;
   recipe_id: string;
   recipe_data: Recipe;
+  notes?: string;
 }
 
 export interface Favorite {
@@ -33,4 +34,5 @@ export interface Favorite {
   recipe_id: string;
   recipe_data: Recipe;
   created_at: string;
+  rating?: number;
 }

@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          rating: number | null
           recipe_data: Json
           recipe_id: string
           user_id: string
@@ -25,6 +26,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          rating?: number | null
           recipe_data: Json
           recipe_id: string
           user_id: string
@@ -32,6 +34,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          rating?: number | null
           recipe_data?: Json
           recipe_id?: string
           user_id?: string
@@ -44,6 +47,7 @@ export type Database = {
           date: string
           id: string
           meal_type: string
+          notes: string | null
           recipe_data: Json
           recipe_id: string
           user_id: string
@@ -53,6 +57,7 @@ export type Database = {
           date: string
           id?: string
           meal_type: string
+          notes?: string | null
           recipe_data: Json
           recipe_id: string
           user_id: string
@@ -62,6 +67,7 @@ export type Database = {
           date?: string
           id?: string
           meal_type?: string
+          notes?: string | null
           recipe_data?: Json
           recipe_id?: string
           user_id?: string
