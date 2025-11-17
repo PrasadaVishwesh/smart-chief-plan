@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
-import { ChefHat, CalendarDays, Heart, Home, LogOut } from "lucide-react";
+import { ChefHat, CalendarDays, Heart, Home, MessageSquare, LogOut } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 
 interface LayoutProps {
@@ -41,6 +41,7 @@ const Layout = ({ children }: LayoutProps) => {
     { to: "/", icon: Home, label: "Recipes" },
     { to: "/meal-planner", icon: CalendarDays, label: "Meal Planner" },
     { to: "/favorites", icon: Heart, label: "Favorites" },
+    { to: "/assistant", icon: MessageSquare, label: "AI Assistant" },
   ];
 
   return (

@@ -107,18 +107,20 @@ const Assistant = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <div className="mb-8 text-center">
-        <div className="inline-flex items-center gap-3 mb-2">
-          <div className="w-12 h-12 bg-[var(--gradient-primary)] rounded-xl flex items-center justify-center">
-            <Bot className="w-6 h-6 text-primary-foreground" />
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-3 mb-2">
+            <div className="w-12 h-12 bg-[var(--gradient-primary)] rounded-xl flex items-center justify-center">
+              <Bot className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold">Cooking Assistant</h1>
+              <p className="text-muted-foreground mt-1">
+                Get instant help with recipes, cooking techniques, ingredient substitutions, and nutritional advice
+              </p>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold">Cooking Assistant</h1>
         </div>
-        <p className="text-muted-foreground">
-          Get instant help with recipes, techniques, and cooking tips
-        </p>
-      </div>
 
       <Card className="h-[600px] flex flex-col">
         <ScrollArea className="flex-1 p-4" ref={scrollRef}>
