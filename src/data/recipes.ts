@@ -4,6 +4,16 @@ import asianImage from "@/assets/recipe-asian.jpg";
 import mexicanImage from "@/assets/recipe-mexican.jpg";
 import indianImage from "@/assets/recipe-indian.jpg";
 
+export const cuisines = [
+  "All", "Italian", "Indian", "Asian", "Mexican", "Thai", "Japanese", "Chinese",
+  "Korean", "Vietnamese", "Middle Eastern", "African", "French", "Spanish",
+  "Greek", "British", "German", "American", "Brazilian", "Mediterranean"
+];
+
+export const dietaryFilters = [
+  "vegetarian", "vegan", "gluten-free", "dairy-free", "keto", "low-carb", "nut-free"
+];
+
 export const recipes: Recipe[] = [
   {
     id: "1",
