@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { ChefHat, CalendarDays, Heart, Home, MessageSquare, LogOut } from "lucide-react";
 import { User } from "@supabase/supabase-js";
+import FloatingAIAssistant from "./FloatingAIAssistant";
+import ThemeToggle from "./ThemeToggle";
 
 interface LayoutProps {
   children: ReactNode;
@@ -74,12 +76,15 @@ const Layout = ({ children }: LayoutProps) => {
             ))}
           </nav>
 
-          {user && (
-            <Button variant="outline" size="sm" onClick={handleSignOut} className="gap-2">
-              <LogOut className="w-4 h-4" />
-              Sign Out
-            </Button>
-          )}
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            {user && (
+              <Button variant="outline" size="sm" onClick={handleSignOut} className="gap-2">
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Mobile nav */}
@@ -112,6 +117,8 @@ const Layout = ({ children }: LayoutProps) => {
           <p>© 2025 Smart Chief. Plan smarter, eat better.</p>
         </div>
       </footer>
+
+      <FloatingAIAssistant />
     </div>
   );
 };

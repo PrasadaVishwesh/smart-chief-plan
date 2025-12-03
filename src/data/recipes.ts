@@ -7,14 +7,18 @@ import indianImage from "@/assets/recipe-indian.jpg";
 export const cuisines = [
   "All", "Italian", "Indian", "Asian", "Mexican", "Thai", "Japanese", "Chinese",
   "Korean", "Vietnamese", "Middle Eastern", "African", "French", "Spanish",
-  "Greek", "British", "German", "American", "Brazilian", "Mediterranean"
+  "Greek", "British", "German", "American", "Brazilian", "Mediterranean",
+  "Sri Lankan", "Bangladeshi", "Pakistani", "Turkish", "Lebanese", "Peruvian"
 ];
 
 export const dietaryFilters = [
-  "vegetarian", "vegan", "gluten-free", "dairy-free", "keto", "low-carb", "nut-free"
+  "vegetarian", "vegan", "gluten-free", "dairy-free", "keto", "low-carb", "nut-free", "halal"
 ];
 
+export const spiceLevels = ["Mild", "Medium", "Hot", "Extra Hot"];
+
 export const recipes: Recipe[] = [
+  // ITALIAN CUISINE
   {
     id: "1",
     name: "Spaghetti Carbonara",
@@ -25,434 +29,866 @@ export const recipes: Recipe[] = [
     prepTime: 10,
     cookTime: 20,
     servings: 4,
-    ingredients: [
-      "400g spaghetti",
-      "200g pancetta",
-      "4 eggs",
-      "100g Parmesan cheese",
-      "Black pepper",
-      "Salt"
-    ],
-    instructions: [
-      "Cook spaghetti in salted boiling water until al dente",
-      "Fry pancetta until crispy",
-      "Whisk eggs with grated Parmesan",
-      "Drain pasta, reserve pasta water",
-      "Mix hot pasta with pancetta",
-      "Remove from heat, add egg mixture, toss quickly",
-      "Add pasta water if needed for creaminess",
-      "Season with black pepper and serve"
-    ],
-    nutrition: {
-      calories: 520,
-      protein: 25,
-      carbs: 65,
-      fat: 18
-    }
+    ingredients: ["400g spaghetti", "200g pancetta", "4 eggs", "100g Parmesan cheese", "Black pepper", "Salt"],
+    instructions: ["Cook spaghetti in salted boiling water until al dente", "Fry pancetta until crispy", "Whisk eggs with grated Parmesan", "Drain pasta, reserve pasta water", "Mix hot pasta with pancetta", "Remove from heat, add egg mixture, toss quickly", "Add pasta water if needed for creaminess", "Season with black pepper and serve"],
+    nutrition: { calories: 520, protein: 25, carbs: 65, fat: 18 }
   },
   {
     id: "2",
-    name: "Vegetable Stir Fry",
-    description: "Colorful Asian vegetables in savory sauce",
-    image: asianImage,
-    cuisine: "Asian",
-    dietaryTags: ["vegetarian", "vegan"],
-    prepTime: 15,
-    cookTime: 10,
-    servings: 3,
-    ingredients: [
-      "2 bell peppers",
-      "1 onion",
-      "200g broccoli",
-      "2 carrots",
-      "3 tbsp soy sauce",
-      "2 tbsp sesame oil",
-      "2 garlic cloves",
-      "Ginger"
-    ],
-    instructions: [
-      "Chop all vegetables into bite-sized pieces",
-      "Heat oil in wok over high heat",
-      "Add garlic and ginger, stir for 30 seconds",
-      "Add harder vegetables first (carrots, broccoli)",
-      "Stir fry for 3-4 minutes",
-      "Add peppers and onions",
-      "Add soy sauce and stir well",
-      "Cook for 2-3 more minutes",
-      "Serve hot over rice"
-    ],
-    nutrition: {
-      calories: 180,
-      protein: 6,
-      carbs: 25,
-      fat: 8
-    }
-  },
-  {
-    id: "3",
-    name: "Fish Tacos",
-    description: "Crispy fish tacos with fresh salsa and lime",
-    image: mexicanImage,
-    cuisine: "Mexican",
-    dietaryTags: [],
-    prepTime: 20,
-    cookTime: 15,
-    servings: 4,
-    ingredients: [
-      "500g white fish",
-      "8 corn tortillas",
-      "1 cup cabbage",
-      "2 tomatoes",
-      "1 lime",
-      "Cilantro",
-      "Sour cream",
-      "Chili powder"
-    ],
-    instructions: [
-      "Season fish with chili powder and salt",
-      "Pan fry fish until crispy, about 3-4 minutes per side",
-      "Warm tortillas in dry pan",
-      "Shred cabbage finely",
-      "Dice tomatoes",
-      "Chop cilantro",
-      "Assemble tacos with fish, cabbage, tomatoes",
-      "Top with cilantro, sour cream, and lime juice"
-    ],
-    nutrition: {
-      calories: 350,
-      protein: 28,
-      carbs: 35,
-      fat: 10
-    }
-  },
-  {
-    id: "4",
-    name: "Chickpea Curry",
-    description: "Creamy Indian curry with aromatic spices",
-    image: indianImage,
-    cuisine: "Indian",
-    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
-    prepTime: 15,
-    cookTime: 30,
-    servings: 4,
-    ingredients: [
-      "2 cans chickpeas",
-      "400ml coconut milk",
-      "1 onion",
-      "3 garlic cloves",
-      "Ginger",
-      "2 tbsp curry powder",
-      "1 can tomatoes",
-      "Spinach"
-    ],
-    instructions: [
-      "Dice onion and cook until soft",
-      "Add minced garlic and ginger",
-      "Add curry powder, cook for 1 minute",
-      "Add tomatoes and coconut milk",
-      "Drain and add chickpeas",
-      "Simmer for 20 minutes",
-      "Add spinach and cook until wilted",
-      "Serve with rice or naan"
-    ],
-    nutrition: {
-      calories: 420,
-      protein: 15,
-      carbs: 45,
-      fat: 20
-    }
-  },
-  {
-    id: "5",
     name: "Margherita Pizza",
-    description: "Classic Italian pizza with fresh mozzarella and basil",
+    description: "Classic Neapolitan pizza with fresh mozzarella, tomatoes, and basil",
     image: italianImage,
     cuisine: "Italian",
     dietaryTags: ["vegetarian"],
     prepTime: 90,
     cookTime: 12,
     servings: 2,
-    ingredients: [
-      "Pizza dough",
-      "200g mozzarella",
-      "Tomato sauce",
-      "Fresh basil",
-      "Olive oil",
-      "Salt"
-    ],
-    instructions: [
-      "Preheat oven to 250°C",
-      "Roll out pizza dough",
-      "Spread tomato sauce evenly",
-      "Tear mozzarella and distribute",
-      "Drizzle with olive oil",
-      "Bake for 10-12 minutes until golden",
-      "Top with fresh basil leaves",
-      "Slice and serve hot"
-    ],
-    nutrition: {
-      calories: 680,
-      protein: 30,
-      carbs: 75,
-      fat: 28
-    }
+    ingredients: ["Pizza dough", "200g mozzarella", "San Marzano tomatoes", "Fresh basil", "Olive oil", "Salt"],
+    instructions: ["Preheat oven to 250°C", "Roll out pizza dough", "Spread crushed tomatoes", "Tear mozzarella and distribute", "Drizzle with olive oil", "Bake for 10-12 minutes", "Top with fresh basil", "Slice and serve"],
+    nutrition: { calories: 680, protein: 30, carbs: 75, fat: 28 }
   },
   {
-    id: "6",
-    name: "Pad Thai",
-    description: "Thai stir-fried noodles with peanuts and lime",
-    image: asianImage,
-    cuisine: "Asian",
-    dietaryTags: ["gluten-free"],
-    prepTime: 20,
-    cookTime: 10,
-    servings: 3,
-    ingredients: [
-      "200g rice noodles",
-      "2 eggs",
-      "100g shrimp",
-      "Bean sprouts",
-      "Peanuts",
-      "Tamarind paste",
-      "Fish sauce",
-      "Lime"
-    ],
-    instructions: [
-      "Soak rice noodles in hot water",
-      "Heat oil in wok",
-      "Scramble eggs, set aside",
-      "Cook shrimp until pink",
-      "Add drained noodles",
-      "Add tamarind paste and fish sauce",
-      "Toss everything together",
-      "Add bean sprouts and peanuts",
-      "Serve with lime wedges"
-    ],
-    nutrition: {
-      calories: 450,
-      protein: 22,
-      carbs: 55,
-      fat: 15
-    }
-  },
-  {
-    id: "7",
-    name: "Enchiladas",
-    description: "Rolled tortillas filled with chicken and covered in sauce",
-    image: mexicanImage,
-    cuisine: "Mexican",
-    dietaryTags: ["gluten-free"],
-    prepTime: 25,
-    cookTime: 30,
-    servings: 4,
-    ingredients: [
-      "8 tortillas",
-      "500g chicken",
-      "Enchilada sauce",
-      "200g cheese",
-      "Sour cream",
-      "Black beans",
-      "Corn"
-    ],
-    instructions: [
-      "Cook and shred chicken",
-      "Mix chicken with beans and corn",
-      "Fill tortillas with mixture",
-      "Roll and place in baking dish",
-      "Pour enchilada sauce over top",
-      "Sprinkle with cheese",
-      "Bake at 180°C for 25-30 minutes",
-      "Serve with sour cream"
-    ],
-    nutrition: {
-      calories: 580,
-      protein: 35,
-      carbs: 48,
-      fat: 25
-    }
-  },
-  {
-    id: "8",
-    name: "Palak Paneer",
-    description: "Indian cottage cheese in creamy spinach sauce",
-    image: indianImage,
-    cuisine: "Indian",
-    dietaryTags: ["vegetarian", "gluten-free"],
-    prepTime: 15,
-    cookTime: 25,
-    servings: 4,
-    ingredients: [
-      "300g paneer",
-      "500g spinach",
-      "1 onion",
-      "2 tomatoes",
-      "Cream",
-      "Garam masala",
-      "Cumin",
-      "Garlic"
-    ],
-    instructions: [
-      "Blanch spinach and blend into puree",
-      "Cube paneer and lightly fry",
-      "Sauté onions until golden",
-      "Add garlic and spices",
-      "Add chopped tomatoes, cook down",
-      "Add spinach puree",
-      "Simmer for 10 minutes",
-      "Add paneer and cream",
-      "Serve with naan or rice"
-    ],
-    nutrition: {
-      calories: 320,
-      protein: 18,
-      carbs: 20,
-      fat: 20
-    }
-  },
-  {
-    id: "9",
-    name: "Quinoa Buddha Bowl",
-    description: "Healthy bowl with quinoa, roasted vegetables, and tahini dressing",
-    image: asianImage,
-    cuisine: "Asian",
-    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
-    prepTime: 15,
-    cookTime: 30,
-    servings: 2,
-    ingredients: [
-      "1 cup quinoa",
-      "Sweet potato",
-      "Chickpeas",
-      "Kale",
-      "Avocado",
-      "Tahini",
-      "Lemon",
-      "Garlic"
-    ],
-    instructions: [
-      "Cook quinoa according to package",
-      "Roast sweet potato and chickpeas at 200°C",
-      "Massage kale with lemon juice",
-      "Mix tahini with water, lemon, garlic for dressing",
-      "Assemble bowl with quinoa as base",
-      "Add roasted vegetables and chickpeas",
-      "Top with kale and avocado",
-      "Drizzle with tahini dressing"
-    ],
-    nutrition: {
-      calories: 480,
-      protein: 16,
-      carbs: 62,
-      fat: 18
-    }
-  },
-  {
-    id: "10",
+    id: "3",
     name: "Mushroom Risotto",
-    description: "Creamy Italian rice with wild mushrooms and Parmesan",
+    description: "Creamy Arborio rice with porcini mushrooms and Parmesan",
     image: italianImage,
     cuisine: "Italian",
     dietaryTags: ["vegetarian", "gluten-free"],
     prepTime: 10,
     cookTime: 35,
     servings: 4,
-    ingredients: [
-      "300g arborio rice",
-      "400g mushrooms",
-      "1L vegetable stock",
-      "1 onion",
-      "White wine",
-      "Parmesan cheese",
-      "Butter",
-      "Thyme"
-    ],
-    instructions: [
-      "Sauté onion in butter until soft",
-      "Add rice, toast for 2 minutes",
-      "Add wine, stir until absorbed",
-      "Add warm stock one ladle at a time",
-      "Stir constantly, adding more stock as absorbed",
-      "Sauté mushrooms separately",
-      "After 25 minutes, rice should be creamy",
-      "Stir in mushrooms, Parmesan, butter",
-      "Season and serve immediately"
-    ],
-    nutrition: {
-      calories: 420,
-      protein: 12,
-      carbs: 68,
-      fat: 12
-    }
+    ingredients: ["300g arborio rice", "400g mixed mushrooms", "1L vegetable stock", "1 onion", "White wine", "Parmesan", "Butter", "Thyme"],
+    instructions: ["Sauté onion in butter", "Add rice, toast 2 minutes", "Add wine, stir until absorbed", "Add warm stock ladle by ladle", "Stir constantly", "Sauté mushrooms separately", "Stir in mushrooms and Parmesan", "Season and serve"],
+    nutrition: { calories: 420, protein: 12, carbs: 68, fat: 12 }
+  },
+  {
+    id: "4",
+    name: "Lasagna Bolognese",
+    description: "Layers of pasta, rich meat sauce, and creamy béchamel",
+    image: italianImage,
+    cuisine: "Italian",
+    dietaryTags: [],
+    prepTime: 45,
+    cookTime: 60,
+    servings: 8,
+    ingredients: ["Lasagna sheets", "500g ground beef", "400g tomatoes", "Béchamel sauce", "Parmesan", "Onion", "Carrot", "Celery"],
+    instructions: ["Make Bolognese sauce with meat and vegetables", "Prepare béchamel sauce", "Layer pasta, meat sauce, béchamel", "Repeat layers", "Top with Parmesan", "Bake at 180°C for 45 minutes", "Rest 15 minutes before serving"],
+    nutrition: { calories: 650, protein: 35, carbs: 55, fat: 32 }
+  },
+
+  // INDIAN CUISINE - Extensive Collection
+  {
+    id: "5",
+    name: "Chicken Biryani",
+    description: "Aromatic basmati rice layered with spiced chicken and saffron",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["gluten-free", "halal"],
+    prepTime: 45,
+    cookTime: 60,
+    servings: 6,
+    ingredients: ["500g basmati rice", "800g chicken", "Yogurt", "Onions", "Saffron", "Biryani masala", "Mint", "Ghee"],
+    instructions: ["Marinate chicken in yogurt and spices", "Parboil rice with whole spices", "Fry onions until golden", "Layer rice and chicken", "Add saffron milk", "Seal and cook on dum", "Rest 10 minutes", "Serve with raita"],
+    nutrition: { calories: 580, protein: 35, carbs: 65, fat: 18 }
+  },
+  {
+    id: "6",
+    name: "Hyderabadi Dum Biryani",
+    description: "Slow-cooked biryani with tender lamb and aromatic spices from Hyderabad",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["gluten-free", "halal"],
+    prepTime: 60,
+    cookTime: 90,
+    servings: 8,
+    ingredients: ["600g basmati rice", "1kg lamb", "Yogurt", "Fried onions", "Saffron", "Rose water", "Mint", "Ghee"],
+    instructions: ["Marinate lamb overnight", "Parboil rice", "Layer meat and rice", "Add fried onions and saffron", "Seal pot with dough", "Cook on low heat 2 hours", "Open and fluff gently", "Serve with mirchi ka salan"],
+    nutrition: { calories: 720, protein: 42, carbs: 68, fat: 28 }
+  },
+  {
+    id: "7",
+    name: "Butter Chicken",
+    description: "Tender chicken in rich, creamy tomato-based curry",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["gluten-free"],
+    prepTime: 30,
+    cookTime: 40,
+    servings: 4,
+    ingredients: ["500g chicken", "Tomato puree", "Cream", "Butter", "Garam masala", "Kasuri methi", "Ginger-garlic paste", "Cashews"],
+    instructions: ["Marinate chicken in yogurt and spices", "Grill or tandoor chicken", "Make tomato-based gravy", "Add cream and butter", "Add chicken pieces", "Simmer until thick", "Garnish with cream", "Serve with naan"],
+    nutrition: { calories: 480, protein: 32, carbs: 18, fat: 32 }
+  },
+  {
+    id: "8",
+    name: "Palak Paneer",
+    description: "Cottage cheese cubes in creamy spinach gravy",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    prepTime: 15,
+    cookTime: 25,
+    servings: 4,
+    ingredients: ["300g paneer", "500g spinach", "Onion", "Tomatoes", "Cream", "Garam masala", "Cumin", "Garlic"],
+    instructions: ["Blanch spinach and blend", "Cube paneer and fry lightly", "Sauté onions and garlic", "Add spices and tomatoes", "Add spinach puree", "Simmer 10 minutes", "Add paneer and cream", "Serve hot with roti"],
+    nutrition: { calories: 320, protein: 18, carbs: 20, fat: 20 }
+  },
+  {
+    id: "9",
+    name: "Masala Dosa",
+    description: "Crispy rice and lentil crepe with spiced potato filling",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 480,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Rice", "Urad dal", "Potatoes", "Onions", "Mustard seeds", "Curry leaves", "Turmeric", "Green chilies"],
+    instructions: ["Soak and grind rice and dal", "Ferment batter overnight", "Make potato masala filling", "Spread thin batter on hot tawa", "Cook until crispy", "Add potato filling", "Fold and serve", "Serve with sambar and chutney"],
+    nutrition: { calories: 350, protein: 10, carbs: 60, fat: 8 }
+  },
+  {
+    id: "10",
+    name: "Chole Bhature",
+    description: "Spiced chickpea curry with fluffy fried bread from Punjab",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian"],
+    prepTime: 240,
+    cookTime: 45,
+    servings: 4,
+    ingredients: ["Chickpeas", "Onions", "Tomatoes", "Chole masala", "Tea bags", "All-purpose flour", "Yogurt", "Oil for frying"],
+    instructions: ["Soak chickpeas overnight", "Pressure cook with tea bags", "Make onion-tomato masala", "Add chickpeas and spices", "Simmer until thick", "Make bhatura dough", "Rest and fry until puffy", "Serve hot together"],
+    nutrition: { calories: 580, protein: 18, carbs: 75, fat: 24 }
   },
   {
     id: "11",
-    name: "Keto Cauliflower Pizza",
-    description: "Low-carb pizza with cauliflower crust",
-    image: italianImage,
-    cuisine: "Italian",
-    dietaryTags: ["vegetarian", "gluten-free", "keto"],
-    prepTime: 20,
-    cookTime: 25,
-    servings: 2,
-    ingredients: [
-      "1 cauliflower head",
-      "200g mozzarella",
-      "2 eggs",
-      "Parmesan",
-      "Tomato sauce",
-      "Pizza toppings",
-      "Italian herbs"
-    ],
-    instructions: [
-      "Rice cauliflower and microwave 5 minutes",
-      "Squeeze out all water from cauliflower",
-      "Mix with eggs and cheese to form dough",
-      "Press into pizza shape on baking sheet",
-      "Bake at 200°C for 15 minutes",
-      "Add sauce and toppings",
-      "Bake for 10 more minutes",
-      "Slice and serve"
-    ],
-    nutrition: {
-      calories: 320,
-      protein: 28,
-      carbs: 12,
-      fat: 20
-    }
+    name: "Rogan Josh",
+    description: "Aromatic Kashmiri lamb curry with rich red color",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["gluten-free", "halal"],
+    prepTime: 30,
+    cookTime: 90,
+    servings: 6,
+    ingredients: ["1kg lamb", "Yogurt", "Kashmiri chilies", "Fennel powder", "Ginger", "Garlic", "Ghee", "Bay leaves"],
+    instructions: ["Sear lamb pieces", "Sauté onions until brown", "Add ginger-garlic paste", "Add Kashmiri chili paste", "Add yogurt gradually", "Add lamb and braise", "Cook until tender", "Garnish with fennel"],
+    nutrition: { calories: 520, protein: 45, carbs: 12, fat: 32 }
   },
   {
     id: "12",
-    name: "Dairy-Free Chocolate Mousse",
-    description: "Rich chocolate mousse made with avocado",
+    name: "Samosa",
+    description: "Crispy triangular pastry with spiced potato filling",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan"],
+    prepTime: 45,
+    cookTime: 30,
+    servings: 12,
+    ingredients: ["All-purpose flour", "Potatoes", "Peas", "Cumin", "Coriander", "Green chilies", "Amchur", "Oil for frying"],
+    instructions: ["Make crispy dough with flour", "Boil and mash potatoes", "Add peas and spices", "Roll dough into cones", "Fill with potato mixture", "Seal edges with water", "Deep fry until golden", "Serve with chutneys"],
+    nutrition: { calories: 180, protein: 4, carbs: 25, fat: 8 }
+  },
+  {
+    id: "13",
+    name: "Idli Sambar",
+    description: "Steamed rice cakes with lentil vegetable stew from South India",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 480,
+    cookTime: 45,
+    servings: 4,
+    ingredients: ["Rice", "Urad dal", "Toor dal", "Sambar powder", "Tamarind", "Mixed vegetables", "Curry leaves", "Mustard seeds"],
+    instructions: ["Soak and grind idli batter", "Ferment overnight", "Steam idlis in molds", "Cook dal for sambar", "Add vegetables and tamarind", "Temper with spices", "Simmer until thick", "Serve idli with hot sambar"],
+    nutrition: { calories: 280, protein: 12, carbs: 52, fat: 4 }
+  },
+  {
+    id: "14",
+    name: "Pav Bhaji",
+    description: "Spiced mashed vegetable curry with buttery bread rolls from Mumbai",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian"],
+    prepTime: 20,
+    cookTime: 40,
+    servings: 4,
+    ingredients: ["Mixed vegetables", "Pav bread", "Pav bhaji masala", "Butter", "Onions", "Tomatoes", "Lemon", "Coriander"],
+    instructions: ["Boil and mash vegetables", "Sauté onions and tomatoes", "Add pav bhaji masala", "Mash everything together", "Add lots of butter", "Toast pav in butter", "Garnish with onions and coriander", "Serve hot with lemon"],
+    nutrition: { calories: 420, protein: 12, carbs: 58, fat: 18 }
+  },
+  {
+    id: "15",
+    name: "Gulab Jamun",
+    description: "Deep-fried milk dumplings soaked in rose-flavored syrup",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian"],
+    prepTime: 30,
+    cookTime: 30,
+    servings: 20,
+    ingredients: ["Khoya/milk powder", "All-purpose flour", "Cardamom", "Sugar", "Rose water", "Saffron", "Ghee for frying"],
+    instructions: ["Make soft dough with khoya", "Shape into smooth balls", "Make sugar syrup with cardamom", "Deep fry on low heat", "Fry until golden brown", "Soak in warm syrup", "Let absorb for 2 hours", "Serve warm or cold"],
+    nutrition: { calories: 150, protein: 2, carbs: 28, fat: 5 }
+  },
+  {
+    id: "16",
+    name: "Dal Makhani",
+    description: "Creamy black lentils slow-cooked overnight with butter and cream",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    prepTime: 480,
+    cookTime: 240,
+    servings: 6,
+    ingredients: ["Black urad dal", "Rajma", "Butter", "Cream", "Tomato puree", "Ginger-garlic", "Garam masala", "Kasuri methi"],
+    instructions: ["Soak dals overnight", "Pressure cook until soft", "Make tomato-based masala", "Add cooked dal", "Simmer on low for hours", "Add butter and cream", "Finish with kasuri methi", "Serve with naan"],
+    nutrition: { calories: 380, protein: 16, carbs: 42, fat: 18 }
+  },
+  {
+    id: "17",
+    name: "Tandoori Chicken",
+    description: "Yogurt-marinated chicken roasted in clay oven",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["gluten-free", "halal"],
+    prepTime: 240,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Whole chicken", "Yogurt", "Tandoori masala", "Lemon juice", "Ginger-garlic paste", "Kashmiri chili", "Oil", "Chaat masala"],
+    instructions: ["Make deep cuts in chicken", "Marinate in yogurt and spices", "Refrigerate 4-6 hours", "Preheat oven to highest", "Roast until charred spots appear", "Baste with butter", "Rest 5 minutes", "Serve with mint chutney"],
+    nutrition: { calories: 320, protein: 38, carbs: 8, fat: 16 }
+  },
+  {
+    id: "18",
+    name: "Vada Pav",
+    description: "Spiced potato fritter in bread bun - Mumbai's favorite street food",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan"],
+    prepTime: 30,
+    cookTime: 20,
+    servings: 6,
+    ingredients: ["Potatoes", "Gram flour", "Pav bread", "Green chutney", "Garlic chutney", "Mustard seeds", "Green chilies", "Curry leaves"],
+    instructions: ["Mash boiled potatoes with spices", "Make gram flour batter", "Shape potato into balls", "Dip in batter and fry", "Slice pav and apply chutneys", "Place vada inside", "Add fried green chilies", "Serve immediately"],
+    nutrition: { calories: 350, protein: 8, carbs: 52, fat: 12 }
+  },
+  {
+    id: "19",
+    name: "Paneer Tikka",
+    description: "Grilled marinated cottage cheese with peppers and onions",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    prepTime: 60,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["400g paneer", "Yogurt", "Tikka masala", "Bell peppers", "Onions", "Lemon juice", "Cream", "Chaat masala"],
+    instructions: ["Cut paneer into cubes", "Marinate in spiced yogurt", "Thread on skewers with vegetables", "Grill or bake until charred", "Baste with butter", "Sprinkle chaat masala", "Squeeze lemon juice", "Serve with mint chutney"],
+    nutrition: { calories: 380, protein: 22, carbs: 15, fat: 28 }
+  },
+  {
+    id: "20",
+    name: "Rasam",
+    description: "Tangy South Indian soup with tamarind and black pepper",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 10,
+    cookTime: 20,
+    servings: 4,
+    ingredients: ["Tomatoes", "Tamarind", "Rasam powder", "Toor dal water", "Curry leaves", "Mustard seeds", "Cumin", "Coriander"],
+    instructions: ["Extract tamarind juice", "Mash tomatoes", "Boil with dal water", "Add rasam powder", "Season with tempered spices", "Add curry leaves", "Simmer 5 minutes", "Serve hot with rice"],
+    nutrition: { calories: 80, protein: 3, carbs: 15, fat: 2 }
+  },
+
+  // THAI CUISINE
+  {
+    id: "21",
+    name: "Pad Thai",
+    description: "Stir-fried rice noodles with shrimp, peanuts, and tamarind sauce",
+    image: asianImage,
+    cuisine: "Thai",
+    dietaryTags: ["gluten-free"],
+    prepTime: 20,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["Rice noodles", "Shrimp", "Eggs", "Tamarind paste", "Fish sauce", "Palm sugar", "Peanuts", "Bean sprouts"],
+    instructions: ["Soak rice noodles", "Make pad thai sauce", "Stir-fry shrimp and eggs", "Add noodles and sauce", "Toss with bean sprouts", "Top with crushed peanuts", "Serve with lime wedges", "Add chili flakes to taste"],
+    nutrition: { calories: 450, protein: 22, carbs: 55, fat: 15 }
+  },
+  {
+    id: "22",
+    name: "Green Curry",
+    description: "Creamy Thai curry with coconut milk and fresh basil",
+    image: asianImage,
+    cuisine: "Thai",
+    dietaryTags: ["gluten-free"],
+    prepTime: 15,
+    cookTime: 25,
+    servings: 4,
+    ingredients: ["Green curry paste", "Coconut milk", "Chicken", "Thai eggplant", "Bamboo shoots", "Thai basil", "Fish sauce", "Palm sugar"],
+    instructions: ["Fry curry paste in coconut cream", "Add chicken and cook", "Pour in coconut milk", "Add vegetables", "Season with fish sauce and sugar", "Simmer until tender", "Add Thai basil", "Serve with jasmine rice"],
+    nutrition: { calories: 420, protein: 28, carbs: 18, fat: 28 }
+  },
+  {
+    id: "23",
+    name: "Tom Yum Soup",
+    description: "Hot and sour Thai soup with shrimp and mushrooms",
+    image: asianImage,
+    cuisine: "Thai",
+    dietaryTags: ["gluten-free"],
+    prepTime: 15,
+    cookTime: 20,
+    servings: 4,
+    ingredients: ["Shrimp", "Lemongrass", "Galangal", "Kaffir lime leaves", "Thai chilies", "Fish sauce", "Lime juice", "Mushrooms"],
+    instructions: ["Boil water with aromatics", "Add mushrooms and tomatoes", "Add shrimp", "Season with fish sauce and lime", "Add Thai chilies", "Simmer 5 minutes", "Garnish with cilantro", "Serve immediately"],
+    nutrition: { calories: 180, protein: 20, carbs: 12, fat: 6 }
+  },
+
+  // JAPANESE CUISINE
+  {
+    id: "24",
+    name: "Chicken Ramen",
+    description: "Rich chicken broth with ramen noodles and soft-boiled egg",
+    image: asianImage,
+    cuisine: "Japanese",
+    dietaryTags: [],
+    prepTime: 30,
+    cookTime: 180,
+    servings: 4,
+    ingredients: ["Ramen noodles", "Chicken bones", "Soy sauce", "Mirin", "Soft-boiled eggs", "Chashu pork", "Nori", "Green onions"],
+    instructions: ["Simmer chicken bones for hours", "Strain and season broth", "Cook ramen noodles", "Prepare toppings", "Slice chashu", "Assemble bowls", "Add hot broth", "Garnish and serve"],
+    nutrition: { calories: 520, protein: 32, carbs: 58, fat: 18 }
+  },
+  {
+    id: "25",
+    name: "Sushi Roll",
+    description: "Fresh fish and vegetables wrapped in seasoned rice and nori",
+    image: asianImage,
+    cuisine: "Japanese",
+    dietaryTags: ["gluten-free"],
+    prepTime: 45,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Sushi rice", "Nori sheets", "Fresh salmon", "Tuna", "Avocado", "Cucumber", "Rice vinegar", "Wasabi"],
+    instructions: ["Cook and season sushi rice", "Place nori on bamboo mat", "Spread thin layer of rice", "Add fish and vegetables", "Roll tightly", "Cut into pieces", "Serve with soy sauce", "Add wasabi and ginger"],
+    nutrition: { calories: 380, protein: 22, carbs: 48, fat: 12 }
+  },
+  {
+    id: "26",
+    name: "Tonkatsu",
+    description: "Crispy breaded pork cutlet with tangy sauce",
+    image: asianImage,
+    cuisine: "Japanese",
+    dietaryTags: [],
+    prepTime: 20,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["Pork loin", "Panko breadcrumbs", "Eggs", "Flour", "Cabbage", "Tonkatsu sauce", "Rice", "Oil for frying"],
+    instructions: ["Pound pork cutlets thin", "Season with salt and pepper", "Coat in flour, egg, panko", "Deep fry until golden", "Rest on rack", "Shred cabbage finely", "Slice tonkatsu", "Serve with sauce and rice"],
+    nutrition: { calories: 580, protein: 35, carbs: 42, fat: 28 }
+  },
+
+  // CHINESE CUISINE
+  {
+    id: "27",
+    name: "Kung Pao Chicken",
+    description: "Sichuan stir-fry with chicken, peanuts, and dried chilies",
+    image: asianImage,
+    cuisine: "Chinese",
+    dietaryTags: [],
+    prepTime: 20,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["Chicken breast", "Peanuts", "Dried chilies", "Sichuan peppercorns", "Soy sauce", "Black vinegar", "Ginger", "Garlic"],
+    instructions: ["Cube and marinate chicken", "Toast peanuts", "Make kung pao sauce", "Stir-fry chicken", "Add dried chilies", "Add Sichuan peppercorns", "Pour in sauce", "Toss with peanuts and serve"],
+    nutrition: { calories: 420, protein: 35, carbs: 18, fat: 24 }
+  },
+  {
+    id: "28",
+    name: "Dim Sum - Har Gow",
+    description: "Crystal shrimp dumplings with translucent wrapper",
+    image: asianImage,
+    cuisine: "Chinese",
+    dietaryTags: [],
+    prepTime: 60,
+    cookTime: 10,
+    servings: 4,
+    ingredients: ["Shrimp", "Wheat starch", "Tapioca starch", "Bamboo shoots", "Sesame oil", "White pepper", "Ginger", "Green onion"],
+    instructions: ["Make crystal dumpling dough", "Prepare shrimp filling", "Roll thin wrappers", "Fill and pleat dumplings", "Steam for 6-8 minutes", "Serve immediately", "Dip in soy sauce", "Enjoy while hot"],
+    nutrition: { calories: 180, protein: 14, carbs: 22, fat: 4 }
+  },
+  {
+    id: "29",
+    name: "Mapo Tofu",
+    description: "Silky tofu in spicy Sichuan sauce with ground pork",
+    image: asianImage,
+    cuisine: "Chinese",
+    dietaryTags: [],
+    prepTime: 15,
+    cookTime: 20,
+    servings: 4,
+    ingredients: ["Soft tofu", "Ground pork", "Doubanjiang", "Sichuan peppercorns", "Garlic", "Ginger", "Green onions", "Chili oil"],
+    instructions: ["Cut tofu into cubes", "Brown ground pork", "Add doubanjiang paste", "Add garlic and ginger", "Pour in stock", "Add tofu gently", "Simmer until thick", "Top with Sichuan pepper oil"],
+    nutrition: { calories: 320, protein: 22, carbs: 12, fat: 22 }
+  },
+
+  // MEXICAN CUISINE
+  {
+    id: "30",
+    name: "Tacos Al Pastor",
+    description: "Marinated pork tacos with pineapple and cilantro",
     image: mexicanImage,
     cuisine: "Mexican",
-    dietaryTags: ["vegetarian", "vegan", "gluten-free", "dairy-free"],
-    prepTime: 10,
+    dietaryTags: ["gluten-free"],
+    prepTime: 240,
+    cookTime: 30,
+    servings: 6,
+    ingredients: ["Pork shoulder", "Achiote paste", "Pineapple", "Corn tortillas", "Onion", "Cilantro", "Lime", "Guajillo chilies"],
+    instructions: ["Marinate pork in achiote", "Stack on vertical spit with pineapple", "Roast until caramelized", "Shave thin slices", "Warm corn tortillas", "Top with onion and cilantro", "Add pineapple chunks", "Serve with lime and salsa"],
+    nutrition: { calories: 380, protein: 28, carbs: 32, fat: 16 }
+  },
+  {
+    id: "31",
+    name: "Enchiladas Rojas",
+    description: "Corn tortillas filled with chicken, covered in red sauce",
+    image: mexicanImage,
+    cuisine: "Mexican",
+    dietaryTags: ["gluten-free"],
+    prepTime: 30,
+    cookTime: 45,
+    servings: 6,
+    ingredients: ["Corn tortillas", "Shredded chicken", "Guajillo chilies", "Ancho chilies", "Onion", "Garlic", "Queso fresco", "Crema"],
+    instructions: ["Toast and soak dried chilies", "Blend into smooth sauce", "Dip tortillas in warm sauce", "Fill with chicken", "Roll and place in dish", "Cover with more sauce", "Top with cheese", "Bake until bubbly"],
+    nutrition: { calories: 420, protein: 28, carbs: 38, fat: 18 }
+  },
+  {
+    id: "32",
+    name: "Guacamole",
+    description: "Fresh avocado dip with lime, cilantro, and tomatoes",
+    image: mexicanImage,
+    cuisine: "Mexican",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 15,
     cookTime: 0,
     servings: 4,
-    ingredients: [
-      "2 ripe avocados",
-      "1/4 cup cocoa powder",
-      "1/4 cup maple syrup",
-      "Vanilla extract",
-      "Pinch of salt",
-      "Coconut cream"
-    ],
-    instructions: [
-      "Blend avocados until smooth",
-      "Add cocoa powder and maple syrup",
-      "Add vanilla and salt",
-      "Blend until creamy",
-      "Chill for 30 minutes",
-      "Top with coconut cream",
-      "Garnish with berries",
-      "Serve cold"
-    ],
-    nutrition: {
-      calories: 220,
-      protein: 3,
-      carbs: 28,
-      fat: 12
-    }
+    ingredients: ["Ripe avocados", "Lime juice", "Cilantro", "Red onion", "Tomatoes", "Jalapeño", "Salt", "Garlic"],
+    instructions: ["Halve and pit avocados", "Mash to desired texture", "Add lime juice immediately", "Fold in diced onion and tomato", "Add minced jalapeño", "Season with salt", "Garnish with cilantro", "Serve with tortilla chips"],
+    nutrition: { calories: 160, protein: 2, carbs: 12, fat: 14 }
+  },
+
+  // MIDDLE EASTERN CUISINE
+  {
+    id: "33",
+    name: "Hummus",
+    description: "Creamy chickpea dip with tahini and olive oil",
+    image: indianImage,
+    cuisine: "Middle Eastern",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 15,
+    cookTime: 0,
+    servings: 6,
+    ingredients: ["Chickpeas", "Tahini", "Lemon juice", "Garlic", "Olive oil", "Cumin", "Paprika", "Salt"],
+    instructions: ["Blend chickpeas until smooth", "Add tahini and lemon juice", "Add garlic and cumin", "Drizzle olive oil while blending", "Season with salt", "Transfer to serving bowl", "Create swirls on top", "Garnish with paprika and oil"],
+    nutrition: { calories: 180, protein: 8, carbs: 20, fat: 8 }
+  },
+  {
+    id: "34",
+    name: "Falafel",
+    description: "Crispy chickpea fritters with fresh herbs",
+    image: indianImage,
+    cuisine: "Middle Eastern",
+    dietaryTags: ["vegetarian", "vegan"],
+    prepTime: 240,
+    cookTime: 15,
+    servings: 6,
+    ingredients: ["Dried chickpeas", "Fresh parsley", "Fresh cilantro", "Onion", "Garlic", "Cumin", "Coriander", "Baking powder"],
+    instructions: ["Soak chickpeas overnight", "Blend with herbs and spices", "Form into balls or patties", "Rest batter 1 hour", "Deep fry until golden", "Drain on paper towels", "Serve in pita", "Add tahini sauce"],
+    nutrition: { calories: 220, protein: 10, carbs: 28, fat: 8 }
+  },
+  {
+    id: "35",
+    name: "Shawarma",
+    description: "Marinated meat roasted on vertical spit with garlic sauce",
+    image: indianImage,
+    cuisine: "Middle Eastern",
+    dietaryTags: ["halal"],
+    prepTime: 240,
+    cookTime: 60,
+    servings: 6,
+    ingredients: ["Chicken thighs", "Shawarma spices", "Yogurt", "Lemon juice", "Garlic sauce", "Pita bread", "Pickled turnips", "Tomatoes"],
+    instructions: ["Marinate chicken in spices", "Stack on rotisserie", "Roast until crispy edges", "Shave thin slices", "Warm pita bread", "Spread garlic sauce", "Add meat and vegetables", "Roll tightly and serve"],
+    nutrition: { calories: 450, protein: 35, carbs: 38, fat: 18 }
+  },
+
+  // FRENCH CUISINE
+  {
+    id: "36",
+    name: "Coq au Vin",
+    description: "Chicken braised in red wine with mushrooms and pearl onions",
+    image: italianImage,
+    cuisine: "French",
+    dietaryTags: ["gluten-free"],
+    prepTime: 30,
+    cookTime: 120,
+    servings: 6,
+    ingredients: ["Whole chicken", "Red wine", "Bacon lardons", "Pearl onions", "Mushrooms", "Thyme", "Bay leaves", "Chicken stock"],
+    instructions: ["Brown chicken pieces", "Render bacon fat", "Sauté mushrooms and onions", "Deglaze with wine", "Add chicken and stock", "Braise in oven 1.5 hours", "Reduce sauce if needed", "Garnish with parsley"],
+    nutrition: { calories: 520, protein: 42, carbs: 15, fat: 28 }
+  },
+  {
+    id: "37",
+    name: "Croissant",
+    description: "Flaky buttery French pastry with laminated dough",
+    image: italianImage,
+    cuisine: "French",
+    dietaryTags: ["vegetarian"],
+    prepTime: 720,
+    cookTime: 20,
+    servings: 12,
+    ingredients: ["Bread flour", "Butter", "Milk", "Sugar", "Yeast", "Salt", "Egg wash"],
+    instructions: ["Make détrempe dough", "Create butter block", "Laminate with 3 folds", "Rest between folds", "Shape into crescents", "Proof until doubled", "Brush with egg wash", "Bake until golden"],
+    nutrition: { calories: 280, protein: 5, carbs: 28, fat: 18 }
+  },
+
+  // KOREAN CUISINE
+  {
+    id: "38",
+    name: "Bibimbap",
+    description: "Mixed rice bowl with vegetables, egg, and gochujang",
+    image: asianImage,
+    cuisine: "Korean",
+    dietaryTags: ["gluten-free"],
+    prepTime: 30,
+    cookTime: 20,
+    servings: 4,
+    ingredients: ["Rice", "Beef", "Spinach", "Bean sprouts", "Carrots", "Zucchini", "Egg", "Gochujang"],
+    instructions: ["Cook rice", "Prepare namul vegetables", "Season and cook beef", "Fry eggs sunny-side up", "Arrange in stone bowl", "Add gochujang", "Mix before eating", "Enjoy the crispy rice bottom"],
+    nutrition: { calories: 480, protein: 28, carbs: 58, fat: 16 }
+  },
+  {
+    id: "39",
+    name: "Korean Fried Chicken",
+    description: "Double-fried crispy chicken with sweet and spicy glaze",
+    image: asianImage,
+    cuisine: "Korean",
+    dietaryTags: [],
+    prepTime: 60,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Chicken wings", "Cornstarch", "Rice flour", "Gochujang", "Honey", "Soy sauce", "Garlic", "Ginger"],
+    instructions: ["Season chicken pieces", "Coat in rice flour batter", "First fry until cooked", "Rest 10 minutes", "Second fry until crispy", "Make gochujang glaze", "Toss in sauce", "Garnish with sesame"],
+    nutrition: { calories: 520, protein: 35, carbs: 42, fat: 24 }
+  },
+  {
+    id: "40",
+    name: "Kimchi Jjigae",
+    description: "Spicy fermented kimchi stew with pork and tofu",
+    image: asianImage,
+    cuisine: "Korean",
+    dietaryTags: [],
+    prepTime: 15,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Aged kimchi", "Pork belly", "Tofu", "Gochugaru", "Gochujang", "Garlic", "Green onions", "Anchovy stock"],
+    instructions: ["Sauté pork belly", "Add chopped kimchi", "Pour in anchovy stock", "Add gochugaru and gochujang", "Simmer 20 minutes", "Add tofu cubes", "Cook 5 more minutes", "Serve bubbling hot"],
+    nutrition: { calories: 380, protein: 25, carbs: 18, fat: 25 }
+  },
+
+  // VIETNAMESE CUISINE
+  {
+    id: "41",
+    name: "Pho",
+    description: "Vietnamese beef noodle soup with aromatic broth",
+    image: asianImage,
+    cuisine: "Vietnamese",
+    dietaryTags: ["gluten-free"],
+    prepTime: 30,
+    cookTime: 360,
+    servings: 6,
+    ingredients: ["Beef bones", "Rice noodles", "Beef slices", "Star anise", "Cinnamon", "Fish sauce", "Bean sprouts", "Thai basil"],
+    instructions: ["Char onion and ginger", "Simmer bones for hours", "Toast and add spices", "Strain broth", "Cook rice noodles", "Arrange beef and noodles", "Ladle hot broth over", "Serve with fresh herbs"],
+    nutrition: { calories: 420, protein: 32, carbs: 48, fat: 12 }
+  },
+  {
+    id: "42",
+    name: "Banh Mi",
+    description: "Vietnamese baguette sandwich with pickled vegetables",
+    image: asianImage,
+    cuisine: "Vietnamese",
+    dietaryTags: [],
+    prepTime: 30,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["Baguette", "Grilled pork", "Pate", "Pickled carrots", "Daikon", "Cilantro", "Jalapeño", "Mayo"],
+    instructions: ["Toast baguette lightly", "Spread pate and mayo", "Add grilled pork", "Layer pickled vegetables", "Add fresh cilantro", "Add jalapeño slices", "Season with soy sauce", "Serve immediately"],
+    nutrition: { calories: 480, protein: 28, carbs: 52, fat: 18 }
+  },
+
+  // AFRICAN CUISINE
+  {
+    id: "43",
+    name: "Jollof Rice",
+    description: "West African one-pot rice with tomatoes and spices",
+    image: indianImage,
+    cuisine: "African",
+    dietaryTags: ["gluten-free"],
+    prepTime: 20,
+    cookTime: 45,
+    servings: 6,
+    ingredients: ["Long grain rice", "Tomatoes", "Tomato paste", "Onions", "Scotch bonnet", "Bay leaves", "Thyme", "Chicken stock"],
+    instructions: ["Blend tomatoes with peppers", "Fry tomato mixture until thick", "Add tomato paste", "Pour in stock", "Add washed rice", "Season and cover tightly", "Cook on low heat", "Steam until smoky"],
+    nutrition: { calories: 380, protein: 8, carbs: 72, fat: 6 }
+  },
+  {
+    id: "44",
+    name: "Tagine",
+    description: "Moroccan slow-cooked stew with preserved lemons",
+    image: indianImage,
+    cuisine: "African",
+    dietaryTags: ["gluten-free", "halal"],
+    prepTime: 30,
+    cookTime: 120,
+    servings: 6,
+    ingredients: ["Lamb shoulder", "Preserved lemons", "Olives", "Onions", "Saffron", "Ginger", "Cinnamon", "Cilantro"],
+    instructions: ["Brown lamb pieces", "Sauté onions with spices", "Add lamb and water", "Slow cook until tender", "Add preserved lemons", "Add olives", "Garnish with cilantro", "Serve with couscous"],
+    nutrition: { calories: 480, protein: 38, carbs: 22, fat: 28 }
+  },
+
+  // SPANISH CUISINE
+  {
+    id: "45",
+    name: "Paella",
+    description: "Spanish rice dish with seafood, chicken, and saffron",
+    image: italianImage,
+    cuisine: "Spanish",
+    dietaryTags: ["gluten-free"],
+    prepTime: 30,
+    cookTime: 45,
+    servings: 6,
+    ingredients: ["Bomba rice", "Chicken thighs", "Shrimp", "Mussels", "Saffron", "Paprika", "Green beans", "Tomatoes"],
+    instructions: ["Make sofrito base", "Brown chicken pieces", "Add paprika and tomatoes", "Add rice and saffron stock", "Arrange seafood on top", "Cook without stirring", "Develop socarrat crust", "Rest before serving"],
+    nutrition: { calories: 520, protein: 35, carbs: 58, fat: 18 }
+  },
+  {
+    id: "46",
+    name: "Gazpacho",
+    description: "Chilled Spanish tomato soup with vegetables",
+    image: italianImage,
+    cuisine: "Spanish",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 20,
+    cookTime: 0,
+    servings: 6,
+    ingredients: ["Ripe tomatoes", "Cucumber", "Bell pepper", "Garlic", "Sherry vinegar", "Olive oil", "Bread", "Onion"],
+    instructions: ["Roughly chop vegetables", "Soak bread in water", "Blend everything smooth", "Add vinegar and oil", "Season with salt", "Chill for 2 hours", "Serve ice cold", "Garnish with diced vegetables"],
+    nutrition: { calories: 120, protein: 3, carbs: 18, fat: 5 }
+  },
+
+  // GREEK CUISINE
+  {
+    id: "47",
+    name: "Moussaka",
+    description: "Layered eggplant casserole with meat sauce and béchamel",
+    image: italianImage,
+    cuisine: "Greek",
+    dietaryTags: [],
+    prepTime: 45,
+    cookTime: 60,
+    servings: 8,
+    ingredients: ["Eggplant", "Ground lamb", "Potatoes", "Béchamel sauce", "Tomato sauce", "Cinnamon", "Nutmeg", "Parmesan"],
+    instructions: ["Slice and salt eggplant", "Fry eggplant slices", "Make meat sauce", "Prepare thick béchamel", "Layer potatoes, eggplant, meat", "Top with béchamel", "Bake until golden", "Rest before cutting"],
+    nutrition: { calories: 520, protein: 28, carbs: 35, fat: 32 }
+  },
+  {
+    id: "48",
+    name: "Gyros",
+    description: "Seasoned meat wrapped in pita with tzatziki",
+    image: italianImage,
+    cuisine: "Greek",
+    dietaryTags: [],
+    prepTime: 240,
+    cookTime: 30,
+    servings: 6,
+    ingredients: ["Pork or chicken", "Pita bread", "Tzatziki", "Tomatoes", "Red onion", "Paprika", "Oregano", "Fries"],
+    instructions: ["Marinate meat in spices", "Stack on vertical spit", "Roast until crispy", "Shave thin slices", "Warm pita bread", "Spread tzatziki", "Add meat and vegetables", "Wrap and serve with fries"],
+    nutrition: { calories: 580, protein: 32, carbs: 52, fat: 28 }
+  },
+
+  // BRAZILIAN CUISINE
+  {
+    id: "49",
+    name: "Feijoada",
+    description: "Brazilian black bean stew with mixed meats",
+    image: mexicanImage,
+    cuisine: "Brazilian",
+    dietaryTags: ["gluten-free"],
+    prepTime: 480,
+    cookTime: 180,
+    servings: 10,
+    ingredients: ["Black beans", "Pork ribs", "Sausage", "Bacon", "Beef", "Bay leaves", "Orange", "Rice"],
+    instructions: ["Soak beans overnight", "Soak salted meats", "Layer meats in pot", "Add beans and water", "Slow cook for hours", "Prepare farofa and rice", "Serve with orange slices", "Add hot sauce to taste"],
+    nutrition: { calories: 620, protein: 42, carbs: 48, fat: 32 }
+  },
+  {
+    id: "50",
+    name: "Coxinha",
+    description: "Brazilian chicken croquettes shaped like drumsticks",
+    image: mexicanImage,
+    cuisine: "Brazilian",
+    dietaryTags: [],
+    prepTime: 60,
+    cookTime: 30,
+    servings: 20,
+    ingredients: ["Shredded chicken", "Cream cheese", "Flour", "Chicken stock", "Breadcrumbs", "Eggs", "Parsley", "Oil for frying"],
+    instructions: ["Make dough with flour and stock", "Cool and wrap around filling", "Shape into teardrop", "Coat in breadcrumbs", "Deep fry until golden", "Drain excess oil", "Serve hot", "Dip in hot sauce"],
+    nutrition: { calories: 180, protein: 12, carbs: 18, fat: 8 }
+  },
+
+  // SRI LANKAN CUISINE
+  {
+    id: "51",
+    name: "Kottu Roti",
+    description: "Chopped flatbread stir-fried with vegetables and meat",
+    image: indianImage,
+    cuisine: "Sri Lankan",
+    dietaryTags: [],
+    prepTime: 20,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["Godamba roti", "Chicken", "Eggs", "Leeks", "Onions", "Curry leaves", "Sri Lankan curry powder", "Soy sauce"],
+    instructions: ["Tear roti into pieces", "Stir-fry chicken with spices", "Add beaten eggs", "Add vegetables", "Mix in roti pieces", "Season with soy sauce", "Chop rhythmically on hot plate", "Serve with curry sauce"],
+    nutrition: { calories: 480, protein: 28, carbs: 52, fat: 18 }
+  },
+  {
+    id: "52",
+    name: "Fish Ambul Thiyal",
+    description: "Sour fish curry with goraka, a Sri Lankan specialty",
+    image: indianImage,
+    cuisine: "Sri Lankan",
+    dietaryTags: ["gluten-free"],
+    prepTime: 20,
+    cookTime: 40,
+    servings: 4,
+    ingredients: ["Tuna steaks", "Goraka", "Black pepper", "Curry leaves", "Garlic", "Cinnamon", "Fenugreek", "Pandan leaves"],
+    instructions: ["Soak goraka in water", "Coat fish with spice paste", "Pack tightly in clay pot", "Slow cook without water", "Fish releases natural juice", "Cook until dry and dark", "Rest before serving", "Serve with rice and sambol"],
+    nutrition: { calories: 320, protein: 38, carbs: 8, fat: 16 }
+  },
+
+  // BANGLADESHI CUISINE
+  {
+    id: "53",
+    name: "Hilsa Fish Curry",
+    description: "National fish of Bangladesh cooked in mustard sauce",
+    image: indianImage,
+    cuisine: "Bangladeshi",
+    dietaryTags: ["gluten-free"],
+    prepTime: 20,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Hilsa fish", "Mustard paste", "Turmeric", "Green chilies", "Mustard oil", "Nigella seeds", "Onions", "Tomatoes"],
+    instructions: ["Marinate fish with turmeric", "Fry fish lightly", "Make mustard-based gravy", "Add fried fish", "Add green chilies", "Simmer gently", "Finish with mustard oil", "Serve with steamed rice"],
+    nutrition: { calories: 380, protein: 32, carbs: 12, fat: 24 }
+  },
+  {
+    id: "54",
+    name: "Bhuna Khichuri",
+    description: "Bengali-style rice and lentil dish with spices",
+    image: indianImage,
+    cuisine: "Bangladeshi",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    prepTime: 15,
+    cookTime: 45,
+    servings: 6,
+    ingredients: ["Basmati rice", "Moong dal", "Ghee", "Cumin", "Bay leaves", "Cinnamon", "Vegetables", "Ginger"],
+    instructions: ["Wash rice and dal together", "Fry whole spices in ghee", "Add ginger and vegetables", "Add rice-dal mixture", "Pour in water", "Cook until soft", "Finish with extra ghee", "Serve with fried egg"],
+    nutrition: { calories: 380, protein: 12, carbs: 62, fat: 10 }
+  },
+
+  // MORE INDIAN REGIONAL DISHES
+  {
+    id: "55",
+    name: "Litti Chokha",
+    description: "Baked wheat balls with mashed vegetable sides from Bihar",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian"],
+    prepTime: 45,
+    cookTime: 40,
+    servings: 6,
+    ingredients: ["Whole wheat flour", "Sattu", "Ajwain", "Eggplant", "Tomatoes", "Garlic", "Mustard oil", "Green chilies"],
+    instructions: ["Make dough with wheat flour", "Prepare sattu filling", "Stuff dough balls", "Bake in coal fire", "Roast eggplant and tomatoes", "Mash chokha with spices", "Serve litti with ghee", "Accompany with chokha"],
+    nutrition: { calories: 420, protein: 14, carbs: 65, fat: 12 }
+  },
+  {
+    id: "56",
+    name: "Appam with Stew",
+    description: "Lacy rice pancake with coconut vegetable stew from Kerala",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 480,
+    cookTime: 30,
+    servings: 4,
+    ingredients: ["Rice", "Coconut milk", "Yeast", "Mixed vegetables", "Whole spices", "Curry leaves", "Coconut oil", "Shallots"],
+    instructions: ["Ferment rice batter", "Make coconut milk stew", "Heat appam pan", "Pour batter and swirl", "Cook until lacy edges", "Vegetables cook in creamy stew", "Serve appam with stew", "Drizzle coconut oil"],
+    nutrition: { calories: 380, protein: 8, carbs: 58, fat: 14 }
+  },
+  {
+    id: "57",
+    name: "Dhokla",
+    description: "Steamed savory gram flour cake from Gujarat",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "vegan", "gluten-free"],
+    prepTime: 240,
+    cookTime: 20,
+    servings: 8,
+    ingredients: ["Gram flour", "Yogurt", "Citric acid", "Eno fruit salt", "Mustard seeds", "Curry leaves", "Green chilies", "Sugar"],
+    instructions: ["Make fermented batter", "Add eno before steaming", "Steam for 15 minutes", "Cut into squares", "Prepare tadka", "Pour hot tempering over", "Garnish with coriander", "Serve with chutney"],
+    nutrition: { calories: 180, protein: 8, carbs: 28, fat: 4 }
+  },
+  {
+    id: "58",
+    name: "Rava Upma",
+    description: "South Indian semolina breakfast dish with vegetables",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian"],
+    prepTime: 10,
+    cookTime: 20,
+    servings: 4,
+    ingredients: ["Semolina", "Onions", "Mustard seeds", "Curry leaves", "Cashews", "Green chilies", "Ghee", "Vegetables"],
+    instructions: ["Roast semolina dry", "Temper mustard and curry leaves", "Add onions and vegetables", "Pour in hot water", "Add roasted semolina", "Stir to prevent lumps", "Cook until fluffy", "Serve with chutney"],
+    nutrition: { calories: 280, protein: 8, carbs: 42, fat: 10 }
+  },
+  {
+    id: "59",
+    name: "Rasgulla",
+    description: "Soft spongy cheese balls in light sugar syrup from Bengal",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    prepTime: 30,
+    cookTime: 20,
+    servings: 12,
+    ingredients: ["Milk", "Lemon juice", "Sugar", "Cardamom", "Rose water", "Water"],
+    instructions: ["Curdle milk with lemon", "Drain and knead chhena smooth", "Shape into balls", "Make light sugar syrup", "Add chhena balls to syrup", "Boil until doubled in size", "Cool in syrup", "Chill before serving"],
+    nutrition: { calories: 120, protein: 4, carbs: 24, fat: 2 }
+  },
+  {
+    id: "60",
+    name: "Mysore Pak",
+    description: "Rich gram flour fudge from Karnataka",
+    image: indianImage,
+    cuisine: "Indian",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    prepTime: 15,
+    cookTime: 30,
+    servings: 20,
+    ingredients: ["Gram flour", "Ghee", "Sugar", "Cardamom", "Water"],
+    instructions: ["Make sugar syrup", "Roast gram flour in ghee", "Add syrup to flour", "Keep adding hot ghee", "Stir constantly", "Pour when porous texture forms", "Cut while warm", "Cool completely"],
+    nutrition: { calories: 180, protein: 3, carbs: 22, fat: 10 }
   }
 ];
