@@ -111,12 +111,12 @@ const FloatingAIAssistant = () => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[var(--gradient-primary)] shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-orange-500 shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group"
         aria-label="Open AI Assistant"
       >
-        <Bot className="w-7 h-7 text-primary-foreground" />
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full flex items-center justify-center">
-          <Sparkles className="w-3 h-3 text-secondary-foreground" />
+        <Bot className="w-7 h-7 text-white" />
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-orange-400 rounded-full flex items-center justify-center">
+          <Sparkles className="w-3 h-3 text-white" />
         </span>
       </button>
     );
@@ -126,21 +126,21 @@ const FloatingAIAssistant = () => {
     <div className={`fixed bottom-6 right-6 z-50 transition-all ${isMinimized ? 'w-72' : 'w-96'}`}>
       <Card className="shadow-2xl border-2 overflow-hidden backdrop-blur-lg bg-card/95">
         {/* Header */}
-        <div className="bg-[var(--gradient-primary)] p-3 flex items-center justify-between">
+        <div className="bg-orange-500 p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-              <Bot className="w-5 h-5 text-primary-foreground" />
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+              <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-primary-foreground text-sm">AI Cooking Assistant</h3>
-              <p className="text-primary-foreground/70 text-xs">Always here to help</p>
+              <h3 className="font-semibold text-white text-sm">AI Cooking Assistant</h3>
+              <p className="text-white/70 text-xs">Always here to help</p>
             </div>
           </div>
           <div className="flex items-center gap-1">
             <Button
               size="icon"
               variant="ghost"
-              className="h-7 w-7 text-primary-foreground hover:bg-primary-foreground/20"
+              className="h-7 w-7 text-white hover:bg-white/20"
               onClick={() => setIsMinimized(!isMinimized)}
             >
               <Minimize2 className="w-4 h-4" />
@@ -148,7 +148,7 @@ const FloatingAIAssistant = () => {
             <Button
               size="icon"
               variant="ghost"
-              className="h-7 w-7 text-primary-foreground hover:bg-primary-foreground/20"
+              className="h-7 w-7 text-white hover:bg-white/20"
               onClick={() => setIsOpen(false)}
             >
               <X className="w-4 h-4" />
