@@ -1,7 +1,7 @@
 project_id = "mnsmwsbkmovdhwstycmb"
 
 [functions.cooking-assistant]
-verify_jwt = false
+verify_jwt = true
 
 [functions.get-recommendations]
 verify_jwt = true
