@@ -6,13 +6,73 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Input validation
+interface FavoriteItem {
+  recipe_data: {
+    cuisine?: string;
+    dietaryTags?: string[];
+  };
+  rating?: number | null;
+}
+
+function validateFavorites(data: unknown): FavoriteItem[] {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid request body');
+  }
+  
+  const body = data as Record<string, unknown>;
+  
+  if (!Array.isArray(body.favorites)) {
+    throw new Error('Favorites must be an array');
+  }
+  
+  if (body.favorites.length === 0) {
+    throw new Error('Favorites array cannot be empty');
+  }
+  
+  if (body.favorites.length > 100) {
+    throw new Error('Too many favorites (max 100)');
+  }
+  
+  const validatedFavorites: FavoriteItem[] = [];
+  
+  for (const fav of body.favorites) {
+    if (!fav || typeof fav !== 'object') {
+      throw new Error('Each favorite must be an object');
+    }
+    
+    const favorite = fav as Record<string, unknown>;
+    
+    if (!favorite.recipe_data || typeof favorite.recipe_data !== 'object') {
+      throw new Error('Each favorite must have recipe_data');
+    }
+    
+    const recipeData = favorite.recipe_data as Record<string, unknown>;
+    
+    validatedFavorites.push({
+      recipe_data: {
+        cuisine: typeof recipeData.cuisine === 'string' ? recipeData.cuisine : undefined,
+        dietaryTags: Array.isArray(recipeData.dietaryTags) 
+          ? recipeData.dietaryTags.filter((t): t is string => typeof t === 'string')
+          : undefined
+      },
+      rating: typeof favorite.rating === 'number' ? favorite.rating : null
+    });
+  }
+  
+  return validatedFavorites;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { favorites } = await req.json();
+    // Parse and validate input
+    const rawBody = await req.json();
+    const favorites = validateFavorites(rawBody);
+    
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     
     if (!LOVABLE_API_KEY) {
@@ -25,14 +85,16 @@ serve(async (req) => {
     let avgRating = 0;
     let ratedCount = 0;
 
-    favorites.forEach((fav: any) => {
+    favorites.forEach((fav) => {
       const recipe = fav.recipe_data;
       
       // Count cuisines
-      cuisinePrefs.set(recipe.cuisine, (cuisinePrefs.get(recipe.cuisine) || 0) + 1);
+      if (recipe.cuisine) {
+        cuisinePrefs.set(recipe.cuisine, (cuisinePrefs.get(recipe.cuisine) || 0) + 1);
+      }
       
       // Collect dietary tags
-      recipe.dietaryTags?.forEach((tag: string) => dietaryPrefs.add(tag));
+      recipe.dietaryTags?.forEach((tag) => dietaryPrefs.add(tag));
       
       // Calculate average rating
       if (fav.rating) {
@@ -162,10 +224,13 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
     );
   } catch (error) {
     console.error('Error in get-recommendations function:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const status = errorMessage.includes('Invalid') || errorMessage.includes('must be') ? 400 : 500;
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: errorMessage }),
       {
-        status: 500,
+        status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
