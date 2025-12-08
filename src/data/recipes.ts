@@ -147,7 +147,7 @@ export const recipes: Recipe[] = [
     id: "10",
     name: "Chole Bhature",
     description: "Spiced chickpea curry with fluffy fried bread from Punjab",
-    image: "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/2679501/pexels-photo-2679501.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian"],
     prepTime: 240,
@@ -203,7 +203,7 @@ export const recipes: Recipe[] = [
     id: "14",
     name: "Pav Bhaji",
     description: "Spiced mashed vegetable curry with buttery bread rolls from Mumbai",
-    image: "https://images.pexels.com/photos/9797027/pexels-photo-9797027.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian"],
     prepTime: 20,
@@ -259,7 +259,7 @@ export const recipes: Recipe[] = [
     id: "18",
     name: "Vada Pav",
     description: "Spiced potato fritter in bread bun - Mumbai's favorite street food",
-    image: "https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/3926133/pexels-photo-3926133.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan"],
     prepTime: 30,
@@ -273,7 +273,7 @@ export const recipes: Recipe[] = [
     id: "19",
     name: "Paneer Tikka",
     description: "Grilled marinated cottage cheese with peppers and onions",
-    image: "https://images.pexels.com/photos/9797029/pexels-photo-9797029.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/5410400/pexels-photo-5410400.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "gluten-free"],
     prepTime: 60,
@@ -287,7 +287,7 @@ export const recipes: Recipe[] = [
     id: "20",
     name: "Rasam",
     description: "Tangy South Indian soup with tamarind and black pepper",
-    image: "https://images.pexels.com/photos/7353380/pexels-photo-7353380.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 10,
@@ -405,7 +405,7 @@ export const recipes: Recipe[] = [
     id: "28",
     name: "Dim Sum - Har Gow",
     description: "Crystal shrimp dumplings with translucent wrapper",
-    image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/955137/pexels-photo-955137.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Chinese",
     dietaryTags: [],
     prepTime: 60,
@@ -419,7 +419,7 @@ export const recipes: Recipe[] = [
     id: "29",
     name: "Mapo Tofu",
     description: "Silky tofu in spicy Sichuan sauce with ground pork",
-    image: "https://images.unsplash.com/photo-1582576163090-09d3b6f8a969?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6646351/pexels-photo-6646351.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Chinese",
     dietaryTags: [],
     prepTime: 15,
@@ -435,7 +435,7 @@ export const recipes: Recipe[] = [
     id: "30",
     name: "Tacos Al Pastor",
     description: "Marinated pork tacos with pineapple and cilantro",
-    image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/2092507/pexels-photo-2092507.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Mexican",
     dietaryTags: ["gluten-free"],
     prepTime: 240,
@@ -449,7 +449,7 @@ export const recipes: Recipe[] = [
     id: "31",
     name: "Enchiladas Rojas",
     description: "Corn tortillas filled with chicken, covered in red sauce",
-    image: "https://images.unsplash.com/photo-1534352956036-cd81e27dd615?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5737254/pexels-photo-5737254.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Mexican",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -463,7 +463,7 @@ export const recipes: Recipe[] = [
     id: "32",
     name: "Guacamole",
     description: "Fresh avocado dip with lime, cilantro, and tomatoes",
-    image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Mexican",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 15,
@@ -479,7 +479,7 @@ export const recipes: Recipe[] = [
     id: "33",
     name: "Hummus",
     description: "Creamy chickpea dip with tahini and olive oil",
-    image: "https://images.unsplash.com/photo-1547424850-28a61a58d5e6?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1618898/pexels-photo-1618898.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Middle Eastern",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 15,
@@ -493,7 +493,7 @@ export const recipes: Recipe[] = [
     id: "34",
     name: "Falafel",
     description: "Crispy chickpea fritters with fresh herbs",
-    image: "https://images.unsplash.com/photo-1593001874117-c99c800e3eb7?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6252726/pexels-photo-6252726.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Middle Eastern",
     dietaryTags: ["vegetarian", "vegan"],
     prepTime: 240,
@@ -507,7 +507,7 @@ export const recipes: Recipe[] = [
     id: "35",
     name: "Shawarma",
     description: "Marinated meat roasted on vertical spit with garlic sauce",
-    image: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5779368/pexels-photo-5779368.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Middle Eastern",
     dietaryTags: ["halal"],
     prepTime: 240,
@@ -523,7 +523,7 @@ export const recipes: Recipe[] = [
     id: "36",
     name: "Coq au Vin",
     description: "Chicken braised in red wine with mushrooms and pearl onions",
-    image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "French",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -537,7 +537,7 @@ export const recipes: Recipe[] = [
     id: "37",
     name: "Croissant",
     description: "Flaky buttery French pastry with laminated dough",
-    image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/3892469/pexels-photo-3892469.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "French",
     dietaryTags: ["vegetarian"],
     prepTime: 720,
@@ -553,7 +553,7 @@ export const recipes: Recipe[] = [
     id: "38",
     name: "Bibimbap",
     description: "Mixed rice bowl with vegetables, egg, and gochujang",
-    image: "https://images.unsplash.com/photo-1553163147-622ab57be1c7?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5773968/pexels-photo-5773968.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Korean",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -567,7 +567,7 @@ export const recipes: Recipe[] = [
     id: "39",
     name: "Korean Fried Chicken",
     description: "Double-fried crispy chicken with sweet and spicy glaze",
-    image: "https://images.unsplash.com/photo-1575932444877-5106bee2a599?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Korean",
     dietaryTags: [],
     prepTime: 60,
@@ -581,7 +581,7 @@ export const recipes: Recipe[] = [
     id: "40",
     name: "Kimchi Jjigae",
     description: "Spicy fermented kimchi stew with pork and tofu",
-    image: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5773969/pexels-photo-5773969.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Korean",
     dietaryTags: [],
     prepTime: 15,
@@ -597,7 +597,7 @@ export const recipes: Recipe[] = [
     id: "41",
     name: "Pho",
     description: "Vietnamese beef noodle soup with aromatic broth",
-    image: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1618888/pexels-photo-1618888.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Vietnamese",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -611,7 +611,7 @@ export const recipes: Recipe[] = [
     id: "42",
     name: "Banh Mi",
     description: "Vietnamese baguette sandwich with pickled vegetables",
-    image: "https://images.unsplash.com/photo-1600688640154-9619e002df30?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5779785/pexels-photo-5779785.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Vietnamese",
     dietaryTags: [],
     prepTime: 30,
@@ -627,7 +627,7 @@ export const recipes: Recipe[] = [
     id: "43",
     name: "Jollof Rice",
     description: "West African one-pot rice with tomatoes and spices",
-    image: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/7353376/pexels-photo-7353376.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "African",
     dietaryTags: ["gluten-free"],
     prepTime: 20,
@@ -641,7 +641,7 @@ export const recipes: Recipe[] = [
     id: "44",
     name: "Tagine",
     description: "Moroccan slow-cooked stew with preserved lemons",
-    image: "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5409020/pexels-photo-5409020.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "African",
     dietaryTags: ["gluten-free", "halal"],
     prepTime: 30,
@@ -657,7 +657,7 @@ export const recipes: Recipe[] = [
     id: "45",
     name: "Paella",
     description: "Spanish rice dish with seafood, chicken, and saffron",
-    image: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/16743486/pexels-photo-16743486.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Spanish",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -671,7 +671,7 @@ export const recipes: Recipe[] = [
     id: "46",
     name: "Gazpacho",
     description: "Chilled Spanish tomato soup with vegetables",
-    image: "https://images.unsplash.com/photo-1529566193766-f6890bfcecb7?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Spanish",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 20,
@@ -687,21 +687,21 @@ export const recipes: Recipe[] = [
     id: "47",
     name: "Moussaka",
     description: "Layered eggplant casserole with meat sauce and béchamel",
-    image: "https://images.unsplash.com/photo-1574484284002-952d92456975?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5949900/pexels-photo-5949900.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Greek",
     dietaryTags: [],
     prepTime: 45,
     cookTime: 60,
     servings: 8,
     ingredients: ["Eggplant", "Ground lamb", "Potatoes", "Béchamel sauce", "Tomato sauce", "Cinnamon", "Nutmeg", "Parmesan"],
-    instructions: ["Slice and salt eggplant", "Fry eggplant slices", "Make meat sauce", "Prepare thick béchamel", "Layer potatoes, eggplant, meat", "Top with béchamel", "Bake until golden", "Rest before cutting"],
-    nutrition: { calories: 520, protein: 28, carbs: 35, fat: 32 }
+    instructions: ["Slice and fry eggplant", "Make meat sauce with cinnamon", "Layer potatoes on bottom", "Add eggplant and meat", "Top with béchamel", "Bake until golden", "Rest before cutting", "Serve with salad"],
+    nutrition: { calories: 480, protein: 28, carbs: 38, fat: 28 }
   },
   {
     id: "48",
     name: "Gyros",
     description: "Seasoned meat wrapped in pita with tzatziki",
-    image: "https://images.unsplash.com/photo-1561651823-34feb02250e4?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/4676635/pexels-photo-4676635.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Greek",
     dietaryTags: [],
     prepTime: 240,
@@ -717,7 +717,7 @@ export const recipes: Recipe[] = [
     id: "49",
     name: "Feijoada",
     description: "Brazilian black bean stew with mixed meats",
-    image: "https://images.unsplash.com/photo-1623019211905-0bb16eb6aae9?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5409009/pexels-photo-5409009.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Brazilian",
     dietaryTags: ["gluten-free"],
     prepTime: 480,
@@ -731,7 +731,7 @@ export const recipes: Recipe[] = [
     id: "50",
     name: "Coxinha",
     description: "Brazilian chicken croquettes shaped like drumsticks",
-    image: "https://images.unsplash.com/photo-1619220188189-d6eb67c56a78?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6941028/pexels-photo-6941028.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Brazilian",
     dietaryTags: [],
     prepTime: 60,
@@ -742,12 +742,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 180, protein: 12, carbs: 18, fat: 8 }
   },
 
-  // More recipes with unique images...
+  // SRI LANKAN CUISINE
   {
     id: "51",
     name: "Kottu Roti",
     description: "Chopped flatbread stir-fried with vegetables and meat",
-    image: "https://images.unsplash.com/photo-1567337710282-00832b415979?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/7353380/pexels-photo-7353380.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Sri Lankan",
     dietaryTags: [],
     prepTime: 20,
@@ -761,7 +761,7 @@ export const recipes: Recipe[] = [
     id: "52",
     name: "Fish Ambul Thiyal",
     description: "Sour fish curry with goraka, a Sri Lankan specialty",
-    image: "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/3296279/pexels-photo-3296279.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Sri Lankan",
     dietaryTags: ["gluten-free"],
     prepTime: 20,
@@ -772,12 +772,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 320, protein: 38, carbs: 8, fat: 16 }
   },
 
-  // Bangladeshi Cuisine
+  // BANGLADESHI CUISINE
   {
     id: "53",
     name: "Hilsa Fish Curry",
     description: "National fish of Bangladesh cooked in mustard sauce",
-    image: "https://images.unsplash.com/photo-1626777553635-be342a766dc0?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/3296279/pexels-photo-3296279.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Bangladeshi",
     dietaryTags: ["gluten-free"],
     prepTime: 20,
@@ -788,12 +788,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 380, protein: 32, carbs: 12, fat: 24 }
   },
 
-  // More Indian Regional
+  // MORE INDIAN REGIONAL
   {
     id: "54",
     name: "Litti Chokha",
     description: "Baked wheat balls with mashed vegetable sides from Bihar",
-    image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian"],
     prepTime: 45,
@@ -807,7 +807,7 @@ export const recipes: Recipe[] = [
     id: "55",
     name: "Appam with Stew",
     description: "Lacy rice pancake with coconut vegetable stew from Kerala",
-    image: "https://images.unsplash.com/photo-1630383249896-424e482df921?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 480,
@@ -821,7 +821,7 @@ export const recipes: Recipe[] = [
     id: "56",
     name: "Dhokla",
     description: "Steamed savory gram flour cake from Gujarat",
-    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/9797029/pexels-photo-9797029.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 240,
@@ -832,12 +832,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 180, protein: 8, carbs: 28, fat: 4 }
   },
 
-  // More international dishes with unique images
+  // ASIAN CUISINE
   {
     id: "57",
     name: "Beef Rendang",
     description: "Indonesian dry curry with coconut and spices",
-    image: "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5409021/pexels-photo-5409021.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Asian",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -851,7 +851,7 @@ export const recipes: Recipe[] = [
     id: "58",
     name: "Nasi Goreng",
     description: "Indonesian fried rice with sweet soy sauce",
-    image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Asian",
     dietaryTags: [],
     prepTime: 15,
@@ -865,7 +865,7 @@ export const recipes: Recipe[] = [
     id: "59",
     name: "Shakshuka",
     description: "Eggs poached in spiced tomato sauce",
-    image: "https://images.unsplash.com/photo-1590412200988-a436970781fa?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6605306/pexels-photo-6605306.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Middle Eastern",
     dietaryTags: ["vegetarian", "gluten-free"],
     prepTime: 10,
@@ -879,7 +879,7 @@ export const recipes: Recipe[] = [
     id: "60",
     name: "Ratatouille",
     description: "French Provençal vegetable stew",
-    image: "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/2089712/pexels-photo-2089712.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "French",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 30,
@@ -890,12 +890,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 180, protein: 4, carbs: 22, fat: 10 }
   },
 
-  // American & British
+  // AMERICAN & BRITISH
   {
     id: "61",
     name: "Mac and Cheese",
     description: "American baked macaroni with creamy cheese sauce",
-    image: "https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/2679501/pexels-photo-2679501.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "American",
     dietaryTags: ["vegetarian"],
     prepTime: 15,
@@ -909,7 +909,7 @@ export const recipes: Recipe[] = [
     id: "62",
     name: "Fish and Chips",
     description: "British classic - battered fish with thick-cut fries",
-    image: "https://images.unsplash.com/photo-1579208575657-c595a05383b7?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1352274/pexels-photo-1352274.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "British",
     dietaryTags: [],
     prepTime: 30,
@@ -920,12 +920,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 680, protein: 35, carbs: 65, fat: 32 }
   },
 
-  // More Thai
+  // MORE THAI
   {
     id: "63",
     name: "Massaman Curry",
     description: "Thai Muslim-influenced curry with potatoes and peanuts",
-    image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Thai",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -936,12 +936,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 520, protein: 32, carbs: 38, fat: 28 }
   },
 
-  // More Japanese
+  // MORE JAPANESE
   {
     id: "64",
     name: "Okonomiyaki",
     description: "Japanese savory pancake with various toppings",
-    image: "https://images.unsplash.com/photo-1579027989536-b7b1f875659b?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Japanese",
     dietaryTags: [],
     prepTime: 20,
@@ -955,7 +955,7 @@ export const recipes: Recipe[] = [
     id: "65",
     name: "Gyudon",
     description: "Japanese beef rice bowl with sweet soy sauce",
-    image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5773968/pexels-photo-5773968.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Japanese",
     dietaryTags: [],
     prepTime: 10,
@@ -969,7 +969,7 @@ export const recipes: Recipe[] = [
     id: "66",
     name: "Tempura",
     description: "Light and crispy Japanese battered and fried vegetables and seafood",
-    image: "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/3298068/pexels-photo-3298068.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Japanese",
     dietaryTags: [],
     prepTime: 30,
@@ -983,7 +983,7 @@ export const recipes: Recipe[] = [
     id: "67",
     name: "Miso Soup",
     description: "Traditional Japanese soup with tofu and seaweed",
-    image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Japanese",
     dietaryTags: ["vegetarian"],
     prepTime: 10,
@@ -994,12 +994,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 80, protein: 6, carbs: 8, fat: 3 }
   },
 
-  // Korean additions
+  // KOREAN ADDITIONS
   {
     id: "68",
     name: "Japchae",
     description: "Korean glass noodles stir-fried with vegetables",
-    image: "https://images.unsplash.com/photo-1634864572865-1cf8ff8bd23d?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Korean",
     dietaryTags: ["vegetarian"],
     prepTime: 30,
@@ -1013,7 +1013,7 @@ export const recipes: Recipe[] = [
     id: "69",
     name: "Tteokbokki",
     description: "Spicy Korean rice cakes in sweet-spicy sauce",
-    image: "https://images.unsplash.com/photo-1635963662853-f0bc12e1c8f5?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5773969/pexels-photo-5773969.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Korean",
     dietaryTags: ["vegetarian"],
     prepTime: 10,
@@ -1024,12 +1024,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 380, protein: 12, carbs: 72, fat: 6 }
   },
 
-  // Chinese additions
+  // CHINESE ADDITIONS
   {
     id: "70",
     name: "Char Siu",
     description: "Cantonese BBQ pork with honey glaze",
-    image: "https://images.unsplash.com/photo-1623689046286-0b9eeae6c579?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5409010/pexels-photo-5409010.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Chinese",
     dietaryTags: [],
     prepTime: 240,
@@ -1043,7 +1043,7 @@ export const recipes: Recipe[] = [
     id: "71",
     name: "Xiao Long Bao",
     description: "Shanghai soup dumplings with rich broth inside",
-    image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/955137/pexels-photo-955137.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Chinese",
     dietaryTags: [],
     prepTime: 120,
@@ -1057,51 +1057,53 @@ export const recipes: Recipe[] = [
     id: "72",
     name: "Dan Dan Noodles",
     description: "Sichuan noodles in spicy sesame sauce",
-    image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1907244/pexels-photo-1907244.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Chinese",
     dietaryTags: [],
     prepTime: 15,
     cookTime: 15,
     servings: 4,
-    ingredients: ["Fresh noodles", "Ground pork", "Sesame paste", "Chili oil", "Sichuan peppercorns", "Preserved vegetables", "Soy sauce", "Black vinegar"],
-    instructions: ["Make spicy sesame sauce", "Fry pork until crispy", "Cook noodles al dente", "Place sauce in bowl", "Add noodles", "Top with pork", "Add chili oil", "Mix well before eating"],
+    ingredients: ["Wheat noodles", "Ground pork", "Sesame paste", "Chili oil", "Sichuan pepper", "Preserved vegetables", "Soy sauce", "Peanuts"],
+    instructions: ["Cook noodles al dente", "Fry ground pork crispy", "Make sauce in bowls", "Add hot noodles", "Top with crispy pork", "Add chili oil", "Sprinkle peanuts", "Mix before eating"],
     nutrition: { calories: 480, protein: 22, carbs: 52, fat: 22 }
   },
 
-  // More Middle Eastern
+  // GERMAN
   {
     id: "73",
-    name: "Mansaf",
-    description: "Jordanian lamb with fermented yogurt over rice",
-    image: "https://images.unsplash.com/photo-1547424850-28a61a58d5e6?w=800&auto=format&fit=crop",
-    cuisine: "Middle Eastern",
-    dietaryTags: ["halal"],
-    prepTime: 60,
-    cookTime: 180,
-    servings: 8,
-    ingredients: ["Lamb shoulder", "Jameed", "Rice", "Pine nuts", "Almonds", "Cardamom", "Turmeric", "Shrak bread"],
-    instructions: ["Rehydrate jameed", "Cook lamb until tender", "Make jameed sauce", "Cook rice separately", "Layer bread and rice", "Add lamb on top", "Pour sauce over", "Garnish with nuts"],
-    nutrition: { calories: 620, protein: 42, carbs: 58, fat: 28 }
+    name: "Schnitzel",
+    description: "Austrian/German breaded and fried veal or pork cutlet",
+    image: "https://images.pexels.com/photos/2313682/pexels-photo-2313682.jpeg?auto=compress&cs=tinysrgb&w=800",
+    cuisine: "German",
+    dietaryTags: [],
+    prepTime: 20,
+    cookTime: 15,
+    servings: 4,
+    ingredients: ["Veal or pork cutlets", "Flour", "Eggs", "Breadcrumbs", "Butter", "Lemon", "Parsley", "Potatoes"],
+    instructions: ["Pound cutlets thin", "Season with salt and pepper", "Coat in flour, egg, crumbs", "Fry in butter until golden", "Keep moving in pan", "Drain on paper", "Serve with lemon", "Add potato salad"],
+    nutrition: { calories: 520, protein: 35, carbs: 38, fat: 28 }
   },
   {
     id: "74",
-    name: "Kibbeh",
-    description: "Lebanese fried bulgur and meat croquettes",
-    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop",
-    cuisine: "Middle Eastern",
-    dietaryTags: ["halal"],
-    prepTime: 60,
+    name: "Bratwurst",
+    description: "German grilled sausage with sauerkraut",
+    image: "https://images.pexels.com/photos/929137/pexels-photo-929137.jpeg?auto=compress&cs=tinysrgb&w=800",
+    cuisine: "German",
+    dietaryTags: [],
+    prepTime: 10,
     cookTime: 20,
-    servings: 12,
-    ingredients: ["Bulgur wheat", "Ground lamb", "Onions", "Pine nuts", "Allspice", "Cinnamon", "Mint", "Oil for frying"],
-    instructions: ["Soak bulgur", "Make outer shell mixture", "Make spiced meat filling", "Shape into footballs", "Stuff with filling", "Seal carefully", "Deep fry until brown", "Serve with yogurt"],
-    nutrition: { calories: 220, protein: 14, carbs: 18, fat: 12 }
+    servings: 4,
+    ingredients: ["Bratwurst sausages", "Sauerkraut", "Mustard", "Onions", "Beer", "Crusty rolls", "Caraway seeds", "Apple"],
+    instructions: ["Simmer sausages in beer", "Grill until browned", "Warm sauerkraut", "Add caraway and apple", "Slice onions", "Toast rolls", "Serve with mustard", "Add pickles on side"],
+    nutrition: { calories: 480, protein: 22, carbs: 32, fat: 32 }
   },
+
+  // LEBANESE
   {
     id: "75",
     name: "Tabbouleh",
     description: "Lebanese parsley and bulgur salad",
-    image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Lebanese",
     dietaryTags: ["vegetarian", "vegan"],
     prepTime: 30,
@@ -1112,12 +1114,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 120, protein: 4, carbs: 18, fat: 5 }
   },
 
-  // Turkish
+  // TURKISH
   {
     id: "76",
     name: "Doner Kebab",
     description: "Turkish rotating spit-roasted meat",
-    image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/4676635/pexels-photo-4676635.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Turkish",
     dietaryTags: ["halal"],
     prepTime: 240,
@@ -1131,7 +1133,7 @@ export const recipes: Recipe[] = [
     id: "77",
     name: "Lahmacun",
     description: "Turkish thin flatbread with spiced meat",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Turkish",
     dietaryTags: ["halal"],
     prepTime: 45,
@@ -1142,12 +1144,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 280, protein: 14, carbs: 35, fat: 10 }
   },
 
-  // Peruvian
+  // PERUVIAN
   {
     id: "78",
     name: "Ceviche",
     description: "Peruvian raw fish cured in citrus juices",
-    image: "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/3763847/pexels-photo-3763847.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Peruvian",
     dietaryTags: ["gluten-free"],
     prepTime: 30,
@@ -1158,12 +1160,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 220, protein: 28, carbs: 18, fat: 4 }
   },
 
-  // More Italian
+  // MORE ITALIAN
   {
     id: "79",
     name: "Bruschetta",
     description: "Italian toasted bread with tomato and basil",
-    image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/1460872/pexels-photo-1460872.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Italian",
     dietaryTags: ["vegetarian", "vegan"],
     prepTime: 15,
@@ -1177,7 +1179,7 @@ export const recipes: Recipe[] = [
     id: "80",
     name: "Osso Buco",
     description: "Italian braised veal shanks with gremolata",
-    image: "https://images.unsplash.com/photo-1544025162-d76978571413?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Italian",
     dietaryTags: ["gluten-free"],
     prepTime: 20,
@@ -1188,12 +1190,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 420, protein: 38, carbs: 15, fat: 22 }
   },
 
-  // More Indian desserts
+  // MORE INDIAN DESSERTS
   {
     id: "81",
     name: "Kheer",
     description: "Indian rice pudding with cardamom and nuts",
-    image: "https://images.unsplash.com/photo-1666190059377-5c5a26827320?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/14477876/pexels-photo-14477876.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "gluten-free"],
     prepTime: 10,
@@ -1207,7 +1209,7 @@ export const recipes: Recipe[] = [
     id: "82",
     name: "Jalebi",
     description: "Crispy fried spirals soaked in saffron syrup",
-    image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/14477876/pexels-photo-14477876.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian"],
     prepTime: 240,
@@ -1218,12 +1220,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 220, protein: 3, carbs: 38, fat: 8 }
   },
 
-  // More popular dishes
+  // MORE POPULAR DISHES
   {
     id: "83",
     name: "Aloo Gobi",
     description: "Classic potato and cauliflower dry curry",
-    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/7353376/pexels-photo-7353376.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 15,
@@ -1237,7 +1239,7 @@ export const recipes: Recipe[] = [
     id: "84",
     name: "Rajma Chawal",
     description: "Red kidney bean curry served with steamed rice",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/7353380/pexels-photo-7353380.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 480,
@@ -1251,7 +1253,7 @@ export const recipes: Recipe[] = [
     id: "85",
     name: "Paneer Butter Masala",
     description: "Cottage cheese in rich tomato-butter gravy",
-    image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/9797029/pexels-photo-9797029.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "gluten-free"],
     prepTime: 20,
@@ -1262,12 +1264,12 @@ export const recipes: Recipe[] = [
     nutrition: { calories: 420, protein: 18, carbs: 22, fat: 32 }
   },
 
-  // Additional global dishes
+  // ADDITIONAL GLOBAL DISHES
   {
     id: "86",
     name: "Pani Puri",
     description: "Crispy hollow puris filled with spiced water and chickpeas",
-    image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan"],
     prepTime: 45,
@@ -1281,7 +1283,7 @@ export const recipes: Recipe[] = [
     id: "87",
     name: "Aloo Tikki",
     description: "Spiced potato patties, crispy on outside, soft inside",
-    image: "https://images.unsplash.com/photo-1567337710282-00832b415979?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/4449068/pexels-photo-4449068.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["vegetarian", "vegan", "gluten-free"],
     prepTime: 30,
@@ -1295,7 +1297,7 @@ export const recipes: Recipe[] = [
     id: "88",
     name: "Chicken Tikka Masala",
     description: "Grilled chicken in creamy spiced tomato sauce",
-    image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["gluten-free"],
     prepTime: 240,
@@ -1309,7 +1311,7 @@ export const recipes: Recipe[] = [
     id: "89",
     name: "Keema Matar",
     description: "Spiced minced meat with green peas",
-    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6210959/pexels-photo-6210959.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["gluten-free", "halal"],
     prepTime: 15,
@@ -1323,7 +1325,7 @@ export const recipes: Recipe[] = [
     id: "90",
     name: "Mutton Korma",
     description: "Mughlai-style lamb in rich cashew-yogurt gravy",
-    image: "https://images.unsplash.com/photo-1545247181-516773cae754?w=800&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg?auto=compress&cs=tinysrgb&w=800",
     cuisine: "Indian",
     dietaryTags: ["gluten-free", "halal"],
     prepTime: 30,
