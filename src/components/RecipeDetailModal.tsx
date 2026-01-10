@@ -4,32 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
 import { Clock, Users, Flame, ImageOff } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
-
-// Fallback food images by cuisine type
-const getFallbackImage = (cuisine: string) => {
-  const cuisineImages: Record<string, string> = {
-    "Italian": "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Indian": "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Asian": "https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Mexican": "https://images.pexels.com/photos/2092507/pexels-photo-2092507.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Thai": "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Japanese": "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Chinese": "https://images.pexels.com/photos/955137/pexels-photo-955137.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Korean": "https://images.pexels.com/photos/5773968/pexels-photo-5773968.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Vietnamese": "https://images.pexels.com/photos/1907228/pexels-photo-1907228.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Middle Eastern": "https://images.pexels.com/photos/6544378/pexels-photo-6544378.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "French": "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Spanish": "https://images.pexels.com/photos/4871119/pexels-photo-4871119.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Greek": "https://images.pexels.com/photos/1211887/pexels-photo-1211887.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "American": "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Brazilian": "https://images.pexels.com/photos/7613568/pexels-photo-7613568.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "African": "https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "British": "https://images.pexels.com/photos/6941028/pexels-photo-6941028.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "German": "https://images.pexels.com/photos/4518655/pexels-photo-4518655.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "Mediterranean": "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800",
-  };
-  return cuisineImages[cuisine] || "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800";
-};
+import { getFallbackImage } from "@/utils/recipeImages";
 
 interface RecipeDetailModalProps {
   recipe: Recipe | null;
@@ -52,7 +27,7 @@ const RecipeDetailModal = ({ recipe, open, onOpenChange }: RecipeDetailModalProp
 
   if (!recipe) return null;
 
-  const imageSrc = imageError ? getFallbackImage(recipe.cuisine) : recipe.image;
+  const imageSrc = imageError ? getFallbackImage(recipe.cuisine, recipe.name) : recipe.image;
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
