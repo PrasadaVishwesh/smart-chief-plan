@@ -1,9 +1,6 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "./ui/button";
-import { ChefHat, CalendarDays, Heart, Home, MessageSquare, LogOut } from "lucide-react";
-import { User } from "@supabase/supabase-js";
+import { ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ChefHat, CalendarDays, Heart, Home, MessageSquare } from "lucide-react";
 import FloatingAIAssistant from "./FloatingAIAssistant";
 import ThemeToggle from "./ThemeToggle";
 
@@ -13,31 +10,6 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (!session) {
-        navigate("/auth");
-      }
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      if (!session && location.pathname !== "/auth") {
-        navigate("/auth");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate, location.pathname]);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
 
   const navLinks = [
     { to: "/", icon: Home, label: "Recipes" },
@@ -78,12 +50,6 @@ const Layout = ({ children }: LayoutProps) => {
 
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            {user && (
-              <Button variant="outline" size="sm" onClick={handleSignOut} className="gap-2">
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </Button>
-            )}
           </div>
         </div>
 
