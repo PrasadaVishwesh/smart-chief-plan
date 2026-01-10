@@ -8,7 +8,6 @@ import Recipes from "./pages/Recipes";
 import MealPlanner from "./pages/MealPlanner";
 import Favorites from "./pages/Favorites";
 import Assistant from "./pages/Assistant";
-import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,7 +19,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<Layout><Recipes /></Layout>} />
           <Route path="/meal-planner" element={<Layout><MealPlanner /></Layout>} />
           <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
