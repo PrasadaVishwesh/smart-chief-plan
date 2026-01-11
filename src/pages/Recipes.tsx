@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useInitialImagePreloader } from "@/hooks/useImagePreloader";
 import { recipes } from "@/data/recipes";
 import RecipeCard from "@/components/RecipeCard";
 import RecipeDetailModal from "@/components/RecipeDetailModal";
@@ -38,6 +39,9 @@ const Recipes = () => {
 
     return matchesSearch && matchesCuisine && matchesDietary;
   });
+
+  // Preload images for better browsing performance
+  useInitialImagePreloader(filteredRecipes);
 
   const handleRecipeClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
