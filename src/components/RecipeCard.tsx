@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useCallback } from "react";
 import { Recipe } from "@/types/recipe";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Heart, Clock, ImageOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { getFallbackImage } from "@/utils/recipeImages";
+import { getRecipeImage, isImagePreloaded } from "@/utils/recipeImages";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -81,17 +81,34 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
 
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  
+  // Get the best available image using the optimized function
+  const primaryImage = getRecipeImage(recipe);
+  const [currentSrc, setCurrentSrc] = useState(primaryImage);
 
-  const handleImageError = () => {
-    setImageError(true);
+  const handleImageError = useCallback(() => {
+    if (!imageError) {
+      setImageError(true);
+      setImageLoading(false);
+      // Try fallback if primary fails
+      const fallback = getRecipeImage({ ...recipe, image: undefined });
+      if (fallback !== currentSrc) {
+        setCurrentSrc(fallback);
+        setImageLoading(true);
+      }
+    }
+  }, [imageError, currentSrc, recipe]);
+
+  const handleImageLoad = useCallback(() => {
     setImageLoading(false);
-  };
+  }, []);
 
-  const handleImageLoad = () => {
-    setImageLoading(false);
-  };
-
-  const imageSrc = imageError ? getFallbackImage(recipe.cuisine, recipe.name) : recipe.image;
+  // Check if image is already preloaded
+  useEffect(() => {
+    if (isImagePreloaded(primaryImage)) {
+      setImageLoading(false);
+    }
+  }, [primaryImage]);
 
   return (
     <Card 
@@ -105,12 +122,14 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
           </div>
         )}
         <img
-          src={imageSrc}
+          src={currentSrc}
           alt={recipe.name}
-          className={`w-full h-full object-cover transition-all group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+          className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
           onError={handleImageError}
           onLoad={handleImageLoad}
           loading="lazy"
+          decoding="async"
+          fetchPriority="low"
         />
         {imageError && !imageLoading && (
           <div className="absolute bottom-2 left-2 bg-background/80 backdrop-blur-sm rounded px-2 py-1 text-xs text-muted-foreground flex items-center gap-1">
@@ -160,4 +179,4 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
   );
 };
 
-export default RecipeCard;
+export default memo(RecipeCard);
