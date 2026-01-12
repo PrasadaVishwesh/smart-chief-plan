@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Recipe } from "@/types/recipe";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
-import { Clock, Users, Flame, ImageOff } from "lucide-react";
+import { Button } from "./ui/button";
+import { Clock, Users, Flame, ImageOff, ChefHat } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { getFallbackImage } from "@/utils/recipeImages";
+import CookModeModal from "./CookModeModal";
 
 interface RecipeDetailModalProps {
   recipe: Recipe | null;
@@ -15,6 +17,7 @@ interface RecipeDetailModalProps {
 const RecipeDetailModal = ({ recipe, open, onOpenChange }: RecipeDetailModalProps) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  const [cookModeOpen, setCookModeOpen] = useState(false);
 
   // Reset image state when recipe changes
   const handleOpenChange = (isOpen: boolean) => {
@@ -151,10 +154,20 @@ const RecipeDetailModal = ({ recipe, open, onOpenChange }: RecipeDetailModalProp
 
               {/* Instructions */}
               <div className="space-y-4 p-4 bg-card rounded-xl border shadow-sm">
-                <h3 className="font-semibold text-lg flex items-center gap-2">
-                  <span className="w-1.5 h-5 bg-primary rounded-full"></span>
-                  Instructions
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-lg flex items-center gap-2">
+                    <span className="w-1.5 h-5 bg-primary rounded-full"></span>
+                    Instructions
+                  </h3>
+                  <Button
+                    onClick={() => setCookModeOpen(true)}
+                    className="gap-2"
+                    size="sm"
+                  >
+                    <ChefHat className="w-4 h-4" />
+                    Cook Mode
+                  </Button>
+                </div>
                 <ol className="space-y-4">
                   {recipe.instructions.map((instruction, index) => (
                     <li key={index} className="flex gap-3">
@@ -169,6 +182,13 @@ const RecipeDetailModal = ({ recipe, open, onOpenChange }: RecipeDetailModalProp
             </div>
           </div>
         </ScrollArea>
+
+        {/* Cook Mode Modal */}
+        <CookModeModal
+          recipe={recipe}
+          open={cookModeOpen}
+          onOpenChange={setCookModeOpen}
+        />
       </DialogContent>
     </Dialog>
   );
