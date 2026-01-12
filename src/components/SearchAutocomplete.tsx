@@ -14,8 +14,8 @@ const SearchAutocomplete = ({ value, onChange, onSelect }: SearchAutocompletePro
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Popular searches
-  const popularSearches = ["Biryani", "Pasta", "Curry", "Tacos", "Sushi", "Pizza"];
+  // Popular searches - diverse global cuisines
+  const popularSearches = ["Biryani", "Pasta", "Butter Chicken", "Tacos", "Sushi", "Dosa", "Ramen", "Pizza"];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

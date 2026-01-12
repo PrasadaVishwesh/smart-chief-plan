@@ -59,7 +59,7 @@ const Recipes = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent flex items-end">
           <div className="container mx-auto px-4 pb-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-2">
-              Discover Delicious Recipes
+              Smart Chef
             </h1>
             <p className="text-lg text-muted-foreground">
               Browse thousands of recipes and plan your perfect meals
