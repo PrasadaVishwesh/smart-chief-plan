@@ -101,25 +101,34 @@ const scaleIngredient = (ingredient: string, scaleFactor: number): string => {
   return `${formattedQuantity} ${unit} ${item}`.trim().replace(/\s+/g, " ");
 };
 
-export const useRecipeScaling = (recipe: Recipe) => {
-  const [targetServings, setTargetServings] = useState(recipe.servings);
+export const useRecipeScaling = (recipe: Recipe | null) => {
+  const originalServings = recipe?.servings ?? 4;
+  const [targetServings, setTargetServings] = useState(originalServings);
+  
+  // Reset when recipe changes
+  const recipeId = recipe?.id;
+  useState(() => {
+    if (recipeId) {
+      setTargetServings(recipe?.servings ?? 4);
+    }
+  });
   
   const scaleFactor = useMemo(() => 
-    targetServings / recipe.servings, 
-    [targetServings, recipe.servings]
+    targetServings / originalServings, 
+    [targetServings, originalServings]
   );
   
   const scaledIngredients = useMemo(() => 
-    recipe.ingredients.map(ing => scaleIngredient(ing, scaleFactor)),
-    [recipe.ingredients, scaleFactor]
+    (recipe?.ingredients ?? []).map(ing => scaleIngredient(ing, scaleFactor)),
+    [recipe?.ingredients, scaleFactor]
   );
   
   const scaledNutrition = useMemo(() => ({
-    calories: Math.round(recipe.nutrition.calories * scaleFactor / recipe.servings * targetServings / targetServings),
-    protein: Math.round(recipe.nutrition.protein * scaleFactor / recipe.servings * targetServings / targetServings),
-    carbs: Math.round(recipe.nutrition.carbs * scaleFactor / recipe.servings * targetServings / targetServings),
-    fat: Math.round(recipe.nutrition.fat * scaleFactor / recipe.servings * targetServings / targetServings),
-  }), [recipe.nutrition, scaleFactor, targetServings, recipe.servings]);
+    calories: Math.round((recipe?.nutrition?.calories ?? 0)),
+    protein: Math.round((recipe?.nutrition?.protein ?? 0)),
+    carbs: Math.round((recipe?.nutrition?.carbs ?? 0)),
+    fat: Math.round((recipe?.nutrition?.fat ?? 0)),
+  }), [recipe?.nutrition]);
   
   const incrementServings = useCallback(() => {
     setTargetServings(prev => Math.min(prev + 1, 20));
@@ -130,8 +139,8 @@ export const useRecipeScaling = (recipe: Recipe) => {
   }, []);
   
   const resetServings = useCallback(() => {
-    setTargetServings(recipe.servings);
-  }, [recipe.servings]);
+    setTargetServings(originalServings);
+  }, [originalServings]);
   
   return {
     targetServings,
@@ -142,6 +151,6 @@ export const useRecipeScaling = (recipe: Recipe) => {
     incrementServings,
     decrementServings,
     resetServings,
-    isScaled: targetServings !== recipe.servings
+    isScaled: targetServings !== originalServings
   };
 };
