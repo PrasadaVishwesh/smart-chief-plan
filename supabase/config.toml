@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.get-recommendations]
 verify_jwt = true
+
+[functions.generate-recipe-image]
+verify_jwt = false
