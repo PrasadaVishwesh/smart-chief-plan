@@ -97,7 +97,11 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     
     if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+      console.error('LOVABLE_API_KEY is not configured');
+      return new Response(JSON.stringify({ error: 'Service temporarily unavailable' }), {
+        status: 503,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     console.log(`Processing ${messages.length} messages`);
@@ -136,7 +140,7 @@ serve(async (req) => {
       }
       const errorText = await response.text();
       console.error('AI gateway error:', response.status, errorText);
-      return new Response(JSON.stringify({ error: 'AI gateway error' }), {
+      return new Response(JSON.stringify({ error: 'Unable to process request' }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -151,12 +155,12 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in cooking-assistant function:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    const status = errorMessage.includes('Invalid') || errorMessage.includes('must be') ? 400 : 500;
+    const isValidationError = errorMessage.includes('Invalid') || errorMessage.includes('must be') || errorMessage.includes('cannot be') || errorMessage.includes('Too many');
     
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ error: isValidationError ? errorMessage : 'An error occurred' }),
       {
-        status,
+        status: isValidationError ? 400 : 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
