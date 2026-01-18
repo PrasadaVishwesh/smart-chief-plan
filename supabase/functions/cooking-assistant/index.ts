@@ -12,6 +12,24 @@ interface ChatMessage {
   content: string;
 }
 
+// Sanitize user input to prevent prompt injection attacks
+function sanitizeUserInput(content: string): string {
+  let sanitized = content
+    // Remove role confusion patterns
+    .replace(/\b(system|assistant|user)\s*:/gi, '')
+    // Remove instruction override attempts
+    .replace(/ignore\s+(previous|all|earlier|above|prior)\s+(instructions|prompts|context)/gi, '')
+    // Remove common prompt injection markers
+    .replace(/\[INST\]|\[\/INST\]|<\|im_start\|>|<\|im_end\|>|<\|endoftext\|>/g, '')
+    // Remove attempts to inject system prompts
+    .replace(/<<SYS>>|<<\/SYS>>|<\|system\|>/g, '')
+    // Remove delimiter manipulation
+    .replace(/###\s*(instruction|system|user|assistant)/gi, '')
+    .trim();
+  
+  return sanitized;
+}
+
 function validateMessages(data: unknown): ChatMessage[] {
   if (!data || typeof data !== 'object') {
     throw new Error('Invalid request body');
@@ -52,9 +70,14 @@ function validateMessages(data: unknown): ChatMessage[] {
       throw new Error('Message content too long (max 10000 characters)');
     }
     
+    // Sanitize user messages to prevent prompt injection
+    const sanitizedContent = message.role === 'user' 
+      ? sanitizeUserInput(message.content.trim())
+      : message.content.trim();
+    
     validatedMessages.push({
       role: message.role,
-      content: message.content.trim()
+      content: sanitizedContent
     });
   }
   
