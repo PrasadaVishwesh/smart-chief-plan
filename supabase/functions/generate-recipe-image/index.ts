@@ -15,7 +15,11 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+      console.error("LOVABLE_API_KEY is not configured");
+      return new Response(JSON.stringify({ error: "Service temporarily unavailable" }), {
+        status: 503,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const prompt = `Generate a high-quality, appetizing food photography image of ${dishName}, a traditional ${cuisine} dish. The image should be:
@@ -81,7 +85,7 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("generate-recipe-image error:", error);
-    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "An error occurred" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
