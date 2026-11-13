@@ -14,7 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { format, startOfWeek, addDays } from "date-fns";
 import { getWebpImageUrl } from "@/utils/imageFormat";
-import { getRecipeImage, getRecipeImageCredit } from "@/utils/recipeImages";
+import { getRecipeImage, getRecipeImageAlt, getRecipeImageCredit } from "@/utils/recipeImages";
 import RecipeImageCredit from "@/components/RecipeImageCredit";
 import { getShoppingListItems } from "@/lib/shoppingList";
 import Seo from "@/components/Seo";
@@ -612,7 +612,7 @@ const MealPlanner = () => {
                       )}
                       <img
                         src={getRecipeImage(recipe)}
-                        alt={`${recipe.name}, a ${recipe.cuisine} recipe`}
+                        alt={getRecipeImageAlt(recipe, getRecipeImage(recipe))}
                         className="w-full h-32 object-cover"
                         width={800}
                         height={600}

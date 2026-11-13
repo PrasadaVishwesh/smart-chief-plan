@@ -80,7 +80,7 @@ export const getRecipeStructuredData = (recipe: Recipe, url: string) => ({
   "@type": "Recipe",
   name: recipe.name,
   description: recipe.description,
-  image: [recipe.image],
+  ...(recipe.image !== "/images/recipe-image-unverified.svg" && { image: [recipe.image] }),
   recipeCuisine: recipe.cuisine,
   recipeCategory: "Main course",
   recipeYield: `${recipe.servings} servings`,

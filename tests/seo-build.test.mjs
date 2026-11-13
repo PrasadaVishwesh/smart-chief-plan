@@ -21,7 +21,7 @@ const loadTypeScriptModule = async (relativePath) => {
 };
 const [
   { recipes },
-  { getRecipeImage, getRecipeImageCredit },
+  { getRecipeImage, getRecipeImageAlt, getRecipeImageCredit, unverifiedRecipeImagePlaceholder },
   { getWebpImageUrl },
   { readLocalMealPlans, upsertLocalMealPlan, writeLocalMealPlans },
 ] = await Promise.all([
@@ -130,17 +130,33 @@ test("prerenders recipe routes with bounded metadata, recipe data, and breadcrum
     const recipe = recipes.find(({ name }) => name === recipeSchema.name);
     assert.ok(recipe, `${route} matches a recipe dataset item`);
     const expectedImage = getRecipeImage(recipe);
-    assert.equal(recipeSchema.image[0], expectedImage, `${route} schema uses its resolved recipe image`);
+    if (expectedImage === unverifiedRecipeImagePlaceholder) {
+      assert.equal(recipeSchema.image, undefined, `${route} does not advertise a placeholder as a recipe photo`);
+    } else {
+      assert.equal(recipeSchema.image[0], expectedImage, `${route} schema uses its resolved recipe image`);
+    }
     assert.equal(
       decodeHtml(html.match(/<img[^>]*src="([^"]+)"/)?.[1] ?? ""),
       expectedImage,
       `${route} static HTML uses the same resolved recipe image`,
     );
-    assert.equal(
-      decodeHtml(html.match(/<source[^>]*srcset="([^"]+)"/)?.[1] ?? ""),
-      getWebpImageUrl(expectedImage),
-      `${route} has a WebP source for its displayed recipe image`,
-    );
+    const webpSource = html.match(/<source[^>]*srcset="([^"]+)"/)?.[1];
+    if (expectedImage === unverifiedRecipeImagePlaceholder) {
+      assert.equal(webpSource, undefined, `${route} does not request WebP for its local SVG placeholder`);
+      assert.match(html, /<img[^>]*alt="Photo pending verification for Mawa Bati"/);
+      assert.doesNotMatch(html, /39596666/);
+      assert.equal(
+        decodeHtml(html.match(/<img[^>]*src="([^"]+)"/)?.[1] ?? ""),
+        unverifiedRecipeImagePlaceholder,
+        `${route} static HTML uses the neutral placeholder`,
+      );
+    } else {
+      assert.equal(
+        decodeHtml(webpSource ?? ""),
+        getWebpImageUrl(expectedImage),
+        `${route} has a WebP source for its displayed recipe image`,
+      );
+    }
     const imageCredit = getRecipeImageCredit(recipe.name, recipe.imageCredit);
     if (imageCredit) {
       assert.ok(html.includes(imageCredit.sourceUrl), `${route} credits the image source`);
@@ -149,7 +165,9 @@ test("prerenders recipe routes with bounded metadata, recipe data, and breadcrum
     assert.ok(title.length < 60, `${route} title is under 60 characters`);
     assert.ok(description.length < 160, `${route} description is under 160 characters`);
     assert.equal(metaValue(html, 'property="og:image"'), socialImage);
-    assert.match(html, /<source type="image\/webp" srcset=/);
+    if (expectedImage !== unverifiedRecipeImagePlaceholder) {
+      assert.match(html, /<source type="image\/webp" srcset=/);
+    }
     assert.match(html, /<img[^>]*alt="[^"]+"[^>]*width="800"[^>]*height="600"/);
     assert.match(html, /<h1>/);
     assert.match(html, /<ol>/);
@@ -193,6 +211,28 @@ test("corrected dish images use attributed and optimized source assets", () => {
     assert.ok(credit.license);
     assert.equal(getWebpImageUrl(image).endsWith(".webp"), true, `${dish} offers a WebP image`);
   }
+
+  const peda = recipes.find(({ name }) => name === "Peda");
+  const doodhPeda = recipes.find(({ name }) => name === "Doodh Peda");
+  const milkPedaImage = getRecipeImage(doodhPeda);
+  assert.notEqual(milkPedaImage, getRecipeImage(peda), "Doodh Peda uses its separately verified milk-peda photo");
+  assert.ok(milkPedaImage.includes("/9/91/Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg/960px-Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg"));
+  assert.equal(getWebpImageUrl(milkPedaImage), `${milkPedaImage}.webp`);
+  assert.equal(getRecipeImageCredit("Doodh Peda").artist, "Prashant Sahu");
+  assert.equal(getRecipeImageCredit("Doodh Peda").sourceUrl, "https://commons.wikimedia.org/wiki/File:Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg");
+  assert.equal(getRecipeImageCredit("Doodh Peda").license, "CC BY-SA 4.0");
+  assert.equal(getRecipeImageCredit("Doodh Peda").licenseUrl, "https://creativecommons.org/licenses/by-sa/4.0");
+
+  const mawaBati = recipes.find(({ name }) => name === "Mawa Bati");
+  const mawaBatiImage = getRecipeImage(mawaBati);
+  assert.equal(mawaBatiImage, unverifiedRecipeImagePlaceholder);
+  assert.equal(getRecipeImageAlt(mawaBati, mawaBatiImage), "Photo pending verification for Mawa Bati");
+  assert.equal(getRecipeImageCredit("Mawa Bati", mawaBati.imageCredit), undefined);
+});
+
+test("the neutral unverified-image placeholder is included in production output", async () => {
+  const placeholder = await readOutput("images/recipe-image-unverified.svg");
+  assert.match(placeholder, /Photo pending verification/);
 });
 
 test("sitemap, robots, private pages, and 404 output are correct", async () => {

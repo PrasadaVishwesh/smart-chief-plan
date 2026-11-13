@@ -1,7 +1,17 @@
-// Comprehensive dish-specific image mapping for accurate recipe visuals
-// Each image URL is carefully selected to match the actual dish appearance
+// Dish-specific image mappings; verify visual matches and licenses before adding.
 
 import type { RecipeImageCredit } from "@/types/recipe";
+
+export const unverifiedRecipeImagePlaceholder = "/images/recipe-image-unverified.svg";
+
+export const isUnverifiedRecipeImage = (imageUrl: string) => imageUrl === unverifiedRecipeImagePlaceholder;
+
+export const getRecipeImageAlt = (
+  recipe: { name: string; cuisine: string },
+  imageUrl: string,
+) => isUnverifiedRecipeImage(imageUrl)
+  ? `Photo pending verification for ${recipe.name}`
+  : `${recipe.name}, a ${recipe.cuisine} recipe`;
 
 export const dishSpecificImages: Record<string, string> = {
   // ITALIAN
@@ -144,7 +154,8 @@ export const dishSpecificImages: Record<string, string> = {
   "Langcha": "https://images.pexels.com/photos/12737671/pexels-photo-12737671.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Kaju Katli": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Peda_Nepal.jpg/960px-Peda_Nepal.jpg",
-  "Doodh Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Peda_Nepal.jpg/960px-Peda_Nepal.jpg",
+  "Doodh Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg/960px-Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg",
+  // Mawa Bati uses a neutral placeholder until an exact, licensed photo is verified.
   "Barfi": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Besan Barfi": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Mysore Pak": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -569,7 +580,7 @@ const dishSpecificImageCredits: Record<string, RecipeImageCredit> = {
   "Sandesh": { title: "Sandesh or Sondesh", artist: "Gunjan Sarojwal Kumar", sourceUrl: "https://commons.wikimedia.org/wiki/File:Sandesh_or_Sondesh.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
   "Cham Cham": { title: "Cham-cham South Asian Sweet West Bengal", artist: "Rownak Jahan", sourceUrl: "https://commons.wikimedia.org/wiki/File:Cham-cham_South_Asian_Sweet_West_Bengal.jpg", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0" },
   "Peda": { title: "Peda Nepal", artist: "Ritesh Man Tamrakar", sourceUrl: "https://commons.wikimedia.org/wiki/File:Peda_Nepal.jpg", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0" },
-  "Doodh Peda": { title: "Peda Nepal", artist: "Ritesh Man Tamrakar", sourceUrl: "https://commons.wikimedia.org/wiki/File:Peda_Nepal.jpg", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0" },
+  "Doodh Peda": { title: "Indian Sweet Dessert Peda in a white bone china plate", artist: "Prashant Sahu", sourceUrl: "https://commons.wikimedia.org/wiki/File:Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
   "Ghevar": { title: "GhevarRajasthaniSweet", artist: "Onef9day", sourceUrl: "https://commons.wikimedia.org/wiki/File:GhevarRajasthaniSweet.jpg", license: "CC BY 3.0", licenseUrl: "https://creativecommons.org/licenses/by/3.0" },
   "Kalakand": { title: "Kalakand2", artist: "Pradeep717", sourceUrl: "https://commons.wikimedia.org/wiki/File:Kalakand2.JPG", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0" },
   "Pinni": { title: "Rice Flour Pinni", artist: "Miansari66", sourceUrl: "https://commons.wikimedia.org/wiki/File:Rice_Flour_Pinni.JPG", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.en" },

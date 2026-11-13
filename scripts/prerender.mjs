@@ -39,7 +39,7 @@ const {
   getWebsiteStructuredData,
 } = seo;
 const { getWebpImageUrl } = imageFormat;
-const { getRecipeImage, getRecipeImageCredit } = recipeImages;
+const { getRecipeImage, getRecipeImageAlt, getRecipeImageCredit } = recipeImages;
 const imageCreditMarkup = (credit) => credit
   ? `<p>Image: <a href="${escapeHtml(credit.sourceUrl)}">${escapeHtml(credit.title)}</a> by ${escapeHtml(credit.artist)} via Wikimedia Commons, licensed <a href="${escapeHtml(credit.licenseUrl)}">${escapeHtml(credit.license)}</a>.</p>`
   : "";
@@ -180,7 +180,7 @@ for (const recipe of recipes) {
         { name: recipe.name, path: pathName },
       ]),
     ),
-    content: `<main><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/recipes/">Recipes</a> / <span>${escapeHtml(recipe.name)}</span></nav><article><h1>${escapeHtml(recipe.name)}</h1><p>${escapeHtml(recipe.description)}</p><p>${escapeHtml(recipe.cuisine)} · ${recipe.prepTime + recipe.cookTime} minutes · ${recipe.servings} servings</p><picture>${getWebpImageUrl(recipeWithImage.image) !== recipeWithImage.image ? `<source type="image/webp" srcset="${escapeHtml(getWebpImageUrl(recipeWithImage.image))}">` : ""}<img src="${escapeHtml(recipeWithImage.image)}" alt="${escapeHtml(recipe.name)}, a ${escapeHtml(recipe.cuisine)} recipe" width="800" height="600" fetchpriority="high" decoding="async"></picture>${imageCreditMarkup(getRecipeImageCredit(recipe.name, recipe.imageCredit))}<h2>Ingredients</h2><ul>${recipe.ingredients.map((ingredient) => `<li>${escapeHtml(ingredient)}</li>`).join("")}</ul><h2>Instructions</h2><ol>${recipe.instructions.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol><p><a href="/meal-planner/">Open the weekly meal planner</a></p></article></main>`,
+    content: `<main><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/recipes/">Recipes</a> / <span>${escapeHtml(recipe.name)}</span></nav><article><h1>${escapeHtml(recipe.name)}</h1><p>${escapeHtml(recipe.description)}</p><p>${escapeHtml(recipe.cuisine)} · ${recipe.prepTime + recipe.cookTime} minutes · ${recipe.servings} servings</p><picture>${getWebpImageUrl(recipeWithImage.image) !== recipeWithImage.image ? `<source type="image/webp" srcset="${escapeHtml(getWebpImageUrl(recipeWithImage.image))}">` : ""}<img src="${escapeHtml(recipeWithImage.image)}" alt="${escapeHtml(getRecipeImageAlt(recipe, recipeWithImage.image))}" width="800" height="600" fetchpriority="high" decoding="async"></picture>${imageCreditMarkup(getRecipeImageCredit(recipe.name, recipe.imageCredit))}<h2>Ingredients</h2><ul>${recipe.ingredients.map((ingredient) => `<li>${escapeHtml(ingredient)}</li>`).join("")}</ul><h2>Instructions</h2><ol>${recipe.instructions.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol><p><a href="/meal-planner/">Open the weekly meal planner</a></p></article></main>`,
   };
   await renderPage(recipePage);
 }

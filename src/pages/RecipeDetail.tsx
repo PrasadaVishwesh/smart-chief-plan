@@ -8,7 +8,7 @@ import { recipes } from "@/data/recipes";
 import { getBreadcrumbStructuredData, getRecipeSeo, getRecipeSlug, getRecipeStructuredData, getStructuredDataGraph } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site";
 import { getWebpImageUrl } from "@/utils/imageFormat";
-import { getRecipeImage, getRecipeImageCredit } from "@/utils/recipeImages";
+import { getRecipeImage, getRecipeImageAlt, getRecipeImageCredit } from "@/utils/recipeImages";
 import RecipeImageCredit from "@/components/RecipeImageCredit";
 import { useRecipeScaling } from "@/hooks/useRecipeScaling";
 import { useAIImage } from "@/hooks/useAIImage";
@@ -73,7 +73,7 @@ const RecipeDetail = () => {
           <div className="relative">
             <picture className="block w-full">
               {!aiImageUrl && <source srcSet={getWebpImageUrl(recipeWithImage.image)} type="image/webp" />}
-              <img src={aiImageUrl ?? recipeWithImage.image} alt={`${recipe.name}, a ${recipe.cuisine} recipe`} className="w-full max-h-[28rem] object-cover rounded-xl" width={800} height={600} fetchPriority="high" decoding="async" />
+              <img src={aiImageUrl ?? recipeWithImage.image} alt={getRecipeImageAlt(recipe, aiImageUrl ?? recipeWithImage.image)} className="w-full max-h-[28rem] object-cover rounded-xl" width={800} height={600} fetchPriority="high" decoding="async" />
             </picture>
             <RecipeImageCredit credit={getRecipeImageCredit(recipe.name, recipe.imageCredit)} className="mt-2" />
             <Button className="absolute right-3 top-3 gap-2" variant="secondary" onClick={() => generateImage(recipe.name, recipe.cuisine)} disabled={isGenerating}>

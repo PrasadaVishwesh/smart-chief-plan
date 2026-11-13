@@ -2839,7 +2839,7 @@ export const recipes: Recipe[] = [
     id: "195",
     name: "Mawa Bati",
     description: "Khoya-filled fried dough balls in sugar syrup",
-    image: "https://images.pexels.com/photos/39596666/pexels-photo-39596666.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "/images/recipe-image-unverified.svg",
     cuisine: "Indian",
     dietaryTags: ["vegetarian"],
     prepTime: 30,

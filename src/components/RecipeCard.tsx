@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { Heart, Clock, ImageOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { getRecipeImage, getRecipeImageCredit } from "@/utils/recipeImages";
+import { getRecipeImage, getRecipeImageAlt, getRecipeImageCredit, isUnverifiedRecipeImage } from "@/utils/recipeImages";
 import { getWebpImageUrl } from "@/utils/imageFormat";
 import RecipeImageCredit from "@/components/RecipeImageCredit";
 import { recipes } from "@/data/recipes";
@@ -96,7 +96,9 @@ const RecipeCard = ({ recipe, recipeUrl = `/recipes/${getRecipeSlug(recipe, reci
       setImageError(true);
       setImageLoading(false);
       // Try fallback if primary fails
-      const fallback = getRecipeImage({ ...recipe, image: undefined });
+      const fallback = isUnverifiedRecipeImage(currentSrc)
+        ? currentSrc
+        : getRecipeImage({ ...recipe, image: undefined });
       if (fallback !== currentSrc) {
         setCurrentSrc(fallback);
         setImageLoading(true);
@@ -121,7 +123,7 @@ const RecipeCard = ({ recipe, recipeUrl = `/recipes/${getRecipeSlug(recipe, reci
           {webpImage !== currentSrc && <source srcSet={webpImage} type="image/webp" />}
           <img
             src={currentSrc}
-            alt={`${recipe.name}, a ${recipe.cuisine} recipe`}
+            alt={getRecipeImageAlt(recipe, currentSrc)}
             className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
             onError={handleImageError}
             onLoad={handleImageLoad}
@@ -132,7 +134,7 @@ const RecipeCard = ({ recipe, recipeUrl = `/recipes/${getRecipeSlug(recipe, reci
             fetchPriority="low"
           />
         </picture>
-        {imageError && !imageLoading && (
+        {imageError && !imageLoading && !isUnverifiedRecipeImage(currentSrc) && (
           <div className="absolute bottom-2 left-2 bg-background/80 backdrop-blur-sm rounded px-2 py-1 text-xs text-muted-foreground flex items-center gap-1">
             <ImageOff className="w-3 h-3" />
             <span>Fallback image</span>
