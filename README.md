@@ -74,4 +74,6 @@ Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/c
 
 ## SEO build output
 
-`npm run build` prerenders the homepage and every recipe at `/recipes/<slug>`, writes Recipe structured data, and generates `dist/sitemap.xml` and `dist/robots.txt`. Set `VITE_SITE_URL` to the verified canonical production origin in the deployment environment. The build stops if it is missing or is not a plain HTTP(S) origin; no production domain is assumed.
+`npm run build` prerenders `/`, `/recipes/`, `/meal-planner/`, `/about/`, `/faq/`, every recipe at `/recipes/<slug>/`, private noindex shells, and `404.html`. It writes JSON-LD, `dist/sitemap.xml` with source-derived `lastmod` values, and `dist/robots.txt`. Canonical URLs default to `https://smart-chief-prasadavishwesh.vercel.app`; set `VITE_SITE_URL` to override the canonical origin. It must be a plain HTTP(S) origin.
+
+The recipe collection and public page content are static. Authenticated favorites and meal plans use Supabase; visitors without a session can use the meal planner and shopping list with data stored only in their current browser. Browser analytics events are emitted as `smartchief:analytics` CustomEvents without sending data to a third party. Connect a privacy-compliant analytics provider separately if persistent reporting is needed.

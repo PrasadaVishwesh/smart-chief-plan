@@ -7,24 +7,22 @@ import { Button } from "./ui/button";
 import { Heart, Clock, ImageOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { getRecipeImage } from "@/utils/recipeImages";
+import { getRecipeImage, getRecipeImageCredit } from "@/utils/recipeImages";
 import { getWebpImageUrl } from "@/utils/imageFormat";
+import RecipeImageCredit from "@/components/RecipeImageCredit";
+import { recipes } from "@/data/recipes";
+import { getRecipeSlug } from "@/lib/seo";
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onCardClick: () => void;
   recipeUrl?: string;
 }
 
-const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, recipeUrl = `/recipes/${getRecipeSlug(recipe, recipes)}/` }: RecipeCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    checkFavoriteStatus();
-  }, [recipe.id]);
-
-  const checkFavoriteStatus = async () => {
+  const checkFavoriteStatus = useCallback(async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
 
@@ -36,10 +34,13 @@ const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
       .maybeSingle();
 
     setIsFavorite(!!data);
-  };
+  }, [recipe.id]);
 
-  const toggleFavorite = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  useEffect(() => {
+    checkFavoriteStatus();
+  }, [checkFavoriteStatus]);
+
+  const toggleFavorite = async () => {
     setLoading(true);
 
     const { data: { session } } = await supabase.auth.getSession();
@@ -68,7 +69,7 @@ const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
         .insert({
           user_id: session.user.id,
           recipe_id: recipe.id,
-          recipe_data: recipe as any
+          recipe_data: recipe as unknown as import("@/integrations/supabase/types").Json
         });
 
       if (error) {
@@ -109,10 +110,7 @@ const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
 
 
   return (
-    <Card 
-      className="overflow-hidden cursor-pointer transition-all hover:shadow-[var(--shadow-hover)] hover:-translate-y-1 group"
-      onClick={onCardClick}
-    >
+    <Card className="overflow-hidden transition-all hover:shadow-[var(--shadow-hover)] hover:-translate-y-1 group">
       <div className="relative aspect-square overflow-hidden bg-muted">
         {imageLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-muted">
@@ -146,6 +144,8 @@ const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
           className="absolute top-2 right-2 rounded-full shadow-lg"
           onClick={toggleFavorite}
           disabled={loading}
+          aria-label={isFavorite ? `Remove ${recipe.name} from favorites` : `Save ${recipe.name} to favorites`}
+          aria-pressed={isFavorite}
         >
           <Heart
             className={`w-4 h-4 transition-colors ${
@@ -155,8 +155,9 @@ const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
         </Button>
       </div>
       <CardContent className="p-4 space-y-3">
+        <RecipeImageCredit credit={getRecipeImageCredit(recipe.name, recipe.imageCredit)} />
         <div>
-          <h3 className="font-semibold text-lg mb-1">{recipeUrl ? <Link to={recipeUrl} onClick={(event) => event.stopPropagation()} className="hover:underline">{recipe.name}</Link> : recipe.name}</h3>
+          <h3 className="font-semibold text-lg mb-1"><Link to={recipeUrl} className="hover:underline">{recipe.name}</Link></h3>
           <p className="text-sm text-muted-foreground line-clamp-2">
             {recipe.description}
           </p>

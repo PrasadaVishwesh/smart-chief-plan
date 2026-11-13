@@ -1,27 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { recipes } from "@/data/recipes";
 import RecipeCard from "@/components/RecipeCard";
-import RecipeDetailModal from "@/components/RecipeDetailModal";
-import { Recipe } from "@/types/recipe";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search } from "lucide-react";
-import heroImage from "@/assets/hero-image.webp";
 import Seo from "@/components/Seo";
-import { getRecipeSlug, getWebsiteStructuredData } from "@/lib/seo";
+import { getRecipeSlug } from "@/lib/seo";
+import { trackEvent } from "@/lib/analytics";
 
-const cuisines = ["All", "Italian", "Asian", "Mexican", "Indian"];
+const cuisines = ["All", ...new Set(recipes.map((recipe) => recipe.cuisine).sort())];
 const dietaryFilters = ["vegetarian", "vegan", "gluten-free", "dairy-free", "keto"];
-const websiteStructuredData = getWebsiteStructuredData(window.location.origin);
+const PAGE_SIZE = 24;
 
 const Recipes = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [selectedCuisine, setSelectedCuisine] = useState("All");
   const [selectedDietaryFilters, setSelectedDietaryFilters] = useState<string[]>([]);
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setDebouncedSearchQuery(searchQuery), 250);
+    return () => window.clearTimeout(timeout);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [debouncedSearchQuery, selectedCuisine, selectedDietaryFilters]);
 
   const toggleDietaryFilter = (filter: string) => {
     setSelectedDietaryFilters((prev) =>
@@ -32,8 +39,8 @@ const Recipes = () => {
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
-    const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      recipe.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = recipe.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+      recipe.description.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
     
     const matchesCuisine = selectedCuisine === "All" || recipe.cuisine === selectedCuisine;
     
@@ -43,48 +50,31 @@ const Recipes = () => {
     return matchesSearch && matchesCuisine && matchesDietary;
   });
 
-  const handleRecipeClick = (recipe: Recipe) => {
-    setSelectedRecipe(recipe);
-    setModalOpen(true);
-  };
+  const visibleRecipes = filteredRecipes.slice(0, visibleCount);
+
+  useEffect(() => {
+    trackEvent("recipe_search", {
+      hasQuery: Boolean(debouncedSearchQuery.trim()),
+      resultCount: filteredRecipes.length,
+      cuisine: selectedCuisine,
+      dietaryFilterCount: selectedDietaryFilters.length,
+    });
+  }, [debouncedSearchQuery, filteredRecipes.length, selectedCuisine, selectedDietaryFilters.length]);
 
   return (
     <>
-      <Seo title="Smart Chief | Discover Recipes & Plan Weekly Meals" description={`Explore ${recipes.length} recipes, build a weekly meal plan, and organize your shopping list with Smart Chief.`} canonicalPath="/" image={recipes[0]?.image} structuredData={websiteStructuredData} />
-      <div className="relative h-[40vh] overflow-hidden">
-        <img
-          src={heroImage}
-          alt="Fresh ingredients ready for a home-cooked meal"
-          className="w-full h-full object-cover"
-          width={1920}
-          height={1080}
-          fetchPriority="high"
-          decoding="async"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent flex items-end">
-          <div className="container mx-auto px-4 pb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-2">
-              Smart Chief
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Browse {recipes.length} recipes, plan your week, and build a shopping list
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <section className="container mx-auto px-4 pt-8 max-w-4xl">
-        <h2 className="text-2xl font-semibold mb-2">Recipes for everyday cooking</h2>
-        <p className="text-muted-foreground">Search by dish, explore cuisines, or filter by dietary preferences. Open any recipe for ingredients and step-by-step instructions, then use it to plan your week.</p>
-        <Link to="/meal-planner" className="inline-block mt-3 text-primary underline">Open the weekly meal planner</Link>
-      </section>
-      <div className="container mx-auto px-4 py-8">
+      <Seo title="Browse Recipes | Smart Chief" description={`Search and filter ${recipes.length} recipes by dish, cuisine, and dietary preferences with Smart Chief.`} canonicalPath="/recipes/" />
+      <main className="container mx-auto px-4 py-8">
+        <nav aria-label="Breadcrumb" className="mb-5 text-sm"><Link to="/">Home</Link> / <span aria-current="page">Recipes</span></nav>
+        <h1 className="mb-3 text-4xl font-bold">Explore recipes</h1>
+        <p className="mb-8 max-w-3xl text-muted-foreground">Search {recipes.length} recipes by dish, explore cuisines, or filter by dietary preferences. Open a recipe for ingredients and step-by-step instructions.</p>
         <div className="mb-8 space-y-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search recipes..."
+              aria-label="Search recipes"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 h-12"
@@ -99,6 +89,7 @@ const Recipes = () => {
                   <button
                     key={cuisine}
                     onClick={() => setSelectedCuisine(cuisine)}
+                    aria-pressed={selectedCuisine === cuisine}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                       selectedCuisine === cuisine
                         ? "bg-primary text-primary-foreground shadow-[var(--shadow-card)]"
@@ -141,30 +132,30 @@ const Recipes = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredRecipes.map((recipe) => (
+          {visibleRecipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
               recipeUrl={`/recipes/${getRecipeSlug(recipe, recipes)}/`}
-              onCardClick={() => handleRecipeClick(recipe)}
             />
           ))}
         </div>
 
         {filteredRecipes.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-12" role="status">
             <p className="text-muted-foreground text-lg">
               No recipes found. Try adjusting your filters.
             </p>
           </div>
         )}
-      </div>
-
-      <RecipeDetailModal
-        recipe={selectedRecipe}
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-      />
+        {visibleCount < filteredRecipes.length && (
+          <div className="mt-8 text-center">
+            <button type="button" className="rounded-lg border px-5 py-3 font-semibold" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}>
+              Show more recipes
+            </button>
+          </div>
+        )}
+      </main>
     </>
   );
 };

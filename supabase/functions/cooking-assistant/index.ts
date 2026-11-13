@@ -14,7 +14,7 @@ interface ChatMessage {
 
 // Sanitize user input to prevent prompt injection attacks
 function sanitizeUserInput(content: string): string {
-  let sanitized = content
+  const sanitized = content
     // Remove role confusion patterns
     .replace(/\b(system|assistant|user)\s*:/gi, '')
     // Remove instruction override attempts

@@ -6,6 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Bot, User } from "lucide-react";
 import { toast } from "sonner";
+import Seo from "@/components/Seo";
+import { getBreadcrumbStructuredData } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/site";
+import { Link } from "react-router-dom";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,6 +17,7 @@ interface Message {
 }
 
 const Assistant = () => {
+  const siteUrl = getSiteUrl(import.meta.env.VITE_SITE_URL);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -107,8 +112,16 @@ const Assistant = () => {
   };
 
   return (
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <>
+      <Seo
+        title="Cooking Assistant | Smart Chief"
+        description="Get help with cooking tips, recipe ideas, and ingredient substitutions."
+        canonicalPath="/assistant/"
+        structuredData={getBreadcrumbStructuredData([{ name: "Home", path: "/" }, { name: "Cooking Assistant", path: "/assistant/" }], siteUrl)}
+      />
+      <main className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="mb-8">
+          <nav aria-label="Breadcrumb" className="mb-5 text-sm"><Link to="/">Home</Link> / <span aria-current="page">Cooking Assistant</span></nav>
           <div className="inline-flex items-center gap-3 mb-2">
             <div className="w-12 h-12 bg-[var(--gradient-primary)] rounded-xl flex items-center justify-center">
               <Bot className="w-6 h-6 text-primary-foreground" />
@@ -190,7 +203,8 @@ const Assistant = () => {
           </form>
         </div>
       </Card>
-    </div>
+      </main>
+    </>
   );
 };
 
