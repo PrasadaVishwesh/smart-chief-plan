@@ -1,5 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { enforceRateLimit, getVerifiedUserId } from "../_shared/rateLimit.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -90,6 +91,23 @@ serve(async (req) => {
   }
 
   try {
+    const userId = await getVerifiedUserId(req);
+    if (!userId) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const rateLimitResponse = await enforceRateLimit(
+      userId,
+      "cooking-assistant",
+      10,
+      60,
+      corsHeaders,
+    );
+    if (rateLimitResponse) return rateLimitResponse;
+
     // Parse and validate input
     const rawBody = await req.json();
     const messages = validateMessages(rawBody);
