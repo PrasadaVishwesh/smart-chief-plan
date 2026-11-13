@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, Users, Flame, ChefHat, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { getWebpImageUrl } from "@/utils/imageFormat";
 
 interface TrendingSectionProps {
   onRecipeClick: (recipe: Recipe) => void;
@@ -30,11 +31,20 @@ const TrendingSection = ({ onRecipeClick }: TrendingSectionProps) => {
       onClick={() => onRecipeClick(recipe)}
     >
       <div className="relative h-32 overflow-hidden">
-        <img
-          src={recipe.image}
-          alt={recipe.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-        />
+        <picture className="block h-full w-full">
+          {getWebpImageUrl(recipe.image) !== recipe.image && (
+            <source srcSet={getWebpImageUrl(recipe.image)} type="image/webp" />
+          )}
+          <img
+            src={recipe.image}
+            alt={`${recipe.name}, a ${recipe.cuisine} recipe`}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            width={800}
+            height={600}
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
         <div className="absolute bottom-2 left-2 right-2">
           <h4 className="font-semibold text-sm line-clamp-1">{recipe.name}</h4>

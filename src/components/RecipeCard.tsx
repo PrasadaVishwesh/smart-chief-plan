@@ -1,19 +1,22 @@
 import { useState, useEffect, memo, useCallback } from "react";
 import { Recipe } from "@/types/recipe";
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Heart, Clock, ImageOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { getRecipeImage, isImagePreloaded } from "@/utils/recipeImages";
+import { getRecipeImage } from "@/utils/recipeImages";
+import { getWebpImageUrl } from "@/utils/imageFormat";
 
 interface RecipeCardProps {
   recipe: Recipe;
   onCardClick: () => void;
+  recipeUrl?: string;
 }
 
-const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, onCardClick, recipeUrl }: RecipeCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -85,6 +88,7 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
   // Get the best available image using the optimized function
   const primaryImage = getRecipeImage(recipe);
   const [currentSrc, setCurrentSrc] = useState(primaryImage);
+  const webpImage = getWebpImageUrl(currentSrc);
 
   const handleImageError = useCallback(() => {
     if (!imageError) {
@@ -103,12 +107,6 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
     setImageLoading(false);
   }, []);
 
-  // Check if image is already preloaded
-  useEffect(() => {
-    if (isImagePreloaded(primaryImage)) {
-      setImageLoading(false);
-    }
-  }, [primaryImage]);
 
   return (
     <Card 
@@ -121,16 +119,21 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
             <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         )}
-        <img
-          src={currentSrc}
-          alt={recipe.name}
-          className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
-          onError={handleImageError}
-          onLoad={handleImageLoad}
-          loading="lazy"
-          decoding="async"
-          fetchPriority="low"
-        />
+        <picture className="block h-full w-full">
+          {webpImage !== currentSrc && <source srcSet={webpImage} type="image/webp" />}
+          <img
+            src={currentSrc}
+            alt={`${recipe.name}, a ${recipe.cuisine} recipe`}
+            className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+            onError={handleImageError}
+            onLoad={handleImageLoad}
+            width={800}
+            height={600}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+          />
+        </picture>
         {imageError && !imageLoading && (
           <div className="absolute bottom-2 left-2 bg-background/80 backdrop-blur-sm rounded px-2 py-1 text-xs text-muted-foreground flex items-center gap-1">
             <ImageOff className="w-3 h-3" />
@@ -153,7 +156,7 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
       </div>
       <CardContent className="p-4 space-y-3">
         <div>
-          <h3 className="font-semibold text-lg mb-1">{recipe.name}</h3>
+          <h3 className="font-semibold text-lg mb-1">{recipeUrl ? <Link to={recipeUrl} onClick={(event) => event.stopPropagation()} className="hover:underline">{recipe.name}</Link> : recipe.name}</h3>
           <p className="text-sm text-muted-foreground line-clamp-2">
             {recipe.description}
           </p>

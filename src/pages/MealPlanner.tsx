@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { MealPlan, Recipe } from "@/types/recipe";
 import { recipes } from "@/data/recipes";
@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Plus, X, Search, Download, Copy, TrendingUp, Edit } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Calendar, Plus, X, Search, Download, Copy, TrendingUp, Edit, ShoppingCart } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { format, startOfWeek, addDays } from "date-fns";
-import jsPDF from "jspdf";
+import { getWebpImageUrl } from "@/utils/imageFormat";
+import { getShoppingListItems } from "@/lib/shoppingList";
 
 const mealTypes = ["Breakfast", "Lunch", "Dinner"];
 const cuisineCategories = ["All", "Italian", "Asian", "Mexican", "Indian"];
@@ -30,9 +32,12 @@ const MealPlanner = () => {
   const [notesDialogOpen, setNotesDialogOpen] = useState(false);
   const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan | null>(null);
   const [notes, setNotes] = useState("");
+  const [shoppingListOpen, setShoppingListOpen] = useState(false);
+  const [checkedShoppingItems, setCheckedShoppingItems] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchMealPlans();
+    setCheckedShoppingItems(new Set());
   }, [weekStart]);
 
   const fetchMealPlans = async () => {
@@ -181,8 +186,16 @@ const MealPlanner = () => {
     }
   };
 
-  const exportToPDF = () => {
-    const doc = new jsPDF();
+  const exportToPDF = async () => {
+    let PDFConstructor: typeof import("jspdf").default;
+    try {
+      PDFConstructor = (await import("jspdf")).default;
+    } catch {
+      toast.error("PDF export could not be loaded");
+      return;
+    }
+
+    const doc = new PDFConstructor();
     const pageWidth = doc.internal.pageSize.getWidth();
     
     doc.setFontSize(20);
@@ -249,6 +262,22 @@ const MealPlanner = () => {
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
 
+  const shoppingItems = useMemo(() => getShoppingListItems(mealPlans), [mealPlans]);
+
+  const copyShoppingList = async () => {
+    if (!navigator.clipboard?.writeText) {
+      toast.error("Clipboard access is unavailable in this browser");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(shoppingItems.join("\n"));
+      toast.success("Shopping list copied");
+    } catch {
+      toast.error("Could not copy the shopping list");
+    }
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
@@ -268,7 +297,8 @@ const MealPlanner = () => {
               </div>
               <h1 className="text-4xl font-bold">Meal Planner</h1>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" onClick={() => setShoppingListOpen(true)}><ShoppingCart className="w-4 h-4 mr-2" />Shopping list ({shoppingItems.length})</Button>
               <Button variant="outline" onClick={exportToPDF}>
                 <Download className="w-4 h-4" />
               </Button>
@@ -430,11 +460,20 @@ const MealPlanner = () => {
                   className="cursor-pointer hover:shadow-lg transition-shadow"
                   onClick={() => addMealPlan(recipe)}
                 >
-                  <img
-                    src={recipe.image}
-                    alt={recipe.name}
-                    className="w-full h-32 object-cover rounded-t-lg"
-                  />
+                  <picture className="block">
+                    {getWebpImageUrl(recipe.image) !== recipe.image && (
+                      <source srcSet={getWebpImageUrl(recipe.image)} type="image/webp" />
+                    )}
+                    <img
+                      src={recipe.image}
+                      alt={`${recipe.name}, a ${recipe.cuisine} recipe`}
+                      className="w-full h-32 object-cover rounded-t-lg"
+                      width={800}
+                      height={600}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
                   <CardContent className="p-3">
                     <h3 className="font-medium text-sm">{recipe.name}</h3>
                     <p className="text-xs text-muted-foreground">{recipe.cuisine}</p>
@@ -483,6 +522,41 @@ const MealPlanner = () => {
                 Duplicate Week
               </Button>
             </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={shoppingListOpen} onOpenChange={setShoppingListOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Shopping list</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">Ingredients from this week’s planned recipes.</p>
+          {shoppingItems.length ? (
+            <div className="max-h-[55vh] overflow-y-auto space-y-3 py-2">
+              {shoppingItems.map((ingredient, index) => {
+                const key = ingredient.toLowerCase();
+                const id = "shopping-item-" + index;
+                return (
+                  <div key={key} className="flex items-center gap-3">
+                    <Checkbox id={id} checked={checkedShoppingItems.has(key)} onCheckedChange={(checked) => {
+                      setCheckedShoppingItems((current) => {
+                        const next = new Set(current);
+                        if (checked === true) next.add(key);
+                        else next.delete(key);
+                        return next;
+                      });
+                    }} />
+                    <label htmlFor={id} className={checkedShoppingItems.has(key) ? "text-sm text-muted-foreground line-through" : "text-sm"}>{ingredient}</label>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="py-6 text-center text-sm text-muted-foreground">Add recipes to this week’s plan to generate a shopping list.</p>
+          )}
+          <div className="flex justify-end">
+            <Button onClick={copyShoppingList} disabled={!shoppingItems.length}><Copy className="w-4 h-4 mr-2" />Copy list</Button>
           </div>
         </DialogContent>
       </Dialog>

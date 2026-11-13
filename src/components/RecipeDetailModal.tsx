@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Clock, Users, Flame, ImageOff, ChefHat, Minus, Plus, RotateCcw, Sparkles, Loader2 } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { getFallbackImage } from "@/utils/recipeImages";
+import { getWebpImageUrl } from "@/utils/imageFormat";
 import CookModeModal from "./CookModeModal";
 import { useRecipeScaling } from "@/hooks/useRecipeScaling";
 import { useAIImage } from "@/hooks/useAIImage";
@@ -78,16 +79,22 @@ const RecipeDetailModal = ({ recipe, open, onOpenChange }: RecipeDetailModalProp
                 </div>
               </div>
             )}
-            <img
-              src={imageSrc}
-              alt={recipe.name}
-              className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoading || isGenerating ? 'opacity-0' : 'opacity-100'}`}
-              onError={() => {
-                setImageError(true);
-                setImageLoading(false);
-              }}
-              onLoad={() => setImageLoading(false)}
-            />
+            <picture className="block w-full h-full">
+              {getWebpImageUrl(imageSrc) !== imageSrc && <source srcSet={getWebpImageUrl(imageSrc)} type="image/webp" />}
+              <img
+                src={imageSrc}
+                alt={`${recipe.name}, a ${recipe.cuisine} recipe`}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoading || isGenerating ? 'opacity-0' : 'opacity-100'}`}
+                width={800}
+                height={600}
+                decoding="async"
+                onError={() => {
+                  setImageError(true);
+                  setImageLoading(false);
+                }}
+                onLoad={() => setImageLoading(false)}
+              />
+            </picture>
             
             {/* AI Generate Button */}
             <Button

@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { useInitialImagePreloader } from "@/hooks/useImagePreloader";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { recipes } from "@/data/recipes";
 import RecipeCard from "@/components/RecipeCard";
 import RecipeDetailModal from "@/components/RecipeDetailModal";
@@ -8,10 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search } from "lucide-react";
-import heroImage from "@/assets/hero-image.jpg";
+import heroImage from "@/assets/hero-image.webp";
+import Seo from "@/components/Seo";
+import { getRecipeSlug, getWebsiteStructuredData } from "@/lib/seo";
 
 const cuisines = ["All", "Italian", "Asian", "Mexican", "Indian"];
 const dietaryFilters = ["vegetarian", "vegan", "gluten-free", "dairy-free", "keto"];
+const websiteStructuredData = getWebsiteStructuredData(window.location.origin);
 
 const Recipes = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,9 +43,6 @@ const Recipes = () => {
     return matchesSearch && matchesCuisine && matchesDietary;
   });
 
-  // Preload images for better browsing performance
-  useInitialImagePreloader(filteredRecipes);
-
   const handleRecipeClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
     setModalOpen(true);
@@ -50,24 +50,34 @@ const Recipes = () => {
 
   return (
     <>
+      <Seo title="Smart Chief | Discover Recipes & Plan Weekly Meals" description={`Explore ${recipes.length} recipes, build a weekly meal plan, and organize your shopping list with Smart Chief.`} canonicalPath="/" image={recipes[0]?.image} structuredData={websiteStructuredData} />
       <div className="relative h-[40vh] overflow-hidden">
         <img
           src={heroImage}
-          alt="Meal planning hero"
+          alt="Fresh ingredients ready for a home-cooked meal"
           className="w-full h-full object-cover"
+          width={1920}
+          height={1080}
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent flex items-end">
           <div className="container mx-auto px-4 pb-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-2">
-              Smart Chef
+              Smart Chief
             </h1>
             <p className="text-lg text-muted-foreground">
-              Browse thousands of recipes and plan your perfect meals
+              Browse {recipes.length} recipes, plan your week, and build a shopping list
             </p>
           </div>
         </div>
       </div>
 
+      <section className="container mx-auto px-4 pt-8 max-w-4xl">
+        <h2 className="text-2xl font-semibold mb-2">Recipes for everyday cooking</h2>
+        <p className="text-muted-foreground">Search by dish, explore cuisines, or filter by dietary preferences. Open any recipe for ingredients and step-by-step instructions, then use it to plan your week.</p>
+        <Link to="/meal-planner" className="inline-block mt-3 text-primary underline">Open the weekly meal planner</Link>
+      </section>
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 space-y-6">
           <div className="relative">
@@ -135,6 +145,7 @@ const Recipes = () => {
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
+              recipeUrl={`/recipes/${getRecipeSlug(recipe, recipes)}/`}
               onCardClick={() => handleRecipeClick(recipe)}
             />
           ))}

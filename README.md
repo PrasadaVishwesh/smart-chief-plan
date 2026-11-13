@@ -71,3 +71,7 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## SEO build output
+
+`npm run build` prerenders the homepage and every recipe at `/recipes/<slug>`, writes Recipe structured data, and generates `dist/sitemap.xml` and `dist/robots.txt`. Set `VITE_SITE_URL` to the verified canonical production origin in the deployment environment. The build stops if it is missing or is not a plain HTTP(S) origin; no production domain is assumed.
