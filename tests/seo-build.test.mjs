@@ -21,7 +21,7 @@ const loadTypeScriptModule = async (relativePath) => {
 };
 const [
   { recipes },
-  { getRecipeImage, getRecipeImageAlt, getRecipeImageCredit, unverifiedRecipeImagePlaceholder },
+  { dishSpecificImages, getRecipeImage, getRecipeImageAlt, getRecipeImageCredit, unverifiedRecipeImagePlaceholder },
   { getWebpImageUrl },
   { readLocalMealPlans, upsertLocalMealPlan, writeLocalMealPlans },
 ] = await Promise.all([
@@ -225,6 +225,7 @@ test("corrected dish images use attributed and optimized source assets", () => {
 
   const mawaBati = recipes.find(({ name }) => name === "Mawa Bati");
   const mawaBatiImage = getRecipeImage(mawaBati);
+  assert.equal(dishSpecificImages["Mawa Bati"], unverifiedRecipeImagePlaceholder);
   assert.equal(mawaBatiImage, unverifiedRecipeImagePlaceholder);
   assert.equal(getRecipeImageAlt(mawaBati, mawaBatiImage), "Photo pending verification for Mawa Bati");
   assert.equal(getRecipeImageCredit("Mawa Bati", mawaBati.imageCredit), undefined);

@@ -155,7 +155,8 @@ export const dishSpecificImages: Record<string, string> = {
   "Kaju Katli": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Peda_Nepal.jpg/960px-Peda_Nepal.jpg",
   "Doodh Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg/960px-Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg",
-  // Mawa Bati uses a neutral placeholder until an exact, licensed photo is verified.
+  // No verified Mawa Bati photo is available; prevent a misleading fallback.
+  "Mawa Bati": unverifiedRecipeImagePlaceholder,
   "Barfi": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Besan Barfi": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Mysore Pak": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
