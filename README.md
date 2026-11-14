@@ -71,3 +71,9 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## SEO build output
+
+`npm run build` prerenders `/`, `/recipes/`, `/meal-planner/`, `/about/`, `/faq/`, every recipe at `/recipes/<slug>/`, private noindex shells, and `404.html`. It writes JSON-LD, `dist/sitemap.xml` with source-derived `lastmod` values, and `dist/robots.txt`. Canonical URLs default to `https://smart-chief-prasadavishwesh.vercel.app`; set `VITE_SITE_URL` to override the canonical origin. It must be a plain HTTP(S) origin.
+
+The recipe collection and public page content are static. Authenticated favorites and meal plans use Supabase; visitors without a session can use the meal planner and shopping list with data stored only in their current browser. A Supabase migration adds atomic per-user limits (10 requests/minute for the cooking assistant and recommendations, 3/minute for image generation, and 120 writes/minute across favorites and meal plans). Apply pending migrations before deploying the updated Edge Functions; they fail closed if the rate-limit RPC or service-role key is unavailable. Browser analytics events are emitted as `smartchief:analytics` CustomEvents without sending data to a third party. Connect a privacy-compliant analytics provider separately if persistent reporting is needed.

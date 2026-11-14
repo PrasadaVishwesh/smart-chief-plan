@@ -12,7 +12,8 @@ const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
 
   const navLinks = [
-    { to: "/", icon: Home, label: "Recipes" },
+    { to: "/", icon: Home, label: "Home" },
+    { to: "/recipes", icon: ChefHat, label: "Recipes" },
     { to: "/meal-planner", icon: CalendarDays, label: "Meal Planner" },
     { to: "/favorites", icon: Heart, label: "Favorites" },
     { to: "/assistant", icon: MessageSquare, label: "AI Assistant" },
@@ -74,13 +75,17 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </header>
 
-      <main className="flex-1">
+      <div className="flex-1">
         {children}
-      </main>
+      </div>
 
       <footer className="border-t bg-card py-6">
         <div className="container mx-auto px-4 text-center text-muted-foreground text-sm">
           <p>© 2025 Smart Chief. Plan smarter, eat better.</p>
+          <nav aria-label="Footer" className="mt-3 flex justify-center gap-4">
+            <Link to="/about" className="underline">About</Link>
+            <Link to="/faq" className="underline">FAQ</Link>
+          </nav>
         </div>
       </footer>
 

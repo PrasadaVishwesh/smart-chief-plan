@@ -1,14 +1,7 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+Disallow: /account
+Disallow: /dashboard
+Disallow: /favorites
+
+Sitemap: https://smart-chief-prasadavishwesh.vercel.app/sitemap.xml

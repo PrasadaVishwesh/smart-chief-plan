@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Recipe } from "@/types/recipe";
 
 // Parse ingredient string to extract quantity and unit
@@ -20,7 +20,7 @@ const parseIngredient = (ingredient: string): { quantity: number | null; unit: s
   const match = processedIngredient.match(/^(\d+(?:\/\d+)?(?:\.\d+)?(?:\s*-\s*\d+(?:\/\d+)?(?:\.\d+)?)?)\s*([\w.]+)?\s*(.*)$/i);
   
   if (match) {
-    let quantityStr = match[1];
+    const quantityStr = match[1];
     
     // Handle ranges like "3-4" by taking average
     if (quantityStr.includes("-")) {
@@ -105,13 +105,8 @@ export const useRecipeScaling = (recipe: Recipe | null) => {
   const originalServings = recipe?.servings ?? 4;
   const [targetServings, setTargetServings] = useState(originalServings);
   
-  // Reset when recipe changes
   const recipeId = recipe?.id;
-  useState(() => {
-    if (recipeId) {
-      setTargetServings(recipe?.servings ?? 4);
-    }
-  });
+  useEffect(() => setTargetServings(originalServings), [recipeId, originalServings]);
   
   const scaleFactor = useMemo(() => 
     targetServings / originalServings, 

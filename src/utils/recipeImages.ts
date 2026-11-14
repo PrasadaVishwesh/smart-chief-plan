@@ -1,12 +1,24 @@
-// Comprehensive dish-specific image mapping for accurate recipe visuals
-// Each image URL is carefully selected to match the actual dish appearance
+// Dish-specific image mappings; verify visual matches and licenses before adding.
+
+import type { RecipeImageCredit } from "@/types/recipe";
+
+export const unverifiedRecipeImagePlaceholder = "/images/recipe-image-unverified.svg";
+
+export const isUnverifiedRecipeImage = (imageUrl: string) => imageUrl === unverifiedRecipeImagePlaceholder;
+
+export const getRecipeImageAlt = (
+  recipe: { name: string; cuisine: string },
+  imageUrl: string,
+) => isUnverifiedRecipeImage(imageUrl)
+  ? `Photo pending verification for ${recipe.name}`
+  : `${recipe.name}, a ${recipe.cuisine} recipe`;
 
 export const dishSpecificImages: Record<string, string> = {
   // ITALIAN
-  "Spaghetti Carbonara": "https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Margherita Pizza": "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Mushroom Risotto": "https://images.pexels.com/photos/6287525/pexels-photo-6287525.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Lasagna Bolognese": "https://images.pexels.com/photos/5949884/pexels-photo-5949884.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Spaghetti Carbonara": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Espaguetis_carbonara.jpg/960px-Espaguetis_carbonara.jpg",
+  "Margherita Pizza": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Margherita_pizza_on_plate.jpg/960px-Margherita_pizza_on_plate.jpg",
+  "Mushroom Risotto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Mushroom_and_Leek_Risotto_%2849535206656%29.jpg/960px-Mushroom_and_Leek_Risotto_%2849535206656%29.jpg",
+  "Lasagna Bolognese": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Lasagna_bolognese_dish_with_minced_meat%2C_Brisbane.jpg/960px-Lasagna_bolognese_dish_with_minced_meat%2C_Brisbane.jpg",
 
   // INDIAN - BIRYANI VARIETIES (22+ unique)
   "Chicken Biryani": "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -94,12 +106,12 @@ export const dishSpecificImages: Record<string, string> = {
 
   // INDIAN - STREET FOOD
   "Pav Bhaji": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800",
-  "Vada Pav": "https://images.pexels.com/photos/15016285/pexels-photo-15016285.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Misal Pav": "https://images.pexels.com/photos/15016285/pexels-photo-15016285.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Chole Bhature": "https://images.pexels.com/photos/15016285/pexels-photo-15016285.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Chole Bhature Delhi Style": "https://images.pexels.com/photos/15016285/pexels-photo-15016285.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Vada Pav": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Crunchy_Crispy_Vada_pav.jpg/960px-Crunchy_Crispy_Vada_pav.jpg",
+  "Misal Pav": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Misal_Pav%2C_a_Maharashtrian_snack.JPG/960px-Misal_Pav%2C_a_Maharashtrian_snack.JPG",
+  "Chole Bhature": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Chole_Bhature_1.jpg/960px-Chole_Bhature_1.jpg",
+  "Chole Bhature Delhi Style": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Chole_Bhature_1.jpg/960px-Chole_Bhature_1.jpg",
   "Samosa": "https://images.pexels.com/photos/4449068/pexels-photo-4449068.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Aloo Tikki": "https://images.pexels.com/photos/14477876/pexels-photo-14477876.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Aloo Tikki": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Aloo_Tikki_served_with_chutneys.jpg/960px-Aloo_Tikki_served_with_chutneys.jpg",
   "Dahi Bhalla": "https://images.pexels.com/photos/7353380/pexels-photo-7353380.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Bhel Puri": "https://images.pexels.com/photos/4331489/pexels-photo-4331489.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Sev Puri": "https://images.pexels.com/photos/4331489/pexels-photo-4331489.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -110,8 +122,8 @@ export const dishSpecificImages: Record<string, string> = {
   // INDIAN - SOUTH INDIAN
   "Idli Sambar": "https://images.pexels.com/photos/4331489/pexels-photo-4331489.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Idli": "https://images.pexels.com/photos/4331491/pexels-photo-4331491.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Medu Vada": "https://images.pexels.com/photos/14477876/pexels-photo-14477876.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Rava Idli": "https://images.pexels.com/photos/14477876/pexels-photo-14477876.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Medu Vada": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Aesthetic_Medu_Vadai.jpg/960px-Aesthetic_Medu_Vadai.jpg",
+  "Rava Idli": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Rava_idli_sambhar.jpg/960px-Rava_idli_sambhar.jpg",
   "Sambar": "https://images.pexels.com/photos/7625274/pexels-photo-7625274.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Rasam": "https://images.pexels.com/photos/7625274/pexels-photo-7625274.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Pongal": "https://images.pexels.com/photos/7353380/pexels-photo-7353380.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -134,15 +146,17 @@ export const dishSpecificImages: Record<string, string> = {
   "Gulab Jamun": "https://images.pexels.com/photos/12737671/pexels-photo-12737671.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Rasgulla": "https://images.pexels.com/photos/14477877/pexels-photo-14477877.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Rosogolla": "https://images.pexels.com/photos/14477877/pexels-photo-14477877.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Sandesh": "https://images.pexels.com/photos/14477876/pexels-photo-14477876.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Cham Cham": "https://images.unsplash.com/photo-1666190077606-f25c9f0e9b98?w=800",
+  "Sandesh": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Sandesh_or_Sondesh.jpg/960px-Sandesh_or_Sondesh.jpg",
+  "Cham Cham": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Cham-cham_South_Asian_Sweet_West_Bengal.jpg/960px-Cham-cham_South_Asian_Sweet_West_Bengal.jpg",
   "Rasmalai": "https://images.pexels.com/photos/14477878/pexels-photo-14477878.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Mishti Doi": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800",
   "Pantua": "https://images.pexels.com/photos/12737671/pexels-photo-12737671.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Langcha": "https://images.pexels.com/photos/12737671/pexels-photo-12737671.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Kaju Katli": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Peda": "https://images.pexels.com/photos/9892330/pexels-photo-9892330.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Doodh Peda": "https://images.pexels.com/photos/9892330/pexels-photo-9892330.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Peda_Nepal.jpg/960px-Peda_Nepal.jpg",
+  "Doodh Peda": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg/960px-Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg",
+  // No verified Mawa Bati photo is available; prevent a misleading fallback.
+  "Mawa Bati": unverifiedRecipeImagePlaceholder,
   "Barfi": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Besan Barfi": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Mysore Pak": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -157,7 +171,7 @@ export const dishSpecificImages: Record<string, string> = {
   "Modak": "https://images.pexels.com/photos/14477880/pexels-photo-14477880.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Ukadiche Modak": "https://images.pexels.com/photos/14477880/pexels-photo-14477880.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Puran Poli": "https://images.unsplash.com/photo-1567337710282-00832b415979?w=800",
-  "Ghevar": "https://images.unsplash.com/photo-1666190077606-f25c9f0e9b98?w=800",
+  "Ghevar": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/GhevarRajasthaniSweet.jpg/960px-GhevarRajasthaniSweet.jpg",
   "Malpua": "https://images.pexels.com/photos/4331490/pexels-photo-4331490.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Balushahi": "https://images.pexels.com/photos/12737671/pexels-photo-12737671.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Petha": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -177,14 +191,13 @@ export const dishSpecificImages: Record<string, string> = {
   "Ada Pradhaman": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800",
   "Palada Payasam": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800",
   "Pongal Payasam": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800",
-  "Kalakand": "https://images.unsplash.com/photo-1590080875852-ba44f526c5f4?w=800",
+  "Kalakand": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Kalakand2.JPG/960px-Kalakand2.JPG",
   "Mohanthal": "https://images.pexels.com/photos/9892329/pexels-photo-9892329.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Pinni": "https://images.pexels.com/photos/4110542/pexels-photo-4110542.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Thekua": "https://images.pexels.com/photos/4110542/pexels-photo-4110542.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Pitha": "https://images.pexels.com/photos/4110542/pexels-photo-4110542.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Sel Roti": "https://images.pexels.com/photos/4110542/pexels-photo-4110542.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Mawa Bati": "https://images.pexels.com/photos/4110542/pexels-photo-4110542.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Churma": "https://images.pexels.com/photos/4110542/pexels-photo-4110542.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Pinni": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Rice_Flour_Pinni.JPG/960px-Rice_Flour_Pinni.JPG",
+  "Thekua": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Thekua_image01.jpg/960px-Thekua_image01.jpg",
+  "Pitha": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Kakara_pitha_.jpg/960px-Kakara_pitha_.jpg",
+  "Sel Roti": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Sel_Roti.jpg/960px-Sel_Roti.jpg",
+  "Churma": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Churma.JPG/960px-Churma.JPG",
 
   // INDIAN - SNACKS & OTHERS
   "Dhokla": "https://images.pexels.com/photos/14477879/pexels-photo-14477879.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -228,8 +241,8 @@ export const dishSpecificImages: Record<string, string> = {
   "Chicken Ramen": "https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Sushi Roll": "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Tonkatsu": "https://images.pexels.com/photos/10661972/pexels-photo-10661972.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Miso Soup": "https://images.pexels.com/photos/3926508/pexels-photo-3926508.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "Tempura": "https://images.pexels.com/photos/3298068/pexels-photo-3298068.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Miso Soup": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Uchimame-no-misoshiru%2C_Miso_soup%2C_Japan.jpg/960px-Uchimame-no-misoshiru%2C_Miso_soup%2C_Japan.jpg",
+  "Tempura": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Tempura_003.jpg/960px-Tempura_003.jpg",
   "Okonomiyaki": "https://images.pexels.com/photos/5638268/pexels-photo-5638268.jpeg?auto=compress&cs=tinysrgb&w=800",
   "Gyudon": "https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg?auto=compress&cs=tinysrgb&w=800",
 
@@ -278,7 +291,7 @@ export const dishSpecificImages: Record<string, string> = {
   "Gazpacho": "https://images.pexels.com/photos/1448721/pexels-photo-1448721.jpeg?auto=compress&cs=tinysrgb&w=800",
 
   // AFRICAN
-  "Jollof Rice": "https://images.pexels.com/photos/7353376/pexels-photo-7353376.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "Jollof Rice": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Jollof_rice_with_vegetable.jpg/960px-Jollof_rice_with_vegetable.jpg",
   "Tagine": "https://images.pexels.com/photos/5409020/pexels-photo-5409020.jpeg?auto=compress&cs=tinysrgb&w=800",
 
   // AMERICAN & BRITISH
@@ -557,6 +570,35 @@ export const dishSpecificImages: Record<string, string> = {
   "Amatriciana": "https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800",
 };
 
+const dishSpecificImageCredits: Record<string, RecipeImageCredit> = {
+  "Vada Pav": { title: "Crunchy Crispy Vada pav", artist: "Sharvarism", sourceUrl: "https://commons.wikimedia.org/wiki/File:Crunchy_Crispy_Vada_pav.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Misal Pav": { title: "Misal Pav, a Maharashtrian snack", artist: "Arundhati1312", sourceUrl: "https://commons.wikimedia.org/wiki/File:Misal_Pav,_a_Maharashtrian_snack.JPG", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Chole Bhature": { title: "Chole Bhature 1", artist: "Gaurav Dhwaj Khadka", sourceUrl: "https://commons.wikimedia.org/wiki/File:Chole_Bhature_1.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Chole Bhature Delhi Style": { title: "Chole Bhature 1", artist: "Gaurav Dhwaj Khadka", sourceUrl: "https://commons.wikimedia.org/wiki/File:Chole_Bhature_1.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Aloo Tikki": { title: "Aloo Tikki served with chutneys", artist: "Raveesh Vyas", sourceUrl: "https://commons.wikimedia.org/wiki/File:Aloo_Tikki_served_with_chutneys.jpg", license: "CC BY-SA 2.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0" },
+  "Medu Vada": { title: "Aesthetic Medu Vadai", artist: "Thamizhpparithi Maari", sourceUrl: "https://commons.wikimedia.org/wiki/File:Aesthetic_Medu_Vadai.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Rava Idli": { title: "Rava idli sambhar", artist: "Amanrvet", sourceUrl: "https://commons.wikimedia.org/wiki/File:Rava_idli_sambhar.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Sandesh": { title: "Sandesh or Sondesh", artist: "Gunjan Sarojwal Kumar", sourceUrl: "https://commons.wikimedia.org/wiki/File:Sandesh_or_Sondesh.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Cham Cham": { title: "Cham-cham South Asian Sweet West Bengal", artist: "Rownak Jahan", sourceUrl: "https://commons.wikimedia.org/wiki/File:Cham-cham_South_Asian_Sweet_West_Bengal.jpg", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0" },
+  "Peda": { title: "Peda Nepal", artist: "Ritesh Man Tamrakar", sourceUrl: "https://commons.wikimedia.org/wiki/File:Peda_Nepal.jpg", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0" },
+  "Doodh Peda": { title: "Indian Sweet Dessert Peda in a white bone china plate", artist: "Prashant Sahu", sourceUrl: "https://commons.wikimedia.org/wiki/File:Indian_Sweet_Dessert_Peda_in_a_white_bone_china_plate.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Ghevar": { title: "GhevarRajasthaniSweet", artist: "Onef9day", sourceUrl: "https://commons.wikimedia.org/wiki/File:GhevarRajasthaniSweet.jpg", license: "CC BY 3.0", licenseUrl: "https://creativecommons.org/licenses/by/3.0" },
+  "Kalakand": { title: "Kalakand2", artist: "Pradeep717", sourceUrl: "https://commons.wikimedia.org/wiki/File:Kalakand2.JPG", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0" },
+  "Pinni": { title: "Rice Flour Pinni", artist: "Miansari66", sourceUrl: "https://commons.wikimedia.org/wiki/File:Rice_Flour_Pinni.JPG", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.en" },
+  "Thekua": { title: "Thekua image01", artist: "Rohit iitr", sourceUrl: "https://commons.wikimedia.org/wiki/File:Thekua_image01.jpg", license: "Public domain", licenseUrl: "https://commons.wikimedia.org/wiki/Template:PD-self" },
+  "Pitha": { title: "Kakara pitha", artist: "\u0b1c\u0b17\u0b26\u0b40\u0b36 \u0b09\u0b24\u0b4d\u0b24\u0b30\u0b15\u0b2c\u0b3e\u0b1f", sourceUrl: "https://commons.wikimedia.org/wiki/File:Kakara_pitha_.jpg", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0" },
+  "Sel Roti": { title: "Sel Roti", artist: "Swapnet", sourceUrl: "https://commons.wikimedia.org/wiki/File:Sel_Roti.jpg", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0" },
+  "Churma": { title: "Churma", artist: "Ravinder Narwal", sourceUrl: "https://commons.wikimedia.org/wiki/File:Churma.JPG", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Miso Soup": { title: "Uchimame-no-misoshiru, Miso soup, Japan", artist: "Tail furry", sourceUrl: "https://commons.wikimedia.org/wiki/File:Uchimame-no-misoshiru,_Miso_soup,_Japan.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+  "Tempura": { title: "Tempura 003", artist: "Ocdp", sourceUrl: "https://commons.wikimedia.org/wiki/File:Tempura_003.jpg", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.en" },
+  "Jollof Rice": { title: "Jollof rice with vegetable", artist: "Segun Famisa", sourceUrl: "https://commons.wikimedia.org/wiki/File:Jollof_rice_with_vegetable.jpg", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0" },
+};
+
+export const getRecipeImageCredit = (
+  recipeName: string,
+  fallback?: RecipeImageCredit,
+): RecipeImageCredit | undefined => dishSpecificImageCredits[recipeName] ?? fallback;
+
 // Cuisine-based fallback images
 export const cuisineFallbackImages: Record<string, string> = {
   "Italian": "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -673,84 +715,4 @@ export const getRecipeImage = (recipe: { name: string; cuisine: string; image?: 
   
   // Otherwise use fallback
   return getFallbackImage(recipe.cuisine, recipe.name);
-};
-
-// Image preloading cache
-const preloadedImages = new Set<string>();
-const preloadingImages = new Set<string>();
-
-// Preload a single image
-export const preloadImage = (src: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if (preloadedImages.has(src) || preloadingImages.has(src)) {
-      resolve();
-      return;
-    }
-    
-    preloadingImages.add(src);
-    const img = new Image();
-    
-    img.onload = () => {
-      preloadedImages.add(src);
-      preloadingImages.delete(src);
-      resolve();
-    };
-    
-    img.onerror = () => {
-      preloadingImages.delete(src);
-      reject(new Error(`Failed to preload: ${src}`));
-    };
-    
-    img.src = src;
-  });
-};
-
-// Preload multiple images with concurrency limit
-export const preloadImages = async (
-  urls: string[], 
-  concurrency: number = 4
-): Promise<void> => {
-  const queue = [...urls];
-  const executing: Promise<void>[] = [];
-  
-  while (queue.length > 0 || executing.length > 0) {
-    while (queue.length > 0 && executing.length < concurrency) {
-      const url = queue.shift()!;
-      const promise = preloadImage(url)
-        .catch(() => {}) // Silently handle errors
-        .then(() => {
-          const index = executing.indexOf(promise);
-          if (index > -1) executing.splice(index, 1);
-        });
-      executing.push(promise);
-    }
-    
-    if (executing.length > 0) {
-      await Promise.race(executing);
-    }
-  }
-};
-
-// Preload images for visible recipes
-export const preloadVisibleRecipeImages = (
-  recipes: Array<{ name: string; cuisine: string; image?: string }>,
-  count: number = 12
-): void => {
-  const urls = recipes.slice(0, count).map(recipe => getRecipeImage(recipe));
-  
-  // Use requestIdleCallback for non-blocking preload
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => {
-      preloadImages(urls, 4);
-    });
-  } else {
-    setTimeout(() => {
-      preloadImages(urls, 4);
-    }, 100);
-  }
-};
-
-// Check if an image is preloaded
-export const isImagePreloaded = (src: string): boolean => {
-  return preloadedImages.has(src);
 };

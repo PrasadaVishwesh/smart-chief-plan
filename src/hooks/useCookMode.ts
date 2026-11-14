@@ -19,45 +19,47 @@ export const useCookMode = ({ instructions, onComplete }: UseCookModeOptions) =>
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [timers, setTimers] = useState<Timer[]>([]);
-  const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null);
-  
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+
   const speechSynthRef = useRef<SpeechSynthesisUtterance | null>(null);
   const timerIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
   // Keep screen awake during cook mode
   useEffect(() => {
+    let cancelled = false;
     const requestWakeLock = async () => {
       if (isActive && 'wakeLock' in navigator) {
         try {
           const lock = await navigator.wakeLock.request('screen');
-          setWakeLock(lock);
-        } catch (err) {
-          console.log('Wake lock not available');
+          if (cancelled) {
+            await lock.release();
+            return;
+          }
+          wakeLockRef.current = lock;
+        } catch {
+          console.info('Wake lock not available');
         }
       }
     };
 
-    if (isActive) {
-      requestWakeLock();
-    } else if (wakeLock) {
-      wakeLock.release();
-      setWakeLock(null);
-    }
+    if (isActive) void requestWakeLock();
 
     return () => {
-      if (wakeLock) {
-        wakeLock.release();
-      }
+      cancelled = true;
+      const lock = wakeLockRef.current;
+      wakeLockRef.current = null;
+      if (lock) void lock.release();
     };
   }, [isActive]);
 
   // Cleanup speech on unmount
   useEffect(() => {
+    const timerIntervals = timerIntervalsRef.current;
     return () => {
       if (speechSynthRef.current) {
         window.speechSynthesis.cancel();
       }
-      timerIntervalsRef.current.forEach((interval) => clearInterval(interval));
+      timerIntervals.forEach((interval) => clearInterval(interval));
     };
   }, []);
 

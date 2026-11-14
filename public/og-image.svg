@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Smart Chief</title>
+  <desc id="description">Discover recipes, plan your week, and shop smarter.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8ef"/>
+      <stop offset="1" stop-color="#f4eadb"/>
+    </linearGradient>
+    <linearGradient id="plate" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#e8ded0"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#392b1e" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <circle cx="1065" cy="72" r="180" fill="#e7b45b" opacity=".17"/>
+  <circle cx="1105" cy="580" r="220" fill="#457b56" opacity=".12"/>
+  <g transform="translate(650 72)" filter="url(#shadow)">
+    <circle cx="250" cy="245" r="220" fill="#e5d7c4"/>
+    <circle cx="250" cy="245" r="195" fill="url(#plate)"/>
+    <circle cx="250" cy="245" r="152" fill="#f3eadc"/>
+    <path d="M170 220c35-64 132-77 176-24 34 41 6 95-36 107-51 15-133-19-140-83Z" fill="#d97839"/>
+    <path d="M201 198c30-36 98-42 124-7 19 25 7 47-22 54-41 10-86-8-102-47Z" fill="#efb054"/>
+    <path d="M126 282c15-46 60-65 89-45 19 13 14 42-7 61-28 25-64 22-82-16Z" fill="#4a8d59"/>
+    <path d="M284 314c-3-39 29-72 60-62 24 8 26 37 10 61-17 26-46 31-70 1Z" fill="#70a85e"/>
+    <path d="M226 295c-19-39-5-81 26-86 25-4 43 23 37 54-7 35-33 50-63 32Z" fill="#f2cc71"/>
+    <g fill="#f7e5bf">
+      <circle cx="183" cy="247" r="8"/><circle cx="226" cy="270" r="7"/><circle cx="298" cy="226" r="8"/>
+      <circle cx="333" cy="269" r="7"/><circle cx="164" cy="279" r="6"/><circle cx="255" cy="205" r="6"/>
+    </g>
+    <path d="M374 119c30 14 49 39 52 69-29-5-52-28-61-56 2-6 5-10 9-13Z" fill="#477a4f"/>
+    <path d="M391 110c11-32 38-52 68-55-3 31-23 56-53 66-6-2-11-5-15-11Z" fill="#5a945e"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#2f372c">
+    <text x="88" y="146" font-size="20" font-weight="700" letter-spacing="4" fill="#a34e28">SMART CHIEF</text>
+    <path d="M88 174h64" stroke="#d97839" stroke-width="5" stroke-linecap="round"/>
+    <text x="84" y="270" font-size="62" font-weight="700">Recipes worth</text>
+    <text x="84" y="343" font-size="62" font-weight="700">planning for.</text>
+    <text x="88" y="407" font-size="25" fill="#5c6257">Discover recipes. Plan your week.</text>
+    <text x="88" y="445" font-size="25" fill="#5c6257">Shop smarter with Smart Chief.</text>
+    <g transform="translate(88 503)" font-size="17" font-weight="700" letter-spacing="1.5">
+      <rect width="132" height="42" rx="21" fill="#f1dfca"/>
+      <text x="24" y="27" fill="#8f4b2b">DISCOVER</text>
+      <rect x="148" width="108" height="42" rx="21" fill="#e3ecdf"/>
+      <text x="170" y="27" fill="#3c6d45">PLAN</text>
+      <rect x="272" width="104" height="42" rx="21" fill="#f4e3ba"/>
+      <text x="292" y="27" fill="#886527">SHOP</text>
+    </g>
+  </g>
+</svg>

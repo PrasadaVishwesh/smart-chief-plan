@@ -38,6 +38,7 @@ const CookModeModal = ({ recipe, open, onOpenChange }: CookModeModalProps) => {
   const {
     currentStep,
     totalSteps,
+    goToStep,
     isActive,
     isSpeaking,
     voiceEnabled,
@@ -318,8 +319,7 @@ const CookModeModal = ({ recipe, open, onOpenChange }: CookModeModalProps) => {
                       key={index}
                       onClick={() => {
                         if (isSpeaking) stopSpeaking();
-                        // Direct navigation
-                        const { goToStep } = useCookMode({ instructions: recipe.instructions });
+                        goToStep(index);
                       }}
                       className={cn(
                         "w-2.5 h-2.5 rounded-full transition-all",

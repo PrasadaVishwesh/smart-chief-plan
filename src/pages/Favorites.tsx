@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Favorite, Recipe } from "@/types/recipe";
+import { Favorite } from "@/types/recipe";
 import RecipeCard from "@/components/RecipeCard";
-import RecipeDetailModal from "@/components/RecipeDetailModal";
 import { Heart, Star, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [requiresSignIn, setRequiresSignIn] = useState(false);
   const [recommendations, setRecommendations] = useState<Recipe[]>([]);
   const [loadingRecs, setLoadingRecs] = useState(false);
 
@@ -21,24 +20,29 @@ const Favorites = () => {
   }, []);
 
   const fetchFavorites = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    try {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) throw sessionError;
+      if (!session) {
+        setFavorites([]);
+        setRequiresSignIn(true);
+        return;
+      }
 
-    const { data, error } = await supabase
-      .from("favorites")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .order("created_at", { ascending: false });
-
-    if (!error && data) {
-      setFavorites(data as any);
+      setRequiresSignIn(false);
+      const { data, error } = await supabase
+        .from("favorites")
+        .select("id,user_id,recipe_id,recipe_data,created_at,rating")
+        .eq("user_id", session.user.id)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      setFavorites((data ?? []) as Favorite[]);
+    } catch (error) {
+      console.error("Error loading favorites:", error);
+      toast.error("Could not load favorites");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  };
-
-  const handleRecipeClick = (recipe: Recipe) => {
-    setSelectedRecipe(recipe);
-    setModalOpen(true);
   };
 
   const updateRating = async (favoriteId: string, rating: number) => {
@@ -76,15 +80,15 @@ const Favorites = () => {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12 text-center">
+      <main className="container mx-auto px-4 py-12 text-center" role="status">
         <p className="text-muted-foreground">Loading favorites...</p>
-      </div>
+      </main>
     );
   }
 
   return (
     <>
-      <div className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-12 h-12 bg-[var(--gradient-primary)] rounded-xl flex items-center justify-center">
@@ -97,7 +101,13 @@ const Favorites = () => {
           </p>
         </div>
 
-        {favorites.length === 0 ? (
+        {requiresSignIn ? (
+          <div className="py-12 text-center" role="status">
+            <h2 className="text-2xl font-semibold mb-2">Sign in to view favorites</h2>
+            <p className="text-muted-foreground">Your saved recipes are available after you sign in.</p>
+            <Link to="/recipes" className="mt-4 inline-block text-primary underline">Browse recipes</Link>
+          </div>
+        ) : favorites.length === 0 ? (
           <div className="text-center py-12">
             <Heart className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
             <h2 className="text-2xl font-semibold mb-2">No favorites yet</h2>
@@ -125,7 +135,6 @@ const Favorites = () => {
                     <RecipeCard
                       key={recipe.id}
                       recipe={recipe}
-                      onCardClick={() => handleRecipeClick(recipe)}
                     />
                   ))}
                 </div>
@@ -138,7 +147,6 @@ const Favorites = () => {
                 <div key={favorite.id} className="space-y-2">
                   <RecipeCard
                     recipe={favorite.recipe_data}
-                    onCardClick={() => handleRecipeClick(favorite.recipe_data)}
                   />
                   <Card>
                     <CardContent className="p-3">
@@ -171,13 +179,8 @@ const Favorites = () => {
             </div>
           </>
         )}
-      </div>
+      </main>
 
-      <RecipeDetailModal
-        recipe={selectedRecipe}
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-      />
     </>
   );
 };

@@ -1,8 +1,17 @@
+export interface RecipeImageCredit {
+  title: string;
+  artist: string;
+  sourceUrl: string;
+  license: string;
+  licenseUrl: string;
+}
+
 export interface Recipe {
   id: string;
   name: string;
   description: string;
   image: string;
+  imageCredit?: RecipeImageCredit;
   cuisine: string;
   dietaryTags: string[];
   prepTime: number;
