@@ -8,6 +8,13 @@
       "when": 1794594464935,
       "tag": "0000_create_user_profiles",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794752147755,
+      "tag": "0001_scope_user_data_policies",
+      "breakpoints": true
     }
   ]
 }
