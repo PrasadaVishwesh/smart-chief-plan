@@ -22,13 +22,13 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
   }, [recipe.id]);
 
   const checkFavoriteStatus = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
     const { data } = await supabase
       .from("favorites")
       .select("id")
-      .eq("user_id", session.user.id)
+      .eq("user_id", user.id)
       .eq("recipe_id", recipe.id)
       .maybeSingle();
 
@@ -39,8 +39,8 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
     e.stopPropagation();
     setLoading(true);
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
       toast.error("Please sign in to save favorites");
       setLoading(false);
       return;
@@ -63,7 +63,7 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
       const { error } = await supabase
         .from("favorites")
         .insert({
-          user_id: session.user.id,
+          user_id: user.id,
           recipe_id: recipe.id,
           recipe_data: recipe as any
         });

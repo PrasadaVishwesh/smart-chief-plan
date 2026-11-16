@@ -1,10 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
 
 // Input validation schema
 interface ChatMessage {
@@ -45,8 +41,8 @@ function validateMessages(data: unknown): ChatMessage[] {
     throw new Error('Messages array cannot be empty');
   }
   
-  if (body.messages.length > 50) {
-    throw new Error('Too many messages (max 50)');
+  if (body.messages.length > 20) {
+    throw new Error('Too many messages (max 20)');
   }
   
   const validatedMessages: ChatMessage[] = [];
@@ -58,16 +54,17 @@ function validateMessages(data: unknown): ChatMessage[] {
     
     const message = msg as Record<string, unknown>;
     
-    if (message.role !== 'user' && message.role !== 'assistant') {
-      throw new Error('Message role must be "user" or "assistant"');
+    const expectedRole = body.messages.length > 1 && msg === body.messages[body.messages.length - 1] ? 'user' : undefined;
+    if ((message.role !== 'user' && message.role !== 'assistant') || (expectedRole && message.role !== expectedRole)) {
+      throw new Error('Only user and assistant messages are allowed, and the latest message must be from you');
     }
     
     if (typeof message.content !== 'string') {
       throw new Error('Message content must be a string');
     }
     
-    if (message.content.length > 10000) {
-      throw new Error('Message content too long (max 10000 characters)');
+    if (message.content.length > 2000) {
+      throw new Error('Message content too long (max 2000 characters)');
     }
     
     // Sanitize user messages to prevent prompt injection
@@ -85,14 +82,30 @@ function validateMessages(data: unknown): ChatMessage[] {
 }
 
 serve(async (req) => {
+  const corsHeaders = corsHeadersForRequest(req);
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return isAllowedOrigin(req.headers.get('origin'))
+      ? new Response('ok', { headers: corsHeaders })
+      : new Response('Forbidden', { status: 403, headers: corsHeaders });
+  }
+
+  if (!isAllowedOrigin(req.headers.get('origin'))) {
+    return new Response(JSON.stringify({ error: 'Forbidden origin' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   }
 
   try {
+    const authorization = await authorizeAndLimit(req, 'cooking-assistant', 12);
+    if ('error' in authorization) {
+      const status = authorization.error === 'Rate limit exceeded' ? 429 : 401;
+      return new Response(JSON.stringify({ error: authorization.error }), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+
     // Parse and validate input
     const rawBody = await req.json();
-    const messages = validateMessages(rawBody);
+    const messages = validateMessages(rawBody).filter((message) => message.content.length > 0);
+    if (messages.length === 0 || messages[messages.length - 1]?.role !== 'user') {
+      return new Response(JSON.stringify({ error: 'A non-empty user message is required' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
     
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     
@@ -138,10 +151,10 @@ serve(async (req) => {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      const errorText = await response.text();
-      console.error('AI gateway error:', response.status, errorText);
-      return new Response(JSON.stringify({ error: 'Unable to process request' }), {
-        status: 500,
+      const errorBody = await response.text();
+      console.error('AI gateway error status:', response.status);
+      return new Response(JSON.stringify({ error: response.status === 401 ? 'AI service configuration error' : response.status === 403 ? 'AI request was denied' : response.status === 404 ? 'AI service is unavailable' : response.status >= 500 ? 'AI service is temporarily unavailable' : 'Unable to process request', detail: errorBody.slice(0, 500) }), {
+        status: response.status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }

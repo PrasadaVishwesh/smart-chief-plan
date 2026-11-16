@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { ChefHat, CalendarDays, Heart, Home, MessageSquare } from "lucide-react";
 import FloatingAIAssistant from "./FloatingAIAssistant";
 import ThemeToggle from "./ThemeToggle";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,6 +12,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const navLinks = [
     { to: "/", icon: Home, label: "Recipes" },
@@ -49,6 +52,11 @@ const Layout = ({ children }: LayoutProps) => {
           </nav>
 
           <div className="flex items-center gap-3">
+            {user ? (
+              <Button variant="outline" size="sm" onClick={() => void signOut()}>Sign out</Button>
+            ) : (
+              <Button asChild variant="outline" size="sm"><Link to="/auth">Sign in</Link></Button>
+            )}
             <ThemeToggle />
           </div>
         </div>
@@ -84,7 +92,7 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </footer>
 
-      <FloatingAIAssistant />
+      {user && <FloatingAIAssistant />}
     </div>
   );
 };

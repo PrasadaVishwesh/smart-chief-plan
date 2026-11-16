@@ -13,6 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { format, startOfWeek, addDays } from "date-fns";
 import jsPDF from "jspdf";
+import { mealNotesSchema } from "@/lib/inputValidation";
 
 const mealTypes = ["Breakfast", "Lunch", "Dinner"];
 const cuisineCategories = ["All", "Italian", "Asian", "Mexican", "Indian"];
@@ -36,15 +37,15 @@ const MealPlanner = () => {
   }, [weekStart]);
 
   const fetchMealPlans = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
     const weekEnd = addDays(weekStart, 6);
 
     const { data, error } = await supabase
       .from("meal_plans")
       .select("*")
-      .eq("user_id", session.user.id)
+      .eq("user_id", user.id)
       .gte("date", format(weekStart, "yyyy-MM-dd"))
       .lte("date", format(weekEnd, "yyyy-MM-dd"));
 
@@ -65,13 +66,13 @@ const MealPlanner = () => {
   const addMealPlan = async (recipe: Recipe) => {
     if (!selectedSlot) return;
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
     const { error } = await supabase
       .from("meal_plans")
       .upsert({
-        user_id: session.user.id,
+        user_id: user.id,
         date: selectedSlot.date,
         meal_type: selectedSlot.mealType,
         recipe_id: recipe.id,
@@ -116,9 +117,15 @@ const MealPlanner = () => {
   const saveNotes = async () => {
     if (!selectedMealPlan) return;
 
+    const parsedNotes = mealNotesSchema.safeParse(notes);
+    if (!parsedNotes.success) {
+      toast.error("Notes must be 500 characters or fewer.");
+      return;
+    }
+
     const { error } = await supabase
       .from("meal_plans")
-      .update({ notes })
+      .update({ notes: parsedNotes.data })
       .eq("id", selectedMealPlan.id);
 
     if (error) {
@@ -136,8 +143,8 @@ const MealPlanner = () => {
       return;
     }
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
     const targetWeekEnd = addDays(targetWeekStart, 6);
 
@@ -145,7 +152,7 @@ const MealPlanner = () => {
     await supabase
       .from("meal_plans")
       .delete()
-      .eq("user_id", session.user.id)
+      .eq("user_id", user.id)
       .gte("date", format(targetWeekStart, "yyyy-MM-dd"))
       .lte("date", format(targetWeekEnd, "yyyy-MM-dd"));
 
@@ -156,7 +163,7 @@ const MealPlanner = () => {
       const originalDate = new Date(meal.date + "T00:00:00");
       const newDate = addDays(originalDate, dayDifference);
       return {
-        user_id: session.user.id,
+        user_id: user.id,
         date: format(newDate, "yyyy-MM-dd"),
         meal_type: meal.meal_type,
         recipe_id: meal.recipe_id,

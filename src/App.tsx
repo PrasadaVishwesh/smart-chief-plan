@@ -9,10 +9,14 @@ import MealPlanner from "./pages/MealPlanner";
 import Favorites from "./pages/Favorites";
 import Assistant from "./pages/Assistant";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
+  <AuthProvider>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -20,15 +24,17 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout><Recipes /></Layout>} />
-          <Route path="/meal-planner" element={<Layout><MealPlanner /></Layout>} />
-          <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
-          <Route path="/assistant" element={<Layout><Assistant /></Layout>} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/meal-planner" element={<ProtectedRoute><Layout><MealPlanner /></Layout></ProtectedRoute>} />
+          <Route path="/favorites" element={<ProtectedRoute><Layout><Favorites /></Layout></ProtectedRoute>} />
+          <Route path="/assistant" element={<ProtectedRoute><Layout><Assistant /></Layout></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
+  </AuthProvider>
 );
 
 export default App;
