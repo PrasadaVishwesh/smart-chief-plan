@@ -11,7 +11,7 @@ const allowedOrigins = new Set([
 const limits = new Map<string, (key: string) => boolean>();
 
 export function isAllowedOrigin(origin: string | null) {
-  return !origin || allowedOrigins.has(origin);
+  return origin === null || allowedOrigins.has(origin);
 }
 
 export function corsHeadersForRequest(req: Request) {

@@ -1,10 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
 
 // Input validation for dish name and cuisine
 function validateInput(dishName: unknown, cuisine: unknown): { valid: boolean; error?: string } {
@@ -41,44 +36,37 @@ function sanitizeForPrompt(text: string): string {
 }
 
 serve(async (req) => {
+  const corsHeaders = corsHeadersForRequest(req);
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return isAllowedOrigin(req.headers.get("origin"))
+      ? new Response("ok", { headers: corsHeaders })
+      : new Response("Forbidden", { status: 403, headers: corsHeaders });
+  }
+
+  if (!isAllowedOrigin(req.headers.get("origin"))) {
+    return new Response(JSON.stringify({ error: "Forbidden origin" }), {
+      status: 403,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   try {
-    // Verify authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
+    const authorization = await authorizeAndLimit(req, "generate-recipe-image", 6);
+    if ("error" in authorization) {
+      const status = authorization.error === "Rate limit exceeded" ? 429 : 401;
+      return new Response(JSON.stringify({ error: authorization.error }), {
+        status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_ANON_KEY')!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
-
-    const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const userId = claimsData.claims.sub;
-    console.log(`Image generation request from user: ${userId}`);
-
-    const { dishName, cuisine } = await req.json();
+    const body = await req.json();
+    const { dishName, cuisine } = body && typeof body === "object" ? body : {};
     
     // Validate inputs
     const validation = validateInput(dishName, cuisine);
     if (!validation.valid) {
-      return new Response(JSON.stringify({ error: validation.error }), {
+      return new Response(JSON.stringify({ error: "Invalid image request" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

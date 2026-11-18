@@ -22,7 +22,7 @@ export const useCookMode = ({ instructions, onComplete }: UseCookModeOptions) =>
   const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null);
   
   const speechSynthRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const timerIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const timerIntervalsRef = useRef<Map<string, ReturnType<typeof setInterval>>>(new Map());
 
   // Keep screen awake during cook mode
   useEffect(() => {

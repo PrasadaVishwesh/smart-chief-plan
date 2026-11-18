@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, X, Send, User, Sparkles, Minimize2 } from "lucide-react";
 import { toast } from "sonner";
+import VoiceInput from "@/components/VoiceInput";
+import { streamCookingAssistant } from "@/lib/cookingAssistant";
 
 interface Message {
   role: "user" | "assistant";
@@ -33,74 +35,24 @@ const FloatingAIAssistant = () => {
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
-    const userMessage: Message = { role: "user", content: input };
-    setMessages(prev => [...prev, userMessage]);
+    const content = input.trim();
+    const userMessage: Message = { role: "user", content };
+    setMessages(prev => [...prev, userMessage, { role: "assistant", content: "" }]);
     setInput("");
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cooking-assistant`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({
-            messages: [...messages, userMessage],
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to get response");
-      }
-
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error("No response body");
-
-      const decoder = new TextDecoder();
       let assistantMessage = "";
-
-      setMessages(prev => [...prev, { role: "assistant", content: "" }]);
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6);
-            if (data === "[DONE]") continue;
-
-            try {
-              const parsed = JSON.parse(data);
-              const content = parsed.choices?.[0]?.delta?.content;
-              if (content) {
-                assistantMessage += content;
-                setMessages(prev => {
-                  const newMessages = [...prev];
-                  newMessages[newMessages.length - 1] = {
-                    role: "assistant",
-                    content: assistantMessage
-                  };
-                  return newMessages;
-                });
-              }
-            } catch (e) {
-              // Skip invalid JSON
-            }
-          }
-        }
-      }
+      await streamCookingAssistant([userMessage], (chunk) => {
+        assistantMessage += chunk;
+        setMessages(prev => {
+          const next = [...prev];
+          next[next.length - 1] = { role: "assistant", content: assistantMessage };
+          return next;
+        });
+      });
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to send message");
+      toast.error(error instanceof Error ? error.message : "Unable to send your message.");
       setMessages(prev => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
@@ -211,16 +163,21 @@ const FloatingAIAssistant = () => {
                   e.preventDefault();
                   sendMessage();
                 }}
-                className="flex gap-2"
+                className="flex flex-wrap items-center gap-2"
               >
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask anything about cooking..."
                   disabled={isLoading}
-                  className="flex-1 text-sm"
+                  maxLength={2000}
+                  className="min-w-[140px] flex-1 text-sm"
                 />
-                <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+                <VoiceInput
+                  disabled={isLoading}
+                  onTranscript={(text) => setInput((current) => current.trim() ? `${current.trim()} ${text}` : text)}
+                />
+                <Button type="submit" size="icon" aria-label="Send message" disabled={isLoading || !input.trim()}>
                   <Send className="w-4 h-4" />
                 </Button>
               </form>

@@ -1,10 +1,5 @@
-import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
 
 // Input validation
 interface FavoriteItem {
@@ -64,12 +59,24 @@ function validateFavorites(data: unknown): FavoriteItem[] {
 }
 
 serve(async (req) => {
+  const corsHeaders = corsHeadersForRequest(req);
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return isAllowedOrigin(req.headers.get('origin'))
+      ? new Response('ok', { headers: corsHeaders })
+      : new Response('Forbidden', { status: 403, headers: corsHeaders });
+  }
+
+  if (!isAllowedOrigin(req.headers.get('origin'))) {
+    return new Response(JSON.stringify({ error: 'Forbidden origin' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   }
 
   try {
-    // Parse and validate input
+    const authorization = await authorizeAndLimit(req, 'get-recommendations', 12);
+    if ('error' in authorization) {
+      const status = authorization.error === 'Rate limit exceeded' ? 429 : 401;
+      return new Response(JSON.stringify({ error: authorization.error }), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+
     const rawBody = await req.json();
     const favorites = validateFavorites(rawBody);
     
@@ -116,8 +123,6 @@ serve(async (req) => {
       .map(([cuisine]) => cuisine);
 
     const dietaryList = Array.from(dietaryPrefs);
-
-    console.log("User preferences:", { topCuisines, dietaryList, avgRating });
 
     // Call AI to get recommendations
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -197,7 +202,6 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
     }
 
     const aiResponse = await response.json();
-    console.log("AI response:", JSON.stringify(aiResponse, null, 2));
 
     let recipeIds: string[] = [];
     
@@ -207,18 +211,15 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
       recipeIds = args.recipe_ids || [];
     }
 
-    console.log("Recommended recipe IDs:", recipeIds);
-
     // Import all recipes to map IDs to full recipe objects
     const allRecipes = await import("../../../src/data/recipes.ts");
     const recipes = allRecipes.recipes;
 
     const recommendations = recipeIds
+      .filter((id): id is string => typeof id === "string" && id.length <= 80)
       .map(id => recipes.find(r => r.id === id))
       .filter(r => r !== undefined)
       .slice(0, 6);
-
-    console.log("Final recommendations:", recommendations.map(r => r?.name));
 
     return new Response(
       JSON.stringify({ recommendations }),
@@ -227,12 +228,12 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
       }
     );
   } catch (error) {
-    console.error('Error in get-recommendations function:', error);
+    console.error('Error in get-recommendations function:', error instanceof Error ? error.message : 'Unknown error');
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     const isValidationError = errorMessage.includes('Invalid') || errorMessage.includes('must be') || errorMessage.includes('cannot be') || errorMessage.includes('Too many');
     
     return new Response(
-      JSON.stringify({ error: isValidationError ? errorMessage : 'An error occurred' }),
+      JSON.stringify({ error: isValidationError ? errorMessage : 'Unable to process request' }),
       {
         status: isValidationError ? 400 : 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

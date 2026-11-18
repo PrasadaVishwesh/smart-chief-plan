@@ -1,85 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
-
-// Input validation schema
-interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-// Sanitize user input to prevent prompt injection attacks
-function sanitizeUserInput(content: string): string {
-  let sanitized = content
-    // Remove role confusion patterns
-    .replace(/\b(system|assistant|user)\s*:/gi, '')
-    // Remove instruction override attempts
-    .replace(/ignore\s+(previous|all|earlier|above|prior)\s+(instructions|prompts|context)/gi, '')
-    // Remove common prompt injection markers
-    .replace(/\[INST\]|\[\/INST\]|<\|im_start\|>|<\|im_end\|>|<\|endoftext\|>/g, '')
-    // Remove attempts to inject system prompts
-    .replace(/<<SYS>>|<<\/SYS>>|<\|system\|>/g, '')
-    // Remove delimiter manipulation
-    .replace(/###\s*(instruction|system|user|assistant)/gi, '')
-    .trim();
-  
-  return sanitized;
-}
-
-function validateMessages(data: unknown): ChatMessage[] {
-  if (!data || typeof data !== 'object') {
-    throw new Error('Invalid request body');
-  }
-  
-  const body = data as Record<string, unknown>;
-  
-  if (!Array.isArray(body.messages)) {
-    throw new Error('Messages must be an array');
-  }
-  
-  if (body.messages.length === 0) {
-    throw new Error('Messages array cannot be empty');
-  }
-  
-  if (body.messages.length > 20) {
-    throw new Error('Too many messages (max 20)');
-  }
-  
-  const validatedMessages: ChatMessage[] = [];
-  
-  for (const msg of body.messages) {
-    if (!msg || typeof msg !== 'object') {
-      throw new Error('Each message must be an object');
-    }
-    
-    const message = msg as Record<string, unknown>;
-    
-    const expectedRole = body.messages.length > 1 && msg === body.messages[body.messages.length - 1] ? 'user' : undefined;
-    if ((message.role !== 'user' && message.role !== 'assistant') || (expectedRole && message.role !== expectedRole)) {
-      throw new Error('Only user and assistant messages are allowed, and the latest message must be from you');
-    }
-    
-    if (typeof message.content !== 'string') {
-      throw new Error('Message content must be a string');
-    }
-    
-    if (message.content.length > 2000) {
-      throw new Error('Message content too long (max 2000 characters)');
-    }
-    
-    // Sanitize user messages to prevent prompt injection
-    const sanitizedContent = message.role === 'user' 
-      ? sanitizeUserInput(message.content.trim())
-      : message.content.trim();
-    
-    validatedMessages.push({
-      role: message.role,
-      content: sanitizedContent
-    });
-  }
-  
-  return validatedMessages;
-}
+import { validateAssistantMessages } from "../_shared/assistantInput.ts";
 
 serve(async (req) => {
   const corsHeaders = corsHeadersForRequest(req);
@@ -102,8 +24,8 @@ serve(async (req) => {
 
     // Parse and validate input
     const rawBody = await req.json();
-    const messages = validateMessages(rawBody).filter((message) => message.content.length > 0);
-    if (messages.length === 0 || messages[messages.length - 1]?.role !== 'user') {
+    const messages = validateAssistantMessages(rawBody);
+    if (messages.length === 0) {
       return new Response(JSON.stringify({ error: 'A non-empty user message is required' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
     

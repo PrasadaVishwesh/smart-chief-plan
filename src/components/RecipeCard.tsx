@@ -50,7 +50,7 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
       const { error } = await supabase
         .from("favorites")
         .delete()
-        .eq("user_id", session.user.id)
+        .eq("user_id", user.id)
         .eq("recipe_id", recipe.id);
 
       if (error) {
