@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
+import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin, readJsonWithLimit } from "../_shared/security.ts";
 
 // Input validation for dish name and cuisine
 function validateInput(dishName: unknown, cuisine: unknown): { valid: boolean; error?: string } {
@@ -60,7 +60,7 @@ serve(async (req) => {
       });
     }
 
-    const body = await req.json();
+    const body = await readJsonWithLimit(req, 4_096);
     const { dishName, cuisine } = body && typeof body === "object" ? body : {};
     
     // Validate inputs
@@ -132,8 +132,7 @@ serve(async (req) => {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
+      console.error("AI gateway request failed with status:", response.status);
       return new Response(JSON.stringify({ error: "Failed to generate image" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -154,9 +153,11 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("generate-recipe-image error:", error);
+    console.error("generate-recipe-image error:", error instanceof Error ? error.message : "Unknown error");
+    const isTooLarge = error instanceof Error && error.message.includes("too large");
+    const isInvalid = error instanceof Error && error.message.includes("Invalid");
     return new Response(JSON.stringify({ error: "An error occurred" }), {
-      status: 500,
+      status: isTooLarge ? 413 : isInvalid ? 400 : 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }

@@ -43,7 +43,7 @@ const FloatingAIAssistant = () => {
 
     try {
       let assistantMessage = "";
-      await streamCookingAssistant([userMessage], (chunk) => {
+      await streamCookingAssistant([...messages, userMessage], (chunk) => {
         assistantMessage += chunk;
         setMessages(prev => {
           const next = [...prev];

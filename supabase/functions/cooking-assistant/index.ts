@@ -1,6 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
+import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin, readJsonWithLimit } from "../_shared/security.ts";
 import { validateAssistantMessages } from "../_shared/assistantInput.ts";
 
 serve(async (req) => {
@@ -23,7 +23,7 @@ serve(async (req) => {
     }
 
     // Parse and validate input
-    const rawBody = await req.json();
+    const rawBody = await readJsonWithLimit(req, 64_000);
     const messages = validateAssistantMessages(rawBody);
     if (messages.length === 0) {
       return new Response(JSON.stringify({ error: 'A non-empty user message is required' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -38,8 +38,6 @@ serve(async (req) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
-
-    console.log(`Processing ${messages.length} messages`);
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -73,9 +71,8 @@ serve(async (req) => {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      const errorBody = await response.text();
-      console.error('AI gateway error status:', response.status);
-      return new Response(JSON.stringify({ error: response.status === 401 ? 'AI service configuration error' : response.status === 403 ? 'AI request was denied' : response.status === 404 ? 'AI service is unavailable' : response.status >= 500 ? 'AI service is temporarily unavailable' : 'Unable to process request', detail: errorBody.slice(0, 500) }), {
+      console.error('AI gateway request failed with status:', response.status);
+      return new Response(JSON.stringify({ error: response.status === 401 ? 'AI service configuration error' : response.status === 403 ? 'AI request was denied' : response.status === 404 ? 'AI service is unavailable' : response.status >= 500 ? 'AI service is temporarily unavailable' : 'Unable to process request' }), {
         status: response.status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -90,12 +87,13 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in cooking-assistant function:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    const isValidationError = errorMessage.includes('Invalid') || errorMessage.includes('must be') || errorMessage.includes('cannot be') || errorMessage.includes('Too many');
+    const isValidationError = errorMessage.includes('Invalid') || errorMessage.includes('must be') || errorMessage.includes('non-empty') || errorMessage.includes('Only user') || errorMessage.includes('between 1 and 20');
+    const status = errorMessage.includes('too large') ? 413 : isValidationError ? 400 : 500;
     
     return new Response(
       JSON.stringify({ error: isValidationError ? errorMessage : 'An error occurred' }),
       {
-        status: isValidationError ? 400 : 500,
+        status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );

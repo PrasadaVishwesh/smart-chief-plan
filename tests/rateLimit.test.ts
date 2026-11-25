@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { createRateLimiter } from "../../supabase/functions/_shared/rateLimit.ts";
+import { createRateLimiter } from "../supabase/functions/_shared/rateLimit.ts";
 
 describe("best-effort server request limits", () => {
   it("allows twelve requests per account in one minute and denies the thirteenth", () => {

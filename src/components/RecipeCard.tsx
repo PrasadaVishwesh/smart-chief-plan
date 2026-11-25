@@ -23,7 +23,10 @@ const RecipeCard = ({ recipe, onCardClick }: RecipeCardProps) => {
 
   const checkFavoriteStatus = async () => {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      setIsFavorite(false);
+      return;
+    }
 
     const { data } = await supabase
       .from("favorites")

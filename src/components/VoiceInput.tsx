@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Mic, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -24,8 +24,21 @@ const languages = [
   ["en-US", "English (US)"], ["en-IN", "English (India)"], ["hi-IN", "Hindi"], ["bn-IN", "Bengali"],
   ["ta-IN", "Tamil"], ["te-IN", "Telugu"], ["kn-IN", "Kannada"], ["ml-IN", "Malayalam"], ["mr-IN", "Marathi"],
   ["gu-IN", "Gujarati"], ["pa-IN", "Punjabi"], ["ur-IN", "Urdu"], ["or-IN", "Odia"], ["as-IN", "Assamese"],
-  ["es-ES", "Spanish"], ["fr-FR", "French"], ["de-DE", "German"], ["pt-BR", "Portuguese"], ["ar-SA", "Arabic"],
-  ["zh-CN", "Chinese (Mandarin)"], ["ja-JP", "Japanese"], ["ko-KR", "Korean"], ["it-IT", "Italian"], ["ru-RU", "Russian"],
+  ["es-ES", "Spanish (Spain)"], ["es-MX", "Spanish (Mexico)"], ["fr-FR", "French"], ["de-DE", "German"],
+  ["pt-BR", "Portuguese (Brazil)"], ["pt-PT", "Portuguese (Portugal)"], ["ar-SA", "Arabic (Saudi Arabia)"], ["ar-EG", "Arabic (Egypt)"],
+  ["zh-CN", "Chinese (Mandarin)"], ["zh-TW", "Chinese (Taiwan)"], ["ja-JP", "Japanese"], ["ko-KR", "Korean"],
+  ["it-IT", "Italian"], ["ru-RU", "Russian"], ["uk-UA", "Ukrainian"], ["pl-PL", "Polish"], ["cs-CZ", "Czech"],
+  ["sk-SK", "Slovak"], ["sl-SI", "Slovenian"], ["hr-HR", "Croatian"], ["sr-RS", "Serbian"], ["bg-BG", "Bulgarian"],
+  ["ro-RO", "Romanian"], ["hu-HU", "Hungarian"], ["el-GR", "Greek"], ["he-IL", "Hebrew"], ["fa-IR", "Persian"],
+  ["tr-TR", "Turkish"], ["nl-NL", "Dutch"], ["da-DK", "Danish"], ["sv-SE", "Swedish"], ["nb-NO", "Norwegian"],
+  ["fi-FI", "Finnish"], ["is-IS", "Icelandic"], ["et-EE", "Estonian"], ["lv-LV", "Latvian"], ["lt-LT", "Lithuanian"],
+  ["id-ID", "Indonesian"], ["ms-MY", "Malay"], ["fil-PH", "Filipino"], ["th-TH", "Thai"], ["vi-VN", "Vietnamese"],
+  ["sw-KE", "Swahili (Kenya)"], ["sw-TZ", "Swahili (Tanzania)"], ["am-ET", "Amharic"], ["ne-NP", "Nepali"], ["si-LK", "Sinhala"],
+  ["km-KH", "Khmer"], ["lo-LA", "Lao"], ["my-MM", "Burmese"], ["uz-UZ", "Uzbek"], ["az-AZ", "Azerbaijani"],
+  ["ka-GE", "Georgian"], ["hy-AM", "Armenian"], ["af-ZA", "Afrikaans"], ["zu-ZA", "Zulu"], ["yo-NG", "Yoruba"],
+  ["ha-NG", "Hausa"], ["ig-NG", "Igbo"], ["ps-AF", "Pashto"], ["ckb-IQ", "Kurdish (Central)"], ["sq-AL", "Albanian"],
+  ["mk-MK", "Macedonian"], ["ca-ES", "Catalan"], ["eu-ES", "Basque"], ["gl-ES", "Galician"], ["ga-IE", "Irish"],
+  ["cy-GB", "Welsh"], ["en-GB", "English (UK)"], ["en-AU", "English (Australia)"], ["en-CA", "English (Canada)"],
 ] as const;
 
 interface VoiceInputProps {
@@ -40,6 +53,7 @@ export default function VoiceInput({ disabled = false, onTranscript }: VoiceInpu
   });
   const [listening, setListening] = useState(false);
   const [supported, setSupported] = useState(false);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
   useEffect(() => {
     const speechWindow = window as SpeechWindow;
@@ -54,11 +68,13 @@ export default function VoiceInput({ disabled = false, onTranscript }: VoiceInpu
       return;
     }
     if (listening) {
+      recognitionRef.current?.stop();
       setListening(false);
       return;
     }
 
     const recognition = new Recognition();
+    recognitionRef.current = recognition;
     recognition.lang = language;
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -71,9 +87,13 @@ export default function VoiceInput({ disabled = false, onTranscript }: VoiceInpu
     };
     recognition.onerror = (event) => {
       if (event.error !== "aborted" && event.error !== "no-speech") toast.error("Could not capture speech. Check microphone permission and try again.");
+      recognitionRef.current = null;
       setListening(false);
     };
-    recognition.onend = () => setListening(false);
+    recognition.onend = () => {
+      recognitionRef.current = null;
+      setListening(false);
+    };
     try {
       recognition.start();
       setListening(true);

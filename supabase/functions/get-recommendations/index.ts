@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin } from "../_shared/security.ts";
+import { authorizeAndLimit, corsHeadersForRequest, isAllowedOrigin, readJsonWithLimit } from "../_shared/security.ts";
 
 // Input validation
 interface FavoriteItem {
@@ -25,7 +25,7 @@ function validateFavorites(data: unknown): FavoriteItem[] {
     throw new Error('Favorites array cannot be empty');
   }
   
-  if (body.favorites.length > 100) {
+    if (body.favorites.length > 100) {
     throw new Error('Too many favorites (max 100)');
   }
   
@@ -46,12 +46,12 @@ function validateFavorites(data: unknown): FavoriteItem[] {
     
     validatedFavorites.push({
       recipe_data: {
-        cuisine: typeof recipeData.cuisine === 'string' ? recipeData.cuisine : undefined,
+        cuisine: typeof recipeData.cuisine === 'string' ? recipeData.cuisine.slice(0, 80) : undefined,
         dietaryTags: Array.isArray(recipeData.dietaryTags) 
-          ? recipeData.dietaryTags.filter((t): t is string => typeof t === 'string')
+          ? recipeData.dietaryTags.filter((t): t is string => typeof t === 'string').slice(0, 20).map((tag) => tag.slice(0, 50))
           : undefined
       },
-      rating: typeof favorite.rating === 'number' ? favorite.rating : null
+      rating: typeof favorite.rating === 'number' && Number.isFinite(favorite.rating) && favorite.rating >= 1 && favorite.rating <= 5 ? favorite.rating : null
     });
   }
   
@@ -77,7 +77,7 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: authorization.error }), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    const rawBody = await req.json();
+    const rawBody = await readJsonWithLimit(req, 128_000);
     const favorites = validateFavorites(rawBody);
     
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
@@ -193,8 +193,7 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      const errorText = await response.text();
-      console.error('AI gateway error:', response.status, errorText);
+      console.error('AI gateway request failed with status:', response.status);
       return new Response(JSON.stringify({ error: 'Unable to process request' }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -208,7 +207,7 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
     // Extract recipe IDs from tool call
     if (aiResponse.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments) {
       const args = JSON.parse(aiResponse.choices[0].message.tool_calls[0].function.arguments);
-      recipeIds = args.recipe_ids || [];
+      recipeIds = Array.isArray(args.recipe_ids) ? args.recipe_ids.slice(0, 6) : [];
     }
 
     // Import all recipes to map IDs to full recipe objects
@@ -231,11 +230,12 @@ Respond with ONLY a JSON array of 6 recipe IDs that match their preferences: ["1
     console.error('Error in get-recommendations function:', error instanceof Error ? error.message : 'Unknown error');
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     const isValidationError = errorMessage.includes('Invalid') || errorMessage.includes('must be') || errorMessage.includes('cannot be') || errorMessage.includes('Too many');
+    const status = errorMessage.includes('too large') ? 413 : isValidationError ? 400 : 500;
     
     return new Response(
       JSON.stringify({ error: isValidationError ? errorMessage : 'Unable to process request' }),
       {
-        status: isValidationError ? 400 : 500,
+        status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );

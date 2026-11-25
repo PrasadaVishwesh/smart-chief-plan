@@ -20,9 +20,31 @@ export function corsHeadersForRequest(req: Request) {
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Vary": "Origin",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Permissions-Policy": "camera=(), geolocation=(), payment=()",
   };
   if (origin && allowedOrigins.has(origin)) headers["Access-Control-Allow-Origin"] = origin;
   return headers;
+}
+
+export async function readJsonWithLimit(req: Request, maxBytes: number): Promise<unknown> {
+  const declaredLength = Number(req.headers.get("content-length"));
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+    throw new Error("Request body too large");
+  }
+
+  const text = await req.text();
+  if (new TextEncoder().encode(text).byteLength > maxBytes) {
+    throw new Error("Request body too large");
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Invalid request body");
+  }
 }
 
 export async function authorizeAndLimit(req: Request, bucket: string, maxRequests = 12) {
